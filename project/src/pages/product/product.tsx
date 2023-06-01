@@ -3,8 +3,8 @@ import UpBtn from '../../components/up-btn/up-btn';
 import ProductDescription from '../../components/product-description/product-description';
 import ProductSimilar from '../../components/product-similar/product-similar';
 import ReviewBlock from '../../components/review-block/review-block';
-import ReviewForm from '../../components/review-form/review-form';
-import ReviewSuccess from '../../components/review-success/review-success';
+//import ReviewForm from '../../components/review-form/review-form';
+//import ReviewSuccess from '../../components/review-success/review-success';
 
 
 function Product(): JSX.Element {
@@ -19,8 +19,8 @@ function Product(): JSX.Element {
         </div>
       </main>
       <UpBtn />
-      <ReviewForm />
-      <ReviewSuccess />
+        {/* <ReviewForm />
+      <ReviewSuccess />*/}
     </>
   );
 }

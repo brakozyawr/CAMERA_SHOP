@@ -1,7 +1,7 @@
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import BasketItem from '../../components/basket-item/basket-item';
-import BasketSuccess from '../../components/basket-success/basket-success';
-import BasketRemoveItem from '../../components/basket-remove-item/basket-remove-item';
+//import BasketSuccess from '../../components/basket-success/basket-success';
+//import BasketRemoveItem from '../../components/basket-remove-item/basket-remove-item';
 
 
 function Basket(): JSX.Element {
@@ -60,8 +60,8 @@ function Basket(): JSX.Element {
           </div>
         </section>
       </div>
-      <BasketSuccess />
-      <BasketRemoveItem />
+      {/*<BasketSuccess />
+      <BasketRemoveItem />*/}
     </main>
   );
 }

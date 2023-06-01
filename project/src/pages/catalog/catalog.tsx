@@ -2,8 +2,8 @@ import Banner from '../../components/banner/banner';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import CatalogAside from '../../components/catalog-aside/catalog-aside';
 import CatalogContent from '../../components/catalog-content/catalog-content';
-import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
-import CatalogAddItemSuccess from '../../components/catalog-add-item-success/catalog-add-item-success';
+//import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
+//import CatalogAddItemSuccess from '../../components/catalog-add-item-success/catalog-add-item-success';
 
 
 function Catalog(): JSX.Element {
@@ -22,8 +22,8 @@ function Catalog(): JSX.Element {
           </div>
         </section>
       </div>
-      <CatalogAddItem />
-      <CatalogAddItemSuccess />
+      {/*<CatalogAddItem />
+      <CatalogAddItemSuccess />*/}
     </main>
   );
 }
