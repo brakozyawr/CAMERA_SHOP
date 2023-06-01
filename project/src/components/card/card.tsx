@@ -1,6 +1,10 @@
+import {TProduct} from '../../types/types';
 
+type CardProps = {
+  product:TProduct;
+}
 
-function Card(): JSX.Element {
+function Card({product}: CardProps): JSX.Element {
   return (
     <div className="product-card">
       <div className="product-card__img">

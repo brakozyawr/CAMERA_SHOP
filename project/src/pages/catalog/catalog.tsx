@@ -1,3 +1,4 @@
+import {/*useAppDispatch,*/ useAppSelector} from '../../hooks';
 import Banner from '../../components/banner/banner';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import CatalogAside from '../../components/catalog-aside/catalog-aside';
@@ -7,6 +8,9 @@ import CatalogContent from '../../components/catalog-content/catalog-content';
 
 
 function Catalog(): JSX.Element {
+  const {products} = useAppSelector((state) => state);
+  //console.log(products);
+
   return (
     <main>
       <Banner/>
@@ -17,7 +21,7 @@ function Catalog(): JSX.Element {
             <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
             <div className="page-content__columns">
               <CatalogAside />
-              <CatalogContent />
+              <CatalogContent products={products} />
             </div>
           </div>
         </section>

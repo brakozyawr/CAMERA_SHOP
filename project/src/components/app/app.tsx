@@ -4,8 +4,17 @@ import Basket from '../../pages/basket/basket';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Layout from '../layout/layout';
 import {AppRoute} from '../../const';
+import {useAppSelector} from '../../hooks';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 function App(): JSX.Element {
+  const {isDataLoaded} = useAppSelector((state) => state);
+
+  if (isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter>

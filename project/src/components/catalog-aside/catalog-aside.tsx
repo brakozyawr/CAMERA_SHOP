@@ -25,7 +25,7 @@ function CatalogAside(): JSX.Element {
             <legend className="title title--h5">Категория</legend>
             <div className="custom-checkbox catalog-filter__item">
               <label>
-                <input type="checkbox" name="photocamera" checked />
+                <input type="checkbox" name="photocamera" />
                 <span className="custom-checkbox__icon"></span>
                 <span className="custom-checkbox__label">Фотокамера</span>
               </label>
@@ -42,7 +42,7 @@ function CatalogAside(): JSX.Element {
             <legend className="title title--h5">Тип камеры</legend>
             <div className="custom-checkbox catalog-filter__item">
               <label>
-                <input type="checkbox" name="digital" checked />
+                <input type="checkbox" name="digital" />
                 <span className="custom-checkbox__icon"></span>
                 <span className="custom-checkbox__label">Цифровая</span>
               </label>
@@ -63,7 +63,7 @@ function CatalogAside(): JSX.Element {
             </div>
             <div className="custom-checkbox catalog-filter__item">
               <label>
-                <input type="checkbox" name="collection" checked disabled />
+                <input type="checkbox" name="collection" disabled />
                 <span className="custom-checkbox__icon"></span>
                 <span className="custom-checkbox__label">Коллекционная</span>
               </label>
@@ -73,7 +73,7 @@ function CatalogAside(): JSX.Element {
             <legend className="title title--h5">Уровень</legend>
             <div className="custom-checkbox catalog-filter__item">
               <label>
-                <input type="checkbox" name="zero" checked />
+                <input type="checkbox" name="zero" />
                 <span className="custom-checkbox__icon"></span>
                 <span className="custom-checkbox__label">Нулевой</span>
               </label>

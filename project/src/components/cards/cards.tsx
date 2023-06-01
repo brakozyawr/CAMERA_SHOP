@@ -1,21 +1,21 @@
 import Card from '../card/card';
+import {TProduct} from '../../types/types';
 
-/*type CardsProps = {
-  cards:TCard[];
-}*/
+type CardsProps = {
+  products:TProduct[];
+}
 
-function Cards(/*{cards}: CardsProps*/): JSX.Element {
+function Cards({products}: CardsProps): JSX.Element {
   return (
     <div className="cards catalog__cards">
-      {/* {cards.map((card: TCard) =>
+      {products.map((product: TProduct) =>
         (
           <Card
             //onMouseOverHandler={onMouseOverHandler}
-            key={card.id}
-            card={card}
+            key={product.id}
+            product={product}
           />
-        ))}*/}
-      <Card />
+        ))}
     </div>
   );
 }
