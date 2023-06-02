@@ -4,20 +4,20 @@ import {TProduct, TPromo, TReview} from '../types/types';
 
 type TinitialState = {
   products: TProduct[];
-  product: TProduct|undefined;
+  product: TProduct|null;
   similarProducts: TProduct[];
   reviews: TReview[];
-  promo: TPromo|undefined;
+  promo: TPromo|null;
   error: string | null;
   isDataLoaded: boolean;
 };
 
 const initialState:TinitialState = {
   products: [],
-  product: undefined,
+  product: null,
   similarProducts: [],
   reviews: [],
-  promo: undefined,
+  promo: null,
   error: null,
   isDataLoaded: false,
 };

@@ -1,7 +1,11 @@
 import ReviewCard from '../review-card/review-card';
+import {TReview} from '../../types/types';
 
+type ReviewBlockProps = {
+  reviews: TReview[];
+}
 
-function ReviewBlock(): JSX.Element {
+function ReviewBlock({reviews}: ReviewBlockProps): JSX.Element {
   return (
     <div className="page-content__section">
       <section className="review-block">
@@ -11,16 +15,13 @@ function ReviewBlock(): JSX.Element {
             <button className="btn" type="button">Оставить свой отзыв</button>
           </div>
           <ul className="review-block__list">
-            {/*{offers.map((offer: TOffer) =>
+            {reviews.map((review: TReview) =>
               (
-                <Offer
-                  onMouseOverHandler={onMouseOverHandler}
-                  key={offer.id}
-                  offer={offer}
-                  main={main}
+                <ReviewCard
+                  key={review.id}
+                  review={review}
                 />
-              ))}*/}
-            <ReviewCard />
+              ))}
           </ul>
           <div className="review-block__buttons">
             <button className="btn btn--purple" type="button">Показать больше отзывов

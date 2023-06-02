@@ -11,7 +11,6 @@ function Cards({products}: CardsProps): JSX.Element {
       {products.map((product: TProduct) =>
         (
           <Card
-            //onMouseOverHandler={onMouseOverHandler}
             key={product.id}
             product={product}
           />

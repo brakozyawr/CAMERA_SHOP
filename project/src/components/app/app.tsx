@@ -21,7 +21,7 @@ function App(): JSX.Element {
       <Routes>
         <Route path={AppRoute.Catalog} element={<Layout />}>
           <Route index element={<Catalog />} />
-          <Route path={`${AppRoute.Catalog}:id`} element={<Product />} />
+          <Route path={`${AppRoute.Product}:id`} element={<Product />} />
           <Route path={AppRoute.Basket} element={<Basket />} />
         </Route>
       </Routes>

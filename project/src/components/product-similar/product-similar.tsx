@@ -1,7 +1,13 @@
 import ProductSimilarSliderCard from '../product-similar-slider-card/product-similar-slider-card';
+import {TProduct} from '../../types/types';
 
 
-function ProductSimilar(): JSX.Element {
+type ProductSimilarProps = {
+  similarProducts: TProduct[];
+}
+
+function ProductSimilar({similarProducts}: ProductSimilarProps): JSX.Element {
+
   return (
     <div className="page-content__section">
       <section className="product-similar">
@@ -9,16 +15,13 @@ function ProductSimilar(): JSX.Element {
           <h2 className="title title--h3">Похожие товары</h2>
           <div className="product-similar__slider">
             <div className="product-similar__slider-list">
-              {/*{offers.map((offer: TOffer) =>
-              (
-                <Offer
-                  onMouseOverHandler={onMouseOverHandler}
-                  key={offer.id}
-                  offer={offer}
-                  main={main}
-                />
-              ))}*/}
-              <ProductSimilarSliderCard />
+              {similarProducts.map((similarProduct: TProduct) =>
+                (
+                  <ProductSimilarSliderCard
+                    key={similarProduct.id}
+                    similarProduct={similarProduct}
+                  />
+                ))}
             </div>
             <button className="slider-controls slider-controls--prev" type="button" aria-label="Предыдущий слайд" disabled>
               <svg width="7" height="12" aria-hidden="true">
