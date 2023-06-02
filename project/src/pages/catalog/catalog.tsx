@@ -9,7 +9,6 @@ import CatalogContent from '../../components/catalog-content/catalog-content';
 
 function Catalog(): JSX.Element {
   const {products} = useAppSelector((state) => state);
-  //console.log(products);
 
   return (
     <main>
