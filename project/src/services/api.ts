@@ -1,4 +1,5 @@
 import axios, {AxiosInstance, AxiosResponse, AxiosError} from 'axios';
+
 import {StatusCodes} from 'http-status-codes';
 import {processErrorHandle} from './process-error-handle';
 
@@ -21,7 +22,7 @@ export const createAPI = (): AxiosInstance => {
 
   api.interceptors.response.use(
     (response) => response,
-    (error: AxiosError) => {
+    (error: AxiosError<{error: string}>) => {
       if (error.response && shouldDisplayError(error.response)) {
         processErrorHandle(error.response.data.error);
       }
