@@ -4,9 +4,10 @@ import {Provider} from 'react-redux';
 import {store} from './store';
 import App from './components/app/app';
 import ErrorMessage from './components/error-message/error-message';
-import {fetchProductsAction} from './store/api-actions';
+import {fetchProductsAction, fetchPromoAction} from './store/api-actions';
 
 store.dispatch(fetchProductsAction());
+store.dispatch(fetchPromoAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

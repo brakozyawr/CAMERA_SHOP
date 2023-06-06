@@ -1,9 +1,18 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch, State, TProduct, TReview} from '../types/types';
-import {loadProduct, loadProducts, loadReviews, loadSimilarProducts, setDataLoadedStatus, setError} from './action';
+import {AppDispatch, State, TProduct, TPromo, TReview} from '../types/types';
+import {
+  loadProduct,
+  loadProducts,
+  loadPromo,
+  loadReviews,
+  loadSimilarProducts,
+  setDataLoadedStatus,
+  setError
+} from './action';
 import {APIRoute, TIMEOUT_SHOW_ERROR} from '../const';
 import {store} from './';
+
 
 export const clearErrorAction = createAsyncThunk(
   'data/clearError',
@@ -68,6 +77,20 @@ export const fetchReviewsAction = createAsyncThunk<void, number, {
     const {data} = await api.get<TReview[]>(`${APIRoute.Product}${id}${APIRoute.Reviews}`);
     //dispatch(setDataLoadedStatus(true));
     dispatch(loadReviews(data));
+    //dispatch(setDataLoadedStatus(false));
+  },
+);
+
+export const fetchPromoAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  //state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchPromo',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get<TPromo>(APIRoute.Promo);
+    //dispatch(setDataLoadedStatus(true));
+    dispatch(loadPromo(data));
     //dispatch(setDataLoadedStatus(false));
   },
 );

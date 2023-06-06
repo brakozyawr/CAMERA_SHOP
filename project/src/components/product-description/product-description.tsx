@@ -1,11 +1,38 @@
 import {TProduct} from '../../types/types';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import cn from 'classnames';
+import {MouseEvent, useState} from 'react';
 
 type ProductDescriptionProps = {
   product: TProduct | null;
 }
 
 function ProductDescription({product}: ProductDescriptionProps): JSX.Element {
+
+  type TTabState = {
+    [propertyName: string]: boolean;
+  }
+
+  const initialTabState0: TTabState = {
+    characteristic: true,
+    description: false,
+  };
+
+  const [tabState, setTabState] = useState(initialTabState0);
+
+  const toggleState = (target: EventTarget | MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) =>{
+    const element = target as HTMLElement;
+    const keyValue = element.dataset.tabsType;
+
+    const newTabState = Object.fromEntries(
+      Object.entries(tabState).map(
+        ([key, value]) => keyValue === key ? [key, true ] : [key, false ]
+      )
+    );
+    //console.log(newTabState);
+    setTabState(newTabState);
+  };
+
   if(product){
     return (
       <div className="page-content__section">
@@ -49,11 +76,29 @@ function ProductDescription({product}: ProductDescriptionProps): JSX.Element {
               </button>
               <div className="tabs product__tabs">
                 <div className="tabs__controls product__tabs-controls">
-                  <button className="tabs__control" type="button">Характеристики</button>
-                  <button className="tabs__control is-active" type="button">Описание</button>
+                  <button
+                    onClick={(evt) => {
+                      toggleState(evt.target);
+                    }}
+                    //className="tabs__control"
+                    className={cn('tabs__control', {'is-active': tabState.characteristic})}
+                    type="button"
+                    data-tabs-type="characteristic"
+                  >Характеристики
+                  </button>
+                  <button
+                    onClick={(evt) => {
+                      toggleState(evt.target);
+                    }}
+                    //className="tabs__control "
+                    className={cn('tabs__control', {'is-active': tabState.description})}
+                    type="button"
+                    data-tabs-type="description"
+                  >Описание
+                  </button>
                 </div>
                 <div className="tabs__content">
-                  <div className="tabs__element">
+                  <div className={cn('tabs__element', {'is-active': tabState.characteristic})}>
                     <ul className="product__tabs-list">
                       <li className="item-list"><span className="item-list__title">Артикул:</span>
                         <p className="item-list__text"> {product.vendorCode}</p>
@@ -69,7 +114,7 @@ function ProductDescription({product}: ProductDescriptionProps): JSX.Element {
                       </li>
                     </ul>
                   </div>
-                  <div className="tabs__element is-active">
+                  <div className={cn('tabs__element', {'is-active': tabState.description,})}>
                     <div className="product__tabs-text">
                       <p>{product.description}</p>
                     </div>

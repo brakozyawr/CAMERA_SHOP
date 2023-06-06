@@ -8,11 +8,11 @@ import CatalogContent from '../../components/catalog-content/catalog-content';
 
 
 function Catalog(): JSX.Element {
-  const {products} = useAppSelector((state) => state);
+  const {products, promo} = useAppSelector((state) => state);
 
   return (
     <main>
-      <Banner/>
+      <Banner promo={promo}/>
       <div className="page-content">
         <Breadcrumbs />
         <section className="catalog">
