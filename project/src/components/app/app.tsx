@@ -6,6 +6,9 @@ import Layout from '../layout/layout';
 import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import ScrollToTop from '../scroll-to-top/scroll-to-top';
+import Main from '../../pages/main/main';
+
 
 function App(): JSX.Element {
   const {isDataLoaded} = useAppSelector((state) => state);
@@ -18,9 +21,12 @@ function App(): JSX.Element {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
-        <Route path={AppRoute.Catalog} element={<Layout />}>
-          <Route index element={<Catalog />} />
+        <Route path={AppRoute.Main} element={<Layout />}>
+          <Route path={AppRoute.Main} element={<Main />} />
+          <Route index path={AppRoute.Catalog} element={<Catalog />} />
+          <Route path={`${AppRoute.Catalog}:id`} element={<Catalog />} />
           <Route path={`${AppRoute.Product}:id`} element={<Product />} />
           <Route path={AppRoute.Basket} element={<Basket />} />
         </Route>

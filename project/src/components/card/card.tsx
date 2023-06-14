@@ -15,9 +15,9 @@ function Card({product}: CardProps): JSX.Element {
     <div className="product-card">
       <div className="product-card__img">
         <picture>
-          <source type="image/webp" srcSet={`${product.previewImgWebp2x}, ${product.previewImgWebp2x} 2x`} />
+          <source type="image/webp" srcSet={`/${product.previewImgWebp2x}, /${product.previewImgWebp2x} 2x`} />
           <img
-            src={product.previewImg} srcSet={`${product.previewImg} 2x`} width="280" height="240"
+            src={`/${product.previewImg}`} srcSet={`/${product.previewImg} 2x`} width="280" height="240"
             alt={product.name}
           />
         </picture>

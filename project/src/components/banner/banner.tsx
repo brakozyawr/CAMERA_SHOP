@@ -15,9 +15,9 @@ function Banner({promo}: BannerProps): JSX.Element {
     return (
       <div className="banner">
         <picture>
-          <source type="image/webp" srcSet={`${promo.previewImgWebp2x}, ${promo.previewImgWebp2x} 2x`}/>
+          <source type="image/webp" srcSet={`/${promo.previewImgWebp2x}, /${promo.previewImgWebp2x} 2x`}/>
           <img
-            src={promo.previewImg} srcSet={`${promo.previewImg} 2x`} width="1280" height="280"
+            src={`${promo.previewImg}`} srcSet={`/${promo.previewImg} 2x`} width="1280" height="280"
             alt={promo.name}
           />
         </picture>
@@ -32,7 +32,7 @@ function Banner({promo}: BannerProps): JSX.Element {
               dispatch(fetchReviewsAction(promo.id));
             }}
             className="btn"
-            to={`${AppRoute.Product}${promo.id}`}
+            to={`${AppRoute.Catalog}${promo.id}`}
           >
             Подробнее
           </Link>

@@ -5,14 +5,17 @@ import {TProduct} from '../../types/types';
 
 type CatalogContentProps = {
   products: TProduct[];
+  pageCount: number;
+  currentPageNumber: number;
+  getPage: (pageNumber: number) => void;
 }
 
-function CatalogContent({products}: CatalogContentProps): JSX.Element {
+function CatalogContent({products, pageCount, currentPageNumber, getPage}: CatalogContentProps): JSX.Element {
   return (
     <div className="catalog__content">
       <CatalogSort />
       <Cards products={products} />
-      <Pagination />
+      <Pagination pageCount={pageCount} currentPageNumber={currentPageNumber} getPage={getPage} />
     </div>
   );
 }

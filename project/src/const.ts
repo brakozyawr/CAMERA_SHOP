@@ -1,8 +1,9 @@
 export const TIMEOUT_SHOW_ERROR = 2000;
 
 export enum AppRoute {
-  Catalog = '/',
-  Product = '/product/',
+  Main = '/',
+  Catalog = '/catalog/',
+  Product = '/catalog/product/',
   Basket = 'basket'
 }
 

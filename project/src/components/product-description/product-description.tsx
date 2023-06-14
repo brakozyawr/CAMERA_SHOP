@@ -13,12 +13,12 @@ function ProductDescription({product}: ProductDescriptionProps): JSX.Element {
     [propertyName: string]: boolean;
   }
 
-  const initialTabState0: TTabState = {
+  const initialTabState: TTabState = {
     characteristic: true,
     description: false,
   };
 
-  const [tabState, setTabState] = useState(initialTabState0);
+  const [tabState, setTabState] = useState(initialTabState);
 
   const toggleState = (target: EventTarget | MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) =>{
     const element = target as HTMLElement;
@@ -29,7 +29,6 @@ function ProductDescription({product}: ProductDescriptionProps): JSX.Element {
         ([key, value]) => keyValue === key ? [key, true ] : [key, false ]
       )
     );
-    //console.log(newTabState);
     setTabState(newTabState);
   };
 
@@ -80,7 +79,6 @@ function ProductDescription({product}: ProductDescriptionProps): JSX.Element {
                     onClick={(evt) => {
                       toggleState(evt.target);
                     }}
-                    //className="tabs__control"
                     className={cn('tabs__control', {'is-active': tabState.characteristic})}
                     type="button"
                     data-tabs-type="characteristic"
@@ -90,7 +88,6 @@ function ProductDescription({product}: ProductDescriptionProps): JSX.Element {
                     onClick={(evt) => {
                       toggleState(evt.target);
                     }}
-                    //className="tabs__control "
                     className={cn('tabs__control', {'is-active': tabState.description})}
                     type="button"
                     data-tabs-type="description"
