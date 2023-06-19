@@ -32,7 +32,7 @@ function Banner({promo}: BannerProps): JSX.Element {
               dispatch(fetchReviewsAction(promo.id));
             }}
             className="btn"
-            to={`${AppRoute.Catalog}${promo.id}`}
+            to={`${AppRoute.Product}${promo.id}`}
           >
             Подробнее
           </Link>
