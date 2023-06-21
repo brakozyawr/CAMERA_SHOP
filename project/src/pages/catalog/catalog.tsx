@@ -3,16 +3,17 @@ import Banner from '../../components/banner/banner';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import CatalogAside from '../../components/catalog-aside/catalog-aside';
 import CatalogContent from '../../components/catalog-content/catalog-content';
+import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
+//import CatalogAddItemSuccess from '../../components/catalog-add-item-success/catalog-add-item-success';
 
 import {useEffect, useState} from 'react';
 import {TProduct} from '../../types/types';
 import {useParams} from 'react-router-dom';
 
-//import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
-//import CatalogAddItemSuccess from '../../components/catalog-add-item-success/catalog-add-item-success';
 
 function Catalog(): JSX.Element {
   const {products, promo} = useAppSelector((state) => state);
+  const [addItemPopupState, setAddItemPopupState] = useState(false);
 
   const step = 9;
   const INITIAL_PAGE_NUMBER = 1;
@@ -44,13 +45,19 @@ function Catalog(): JSX.Element {
             <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
             <div className="page-content__columns">
               <CatalogAside />
-              <CatalogContent products={cutProducts} pageCount={pageCount} currentPageNumber={currentPageNumber} getPage={getPage} />
+              <CatalogContent
+                products={cutProducts}
+                pageCount={pageCount}
+                currentPageNumber={currentPageNumber}
+                getPage={getPage}
+                setAddItemPopupState={setAddItemPopupState}
+              />
             </div>
           </div>
         </section>
       </div>
-      {/*<CatalogAddItem />
-      <CatalogAddItemSuccess />*/}
+      {addItemPopupState && <CatalogAddItem setAddItemPopupState={setAddItemPopupState} />}
+      {/*<CatalogAddItemSuccess />*/}
     </main>
   );
 }

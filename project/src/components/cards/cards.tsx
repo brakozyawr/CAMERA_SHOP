@@ -3,9 +3,10 @@ import {TProduct} from '../../types/types';
 
 type CardsProps = {
   products:TProduct[];
+  setAddItemPopupState: (addItemPopupState: boolean) => void;
 }
 
-function Cards({products}: CardsProps): JSX.Element {
+function Cards({products, setAddItemPopupState}: CardsProps): JSX.Element {
   return (
     <div className="cards catalog__cards">
       {products.map((product: TProduct) =>
@@ -13,6 +14,7 @@ function Cards({products}: CardsProps): JSX.Element {
           <Card
             key={product.id}
             product={product}
+            setAddItemPopupState={setAddItemPopupState}
           />
         ))}
     </div>

@@ -40,7 +40,7 @@ function Banner({promo}: BannerProps): JSX.Element {
       </div>
     );
   }else{
-    return <div className="banner"></div>;
+    return <div className="banner"/>;
   }
 }
 

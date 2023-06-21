@@ -2,6 +2,7 @@ import {TProduct} from '../../types/types';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import cn from 'classnames';
 import {MouseEvent, useState} from 'react';
+import {fetchProductAction} from "../../store/api-actions";
 
 type ProductDescriptionProps = {
   product: TProduct | null;
@@ -49,27 +50,33 @@ function ProductDescription({product}: ProductDescriptionProps): JSX.Element {
               <h1 className="title title--h3">{product.name}</h1>
               <div className="rate product__rate">
                 <svg width="17" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"></use>
+                  <use xlinkHref="#icon-full-star"/>
                 </svg>
                 <svg width="17" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"></use>
+                  <use xlinkHref="#icon-full-star"/>
                 </svg>
                 <svg width="17" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"></use>
+                  <use xlinkHref="#icon-full-star"/>
                 </svg>
                 <svg width="17" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"></use>
+                  <use xlinkHref="#icon-full-star"/>
                 </svg>
                 <svg width="17" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-star"></use>
+                  <use xlinkHref="#icon-star"/>
                 </svg>
                 <p className="visually-hidden">Рейтинг: 4</p>
                 <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{product.reviewCount}</p>
               </div>
               <p className="product__price"><span className="visually-hidden">Цена:</span>{`${product.price} ₽`}</p>
-              <button className="btn btn--purple" type="button">
+              <button
+                className="btn btn--purple"
+                type="button"
+                onClick={()=>{
+                  setAddItemPopupState(true);
+                }}
+              >
                 <svg width="24" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-add-basket"></use>
+                  <use xlinkHref="#icon-add-basket"/>
                 </svg>
                 Добавить в корзину
               </button>

@@ -8,5 +8,6 @@ export const loadReviews = createAction<TReview[]>('data/loadReviews');
 export const loadPromo = createAction<TPromo>('data/loadPromo');
 
 export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStatus');
+export const setReviewsDataLoadingStatus = createAction<boolean>('data/setReviewsDataLoadingStatus');
 
 export const setError = createAction<string | null>('data/setError');

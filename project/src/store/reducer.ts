@@ -1,15 +1,25 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {loadProducts,loadProduct, loadPromo, loadReviews, loadSimilarProducts, setDataLoadedStatus, setError} from './action';
+import {
+  loadProducts,
+  loadProduct,
+  loadPromo,
+  loadReviews,
+  loadSimilarProducts,
+  setDataLoadedStatus,
+  setError,
+  setReviewsDataLoadingStatus
+} from './action';
 import {TProduct, TPromo, TReview} from '../types/types';
 
 type TinitialState = {
   products: TProduct[];
-  product: TProduct|null;
+  product: TProduct | null;
   similarProducts: TProduct[];
   reviews: TReview[];
-  promo: TPromo|null;
+  promo: TPromo | null;
   error: string | null;
   isDataLoaded: boolean;
+  isReviewsDataLoading: boolean;
 };
 
 const initialState:TinitialState = {
@@ -20,6 +30,7 @@ const initialState:TinitialState = {
   promo: null,
   error: null,
   isDataLoaded: false,
+  isReviewsDataLoading: false,
 };
 
 
@@ -36,6 +47,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;
+    })
+    .addCase(setReviewsDataLoadingStatus, (state, action) => {
+      state.isReviewsDataLoading = action.payload;
     })
     .addCase(loadPromo, (state, action) => {
       state.promo = action.payload;

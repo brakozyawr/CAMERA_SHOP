@@ -8,13 +8,14 @@ type CatalogContentProps = {
   pageCount: number;
   currentPageNumber: number;
   getPage: (pageNumber: number) => void;
+  setAddItemPopupState: (addItemPopupState: boolean) => void;
 }
 
-function CatalogContent({products, pageCount, currentPageNumber, getPage}: CatalogContentProps): JSX.Element {
+function CatalogContent({products, pageCount, currentPageNumber, getPage, setAddItemPopupState}: CatalogContentProps): JSX.Element {
   return (
     <div className="catalog__content">
       <CatalogSort />
-      <Cards products={products} />
+      <Cards products={products} setAddItemPopupState={setAddItemPopupState} />
       <Pagination pageCount={pageCount} currentPageNumber={currentPageNumber} getPage={getPage} />
     </div>
   );

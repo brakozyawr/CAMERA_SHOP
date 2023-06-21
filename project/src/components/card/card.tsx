@@ -6,9 +6,10 @@ import {useAppDispatch} from '../../hooks';
 
 type CardProps = {
   product:TProduct;
+  setAddItemPopupState: (addItemPopupState: boolean) => void;
 }
 
-function Card({product}: CardProps): JSX.Element {
+function Card({product, setAddItemPopupState}: CardProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   return (
@@ -25,19 +26,19 @@ function Card({product}: CardProps): JSX.Element {
       <div className="product-card__info">
         <div className="rate product-card__rate">
           <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
+            <use xlinkHref="#icon-full-star"/>
           </svg>
           <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
+            <use xlinkHref="#icon-full-star"/>
           </svg>
           <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
+            <use xlinkHref="#icon-full-star"/>
           </svg>
           <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
+            <use xlinkHref="#icon-star"/>
           </svg>
           <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
+            <use xlinkHref="#icon-star"/>
           </svg>
           <p className="visually-hidden">Рейтинг: 3</p>
           <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{product.reviewCount}</p>
@@ -47,7 +48,15 @@ function Card({product}: CardProps): JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button">Купить </button>
+        <button
+          className="btn btn--purple product-card__btn"
+          type="button"
+          onClick={()=>{
+            dispatch(fetchProductAction(product.id));
+            setAddItemPopupState(true);
+          }}
+        >Купить
+        </button>
         <Link
           onClick={() => {
             dispatch(fetchProductAction(product.id));

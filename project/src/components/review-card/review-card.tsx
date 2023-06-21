@@ -9,7 +9,7 @@ function ReviewCard({review}: ReviewCardProps): JSX.Element {
     <li className="review-card">
       <div className="review-card__head">
         <p className="title title--h4">{review.userName}</p>
-        <time className="review-card__data" dateTime="2022-04-13">13 апреля</time>
+        <time className="review-card__data" dateTime={review.createAt}>{review.createAt}</time>
       </div>
       <div className="rate review-card__rate">
         <svg width="17" height="16" aria-hidden="true">
