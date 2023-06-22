@@ -1,10 +1,35 @@
 import ReviewCard from '../review-card/review-card';
 import {TReview} from '../../types/types';
 import {useState} from 'react';
+import dayjs from 'dayjs';
 
 type ReviewBlockProps = {
   reviews: TReview[];
   setReviewPopupState: (reviewPopupState: boolean) => void;
+}
+
+function getWeightForNullDate(dateA: string, dateB: string) {
+  if (dateA === null && dateB === null) {
+    return 0;
+  }
+  if (dateA === null) {
+    return 1;
+  }
+  if (dateB === null) {
+    return -1;
+  }
+  return null;
+}
+
+/*function sortReviewsUp(reviewA: TReview, reviewB: TReview) {
+  const weight = getWeightForNullDate(reviewA.createAt, reviewB.createAt);
+  return weight ?? dayjs(reviewA.createAt).diff(dayjs(reviewB.createAt));
+}*/
+
+function sortReviewsDown(reviewA: TReview, reviewB: TReview) {
+  const weight = getWeightForNullDate(reviewA.createAt, reviewB.createAt);
+
+  return weight ?? dayjs(reviewB.createAt).diff(dayjs(reviewA.createAt));
 }
 
 function ReviewBlock({reviews, setReviewPopupState}: ReviewBlockProps): JSX.Element {
@@ -12,7 +37,11 @@ function ReviewBlock({reviews, setReviewPopupState}: ReviewBlockProps): JSX.Elem
   const INITIAL_REVIEW_COUNT = 3;
 
   const [renderedReviewCount, setCount] = useState(INITIAL_REVIEW_COUNT);
-  const cutReviews: TReview[] = reviews.slice(0, renderedReviewCount);
+  console.log(reviews);
+  const sortedReviews: TReview[] = reviews.slice().sort(sortReviewsDown) ;
+  console.log(sortedReviews);
+  const cutReviews: TReview[] = sortedReviews.slice(0, renderedReviewCount);
+
 
   return (
     <div className="page-content__section">

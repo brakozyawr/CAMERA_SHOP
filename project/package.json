@@ -7,6 +7,7 @@
     "@trendyol-js/react-carousel": "^3.0.2",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
+    "dayjs": "^1.11.8",
     "history": "^5.3.0",
     "http-status-codes": "^2.2.0",
     "react": "^18.2.0",
