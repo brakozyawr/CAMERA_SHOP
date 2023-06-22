@@ -37,9 +37,7 @@ function ReviewBlock({reviews, setReviewPopupState}: ReviewBlockProps): JSX.Elem
   const INITIAL_REVIEW_COUNT = 3;
 
   const [renderedReviewCount, setCount] = useState(INITIAL_REVIEW_COUNT);
-  console.log(reviews);
   const sortedReviews: TReview[] = reviews.slice().sort(sortReviewsDown) ;
-  console.log(sortedReviews);
   const cutReviews: TReview[] = sortedReviews.slice(0, renderedReviewCount);
 
 
