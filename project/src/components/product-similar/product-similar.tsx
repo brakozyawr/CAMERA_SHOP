@@ -7,13 +7,15 @@ import RightArrow from '../right-arrow/right-arrow';
 
 type ProductSimilarProps = {
   similarProducts: TProduct[];
+  setAddItemPopupState: (addItemPopupState: boolean) => void;
 }
 
-function ProductSimilar({similarProducts}: ProductSimilarProps): JSX.Element {
+function ProductSimilar({similarProducts, setAddItemPopupState}: ProductSimilarProps): JSX.Element {
   const items = similarProducts.map((similarProduct: TProduct) => (
     <ProductSimilarSliderCard
       key={similarProduct.id}
       similarProduct={similarProduct}
+      setAddItemPopupState={setAddItemPopupState}
     />
   ));
   //console.log(items);

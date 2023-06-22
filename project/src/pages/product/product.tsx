@@ -40,8 +40,8 @@ function Product(): JSX.Element {
       <main>
         <div className="page-content">
           <Breadcrumbs name={product ? product.name : null} />
-          <ProductDescription product={product} />
-          <ProductSimilar similarProducts={similarProducts} />
+          <ProductDescription product={product} setAddItemPopupState={setAddItemPopupState}/>
+          <ProductSimilar similarProducts={similarProducts} setAddItemPopupState={setAddItemPopupState} />
           <ReviewBlock reviews={reviews} setReviewPopupState={setReviewPopupState} />
         </div>
       </main>

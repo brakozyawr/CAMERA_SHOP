@@ -2,13 +2,14 @@ import {TProduct} from '../../types/types';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import cn from 'classnames';
 import {MouseEvent, useState} from 'react';
-import {fetchProductAction} from "../../store/api-actions";
+
 
 type ProductDescriptionProps = {
   product: TProduct | null;
+  setAddItemPopupState: (addItemPopupState: boolean) => void;
 }
 
-function ProductDescription({product}: ProductDescriptionProps): JSX.Element {
+function ProductDescription({product, setAddItemPopupState}: ProductDescriptionProps): JSX.Element {
 
   type TTabState = {
     [propertyName: string]: boolean;

@@ -81,7 +81,7 @@ export const fetchReviewsAction = createAsyncThunk<void, number, {
   },
 );
 
-export const addCommentAction = createAsyncThunk<void, TReviewAdd, {
+export const addReviewAction = createAsyncThunk<void, TReviewAdd, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;

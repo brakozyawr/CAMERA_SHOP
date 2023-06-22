@@ -6,11 +6,12 @@ import {AppRoute} from '../../const';
 
 type ProductSimilarSliderCardProps = {
   similarProduct: TProduct;
+  setAddItemPopupState: (addItemPopupState: boolean) => void;
 }
 
-function ProductSimilarSliderCard({similarProduct}: ProductSimilarSliderCardProps): JSX.Element {
+function ProductSimilarSliderCard({similarProduct, setAddItemPopupState}: ProductSimilarSliderCardProps): JSX.Element {
   const dispatch = useAppDispatch();
-  //console.log(similarProduct);
+
   return (
     <div className="product-card is-active">
       <div className="product-card__img">
@@ -25,19 +26,19 @@ function ProductSimilarSliderCard({similarProduct}: ProductSimilarSliderCardProp
       <div className="product-card__info">
         <div className="rate product-card__rate">
           <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
+            <use xlinkHref="#icon-full-star"/>
           </svg>
           <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
+            <use xlinkHref="#icon-full-star"/>
           </svg>
           <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
+            <use xlinkHref="#icon-full-star"/>
           </svg>
           <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
+            <use xlinkHref="#icon-full-star"/>
           </svg>
           <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
+            <use xlinkHref="#icon-star"/>
           </svg>
           <p className="visually-hidden">Рейтинг: 4</p>
           <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{similarProduct.reviewCount}</p>
@@ -46,7 +47,14 @@ function ProductSimilarSliderCard({similarProduct}: ProductSimilarSliderCardProp
         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{`${similarProduct.price} ₽`}</p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button">Купить</button>
+        <button
+          className="btn btn--purple product-card__btn"
+          type="button"
+          onClick={()=>{
+            setAddItemPopupState(true);
+          }}
+        >Купить
+        </button>
         <Link
           className="btn btn--transparent"
           to={`${AppRoute.Product}${similarProduct.id}`}

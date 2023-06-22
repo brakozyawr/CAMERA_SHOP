@@ -2309,7 +2309,7 @@ button,
   font-size: 14px;
   line-height: 18px;
   color: #ed6041;
-  opacity: 0;
+  /*opacity: 0;*/
 }
 
 .rate__group:not(:checked) > label {
