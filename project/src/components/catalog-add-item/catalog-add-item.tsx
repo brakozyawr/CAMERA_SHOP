@@ -1,11 +1,15 @@
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {addItemToBasket} from '../../store/action';
+import {TProduct} from '../../types/types';
 
 type CatalogAddItemprops = {
   setAddItemPopupState: (addItemPopupState: boolean) => void;
 }
 
 function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element {
-  const {product} = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const {candidateForBasketList} = useAppSelector((state) => state);
+  const product: TProduct|null = candidateForBasketList;
 
   return (
     <div className="modal is-active">
@@ -43,11 +47,18 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
               </div>
             </div>
             <div className="modal__buttons">
-              <button className="btn btn--purple modal__btn modal__btn--fit-width" type="button">
+              <button
+                className="btn btn--purple modal__btn modal__btn--fit-width"
+                type="button"
+                onClick={()=>{
+                  dispatch(addItemToBasket());
+                  setAddItemPopupState(false);
+                }}
+              >
                 <svg width="24" height="16" aria-hidden="true">
                   <use xlinkHref="#icon-add-basket"/>
                 </svg>
-              Добавить в корзину
+                Добавить в корзину
               </button>
             </div>
             <button

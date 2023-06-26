@@ -2,6 +2,8 @@ import {TProduct} from '../../types/types';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import cn from 'classnames';
 import {MouseEvent, useState} from 'react';
+import {setCandidateForBasket} from '../../store/action';
+import {useAppDispatch} from '../../hooks';
 
 
 type ProductDescriptionProps = {
@@ -10,7 +12,7 @@ type ProductDescriptionProps = {
 }
 
 function ProductDescription({product, setAddItemPopupState}: ProductDescriptionProps): JSX.Element {
-
+  const dispatch = useAppDispatch();
   type TTabState = {
     [propertyName: string]: boolean;
   }
@@ -73,6 +75,7 @@ function ProductDescription({product, setAddItemPopupState}: ProductDescriptionP
                 className="btn btn--purple"
                 type="button"
                 onClick={()=>{
+                  dispatch(setCandidateForBasket(product.id));
                   setAddItemPopupState(true);
                 }}
               >

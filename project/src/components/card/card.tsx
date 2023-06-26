@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {fetchProductAction, fetchReviewsAction, fetchSimilarProductsAction} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks';
+import {setCandidateForBasket} from '../../store/action';
 
 type CardProps = {
   product:TProduct;
@@ -52,7 +53,7 @@ function Card({product, setAddItemPopupState}: CardProps): JSX.Element {
           className="btn btn--purple product-card__btn"
           type="button"
           onClick={()=>{
-            dispatch(fetchProductAction(product.id));
+            dispatch(setCandidateForBasket(product.id));
             setAddItemPopupState(true);
           }}
         >Купить

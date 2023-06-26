@@ -3,6 +3,7 @@ import {useAppDispatch} from '../../hooks';
 import {TProduct} from '../../types/types';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
+import {setCandidateForBasket} from '../../store/action';
 
 type ProductSimilarSliderCardProps = {
   similarProduct: TProduct;
@@ -51,6 +52,7 @@ function ProductSimilarSliderCard({similarProduct, setAddItemPopupState}: Produc
           className="btn btn--purple product-card__btn"
           type="button"
           onClick={()=>{
+            dispatch(setCandidateForBasket(similarProduct.id));
             setAddItemPopupState(true);
           }}
         >Купить

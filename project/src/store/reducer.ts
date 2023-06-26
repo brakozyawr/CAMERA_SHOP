@@ -7,7 +7,7 @@ import {
   loadSimilarProducts,
   setDataLoadedStatus,
   setError,
-  setReviewsDataLoadingStatus
+  setReviewsDataLoadingStatus, addItemToBasket, setCandidateForBasket
 } from './action';
 import {TProduct, TPromo, TReview} from '../types/types';
 
@@ -17,6 +17,8 @@ type TinitialState = {
   similarProducts: TProduct[];
   reviews: TReview[];
   promo: TPromo | null;
+  basketList: TProduct[];
+  candidateForBasketList: TProduct | null;
   error: string | null;
   isDataLoaded: boolean;
   isReviewsDataLoading: boolean;
@@ -28,6 +30,8 @@ const initialState:TinitialState = {
   similarProducts: [],
   reviews: [],
   promo: null,
+  basketList:[],
+  candidateForBasketList: null,
   error: null,
   isDataLoaded: false,
   isReviewsDataLoading: false,
@@ -53,6 +57,20 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadPromo, (state, action) => {
       state.promo = action.payload;
+    })
+    .addCase(setCandidateForBasket, (state, action) => {
+      const element = state.products.find((product) =>
+        product.id === action.payload
+      );
+      if(element){
+        state.candidateForBasketList = element;
+      }
+    })
+    .addCase(addItemToBasket, (state) => {
+      const newElement = state.candidateForBasketList;
+      if(newElement){
+        state.basketList.push(newElement);
+      }
     })
     .addCase(setDataLoadedStatus, (state, action) => {
       state.isDataLoaded = action.payload;

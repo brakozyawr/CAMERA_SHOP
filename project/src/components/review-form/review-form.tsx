@@ -12,7 +12,7 @@ type ReviewFormProps = {
 
 function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}:ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
-  //const [isDisabledSubmit, setDisabledSubmit] = useState(true);
+
   const [formData, setFormData] = useState({
     userName: '',
     advantage: '',
@@ -32,13 +32,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
   const fieldChangeHandle = (evt:ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const {name, value} = evt.target;
     setFormData({...formData, [name]: value});
-
-    /*const isDisabled = Boolean(formData.rating) &&
-      Boolean(formData.userName.length) &&
-      Boolean(formData.advantage.length) &&
-      Boolean(formData.disadvantage.length) &&
-      Boolean(formData.review.length) ;*/
-    //setDisabledSubmit(!isDisabled);
   };
 
   const onSubmit = (ReviewData: TReviewAdd) => {
@@ -56,14 +49,9 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
       review: '',
       rating: 0,
     });
-    //setDisabledSubmit(true);
   };
 
-  //const submitForm = (evt: FormEvent<HTMLFormElement>) => {
   const submitForm = () => {
-    //evt.preventDefault();
-
-    //if (!isDisabledSubmit) {
     onSubmit({
       cameraId: Number(productId),
       userName: formData.userName,
@@ -72,7 +60,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
       review: formData.review,
       rating: Number(formData.rating),
     });
-    //}
+
     setReviewPopupState(false);
     setReviewSuccessPopupState(true);
     resetForm();
@@ -173,7 +161,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       type="text"
                       name="userName"
                       placeholder="Введите ваше имя"
-                      //required
                       onChange={fieldChangeHandle}
                     />
                   </label>
@@ -192,7 +179,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       type="text"
                       name="advantage"
                       placeholder="Основные преимущества товара"
-                      //required
                       onChange={fieldChangeHandle}
                     />
                   </label>
@@ -210,7 +196,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       type="text"
                       name="disadvantage"
                       placeholder="Главные недостатки товара"
-                      //required
                       onChange={fieldChangeHandle}
                     />
                   </label>
@@ -229,14 +214,12 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       name="review"
                       minLength={5}
                       placeholder="Поделитесь своим опытом покупки"
-                      //required
                       onChange={fieldChangeHandle}
                     />
                   </label>
                   {errors.review && <div className="custom-textarea__error">Нужно добавить комментарий</div>}
                 </div>
               </div>
-              {/*<button className="btn btn--purple form-review__btn" type="submit" disabled={isDisabledSubmit}>Отправить отзыв</button>*/}
               <button className="btn btn--purple form-review__btn" type="submit" >Отправить отзыв</button>
             </form>
           </div>
