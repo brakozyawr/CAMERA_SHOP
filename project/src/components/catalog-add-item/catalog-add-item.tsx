@@ -1,6 +1,7 @@
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {addItemToBasket} from '../../store/action';
 import {TProduct} from '../../types/types';
+import {useEffect} from 'react';
 
 type CatalogAddItemprops = {
   setAddItemPopupState: (addItemPopupState: boolean) => void;
@@ -10,6 +11,13 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
   const dispatch = useAppDispatch();
   const {candidateForBasketList} = useAppSelector((state) => state);
   const product: TProduct|null = candidateForBasketList;
+
+  useEffect(() => {
+    document.body.classList.add('scroll-lock');
+    return () => {
+      document.body.classList.remove('scroll-lock');
+    };
+  });
 
   return (
     <div className="modal is-active">

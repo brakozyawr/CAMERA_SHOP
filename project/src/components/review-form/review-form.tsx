@@ -1,5 +1,5 @@
 import {useAppDispatch} from '../../hooks';
-import {ChangeEvent, useRef, useState} from 'react';
+import {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {TReviewAdd} from '../../types/types';
 import {addReviewAction} from '../../store/api-actions';
 import {useForm} from 'react-hook-form';
@@ -12,6 +12,13 @@ type ReviewFormProps = {
 
 function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}:ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    document.body.classList.add('scroll-lock');
+    return () => {
+      document.body.classList.remove('scroll-lock');
+    };
+  });
 
   const [formData, setFormData] = useState({
     userName: '',

@@ -1,8 +1,18 @@
+import {useEffect} from 'react';
+
 type ReviewSuccessProps = {
   setReviewSuccessPopupState: (reviewSuccessPopupState: boolean) => void;
 }
 
 function ReviewSuccess({setReviewSuccessPopupState}:ReviewSuccessProps): JSX.Element {
+
+  useEffect(() => {
+    document.body.classList.add('scroll-lock');
+    return () => {
+      document.body.classList.remove('scroll-lock');
+    };
+  });
+
   return (
     <div className="modal is-active modal--narrow">
       <div className="modal__wrapper">

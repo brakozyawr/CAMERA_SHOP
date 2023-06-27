@@ -35,6 +35,22 @@ function Product(): JSX.Element {
     };
   }, [Number(params.id)]);
 
+  useEffect(() => {
+    const onKeyDownEsc = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        setAddItemPopupState(false);
+        setReviewSuccessPopupState(false);
+        setReviewPopupState(false);
+      }
+    };
+    document.addEventListener('keydown', onKeyDownEsc);
+    return () => {
+      document.removeEventListener('keydown', onKeyDownEsc);
+    };
+
+  }, [addItemPopupState, reviewSuccessPopupState, reviewPopupState]);
+
   return (
     <>
       <main>
