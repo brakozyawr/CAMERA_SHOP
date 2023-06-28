@@ -13,11 +13,20 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
   const product: TProduct|null = candidateForBasketList;
 
   useEffect(() => {
+    const onKeyDownEsc = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        setAddItemPopupState(false);
+      }
+    };
+    document.addEventListener('keydown', onKeyDownEsc);
     document.body.classList.add('scroll-lock');
     return () => {
+      document.removeEventListener('keydown', onKeyDownEsc);
       document.body.classList.remove('scroll-lock');
     };
-  });
+
+  }, []);
 
   return (
     <div className="modal is-active">

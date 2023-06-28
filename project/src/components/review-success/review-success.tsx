@@ -7,11 +7,20 @@ type ReviewSuccessProps = {
 function ReviewSuccess({setReviewSuccessPopupState}:ReviewSuccessProps): JSX.Element {
 
   useEffect(() => {
+    const onKeyDownEsc = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        setReviewSuccessPopupState(false);
+      }
+    };
+    document.addEventListener('keydown', onKeyDownEsc);
     document.body.classList.add('scroll-lock');
     return () => {
+      document.removeEventListener('keydown', onKeyDownEsc);
       document.body.classList.remove('scroll-lock');
     };
-  });
+
+  }, []);
 
   return (
     <div className="modal is-active modal--narrow">

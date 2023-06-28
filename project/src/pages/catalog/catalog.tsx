@@ -15,20 +15,6 @@ function Catalog(): JSX.Element {
   const {products, promo} = useAppSelector((state) => state);
   const [addItemPopupState, setAddItemPopupState] = useState(false);
 
-  useEffect(() => {
-    const onKeyDownEsc = (evt: KeyboardEvent) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        setAddItemPopupState(false);
-      }
-    };
-    document.addEventListener('keydown', onKeyDownEsc);
-    return () => {
-      document.removeEventListener('keydown', onKeyDownEsc);
-    };
-
-  }, [addItemPopupState]);
-
   const step = 9;
   const INITIAL_PAGE_NUMBER = 1;
 

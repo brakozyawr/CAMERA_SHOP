@@ -14,11 +14,20 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    const onKeyDownEsc = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        setReviewPopupState(false);
+      }
+    };
+    document.addEventListener('keydown', onKeyDownEsc);
     document.body.classList.add('scroll-lock');
     return () => {
+      document.removeEventListener('keydown', onKeyDownEsc);
       document.body.classList.remove('scroll-lock');
     };
-  });
+
+  }, []);
 
   const [formData, setFormData] = useState({
     userName: '',
