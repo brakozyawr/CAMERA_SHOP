@@ -1,4 +1,3 @@
-export const TIMEOUT_SHOW_ERROR = 2000;
 
 export enum AppRoute {
   Main = '/',
@@ -13,7 +12,11 @@ export enum APIRoute {
   Similar = '/similar',
   Reviews = '/reviews',
   Promo = '/promo',
-
 }
 
+export enum NameSpace {
+  Catalog = 'CATALOG',
+  Product = 'PRODUCT',
+  Basket = 'BASKET',
+}
 

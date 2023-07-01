@@ -1,30 +1,10 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State, TProduct, TPromo, TReview, TReviewAdd} from '../types/types';
-import {
-  loadProduct,
-  loadProducts,
-  loadPromo,
-  loadReviews,
-  loadSimilarProducts,
-  setDataLoadedStatus,
-  setError
-} from './action';
-import {APIRoute, TIMEOUT_SHOW_ERROR} from '../const';
-import {store} from './';
+import {APIRoute} from '../const';
 
 
-export const clearErrorAction = createAsyncThunk(
-  'data/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  },
-);
-
-export const fetchProductsAction = createAsyncThunk<void, undefined, {
+export const fetchProductsAction = createAsyncThunk<TProduct[], undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -32,14 +12,12 @@ export const fetchProductsAction = createAsyncThunk<void, undefined, {
   'data/fetchProducts',
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<TProduct[]>(APIRoute.Products);
-    dispatch(setDataLoadedStatus(true));
-    dispatch(loadProducts(data));
-    dispatch(setDataLoadedStatus(false));
+    return data;
   },
 );
 
 
-export const fetchProductAction = createAsyncThunk<void, number, {
+export const fetchProductAction = createAsyncThunk<TProduct, number, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -47,13 +25,11 @@ export const fetchProductAction = createAsyncThunk<void, number, {
   'data/fetchProduct',
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<TProduct>(`${APIRoute.Product}${id}`);
-    dispatch(setDataLoadedStatus(true));
-    dispatch(loadProduct(data));
-    dispatch(setDataLoadedStatus(false));
+    return data;
   },
 );
 
-export const fetchSimilarProductsAction = createAsyncThunk<void, number, {
+export const fetchSimilarProductsAction = createAsyncThunk<TProduct[], number, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -61,13 +37,11 @@ export const fetchSimilarProductsAction = createAsyncThunk<void, number, {
   'data/fetchSimilarProducts',
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<TProduct[]>(`${APIRoute.Product}${id}${APIRoute.Similar}`);
-    //dispatch(setDataLoadedStatus(true));
-    dispatch(loadSimilarProducts(data));
-    //dispatch(setDataLoadedStatus(false));
+    return data;
   },
 );
 
-export const fetchReviewsAction = createAsyncThunk<void, number, {
+export const fetchReviewsAction = createAsyncThunk<TReview[], number, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -75,13 +49,11 @@ export const fetchReviewsAction = createAsyncThunk<void, number, {
   'data/fetchReviews',
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<TReview[]>(`${APIRoute.Product}${id}${APIRoute.Reviews}`);
-    //dispatch(setDataLoadedStatus(true));
-    dispatch(loadReviews(data));
-    //dispatch(setDataLoadedStatus(false));
+    return data;
   },
 );
 
-export const addReviewAction = createAsyncThunk<void, TReviewAdd, {
+export const addReviewAction = createAsyncThunk<TReview[], TReviewAdd, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -90,20 +62,18 @@ export const addReviewAction = createAsyncThunk<void, TReviewAdd, {
   async ({cameraId,userName, advantage,disadvantage,review, rating}, {dispatch, extra: api}) => {
     await api.post<TReviewAdd>(`${APIRoute.Reviews}`, {cameraId,userName, advantage,disadvantage,review, rating});
     const {data} = await api.get<TReview[]>(`${APIRoute.Product}${cameraId}${APIRoute.Reviews}`);
-    dispatch(loadReviews(data));
+    return data;
   },
 );
 
-export const fetchPromoAction = createAsyncThunk<void, undefined, {
+export const fetchPromoAction = createAsyncThunk<TPromo, undefined, {
   dispatch: AppDispatch;
-  //state: State;
+  state: State;
   extra: AxiosInstance;
 }>(
   'data/fetchPromo',
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<TPromo>(APIRoute.Promo);
-    //dispatch(setDataLoadedStatus(true));
-    dispatch(loadPromo(data));
-    //dispatch(setDataLoadedStatus(false));
+    return data;
   },
 );
