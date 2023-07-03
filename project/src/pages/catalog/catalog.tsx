@@ -9,10 +9,12 @@ import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
 import {useEffect, useState} from 'react';
 import {TProduct} from '../../types/types';
 import {useParams} from 'react-router-dom';
+import {getProducts, getPromo} from '../../store/catalog-data/selectors';
 
 
 function Catalog(): JSX.Element {
-  const {products, promo} = useAppSelector((state) => state);
+  const products = useAppSelector(getProducts);
+  const promo = useAppSelector(getPromo);
   const [addItemPopupState, setAddItemPopupState] = useState(false);
 
   const step = 9;

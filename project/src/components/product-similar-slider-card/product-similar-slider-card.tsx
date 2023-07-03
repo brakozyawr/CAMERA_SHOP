@@ -3,7 +3,8 @@ import {useAppDispatch} from '../../hooks';
 import {TProduct} from '../../types/types';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {setCandidateForBasket} from '../../store/action';
+import {setCandidateForBasket} from '../../store/basket-data/basket-data';
+
 
 type ProductSimilarSliderCardProps = {
   similarProduct: TProduct;
@@ -52,6 +53,7 @@ function ProductSimilarSliderCard({similarProduct, setAddItemPopupState}: Produc
           className="btn btn--purple product-card__btn"
           type="button"
           onClick={()=>{
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             dispatch(setCandidateForBasket(similarProduct.id));
             setAddItemPopupState(true);
           }}

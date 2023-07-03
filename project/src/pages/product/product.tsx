@@ -6,17 +6,20 @@ import ReviewBlock from '../../components/review-block/review-block';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchReviewsAction} from '../../store/api-actions';
 import {useEffect, useState} from 'react';
-import {loadProduct, loadReviews} from '../../store/action';
 import {useParams} from 'react-router-dom';
 import {fetchProductAction} from '../../store/api-actions';
 import {fetchSimilarProductsAction} from '../../store/api-actions';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewSuccess from '../../components/review-success/review-success';
 import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
+import {getProduct, getReviews, getSimilarProducts} from '../../store/product-data/selectors';
+import {resetProductData} from '../../store/product-data/product-data';
 
 
 function Product(): JSX.Element {
-  const {product, similarProducts, reviews} = useAppSelector((state) => state);
+  const product = useAppSelector(getProduct);
+  const similarProducts = useAppSelector(getSimilarProducts);
+  const reviews = useAppSelector(getReviews);
   const dispatch = useAppDispatch();
   const params = useParams<{id: string}>();
   const [reviewPopupState, setReviewPopupState] = useState(false);
@@ -30,10 +33,10 @@ function Product(): JSX.Element {
       dispatch(fetchSimilarProductsAction(Number(params.id)));
     }
     return () => {
-      dispatch(loadProduct(null));
-      dispatch(loadReviews([]));
+      dispatch(resetProductData());
     };
   }, [Number(params.id)]);
+
 
   return (
     <>

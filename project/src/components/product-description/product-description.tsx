@@ -2,8 +2,8 @@ import {TProduct} from '../../types/types';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import cn from 'classnames';
 import {MouseEvent, useState} from 'react';
-import {setCandidateForBasket} from '../../store/action';
 import {useAppDispatch} from '../../hooks';
+import {setCandidateForBasket} from '../../store/basket-data/basket-data';
 
 
 type ProductDescriptionProps = {

@@ -1,15 +1,12 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {State, TBasketData, TProduct} from '../../types/types';
+import {TBasketData} from '../../types/types';
 import {NameSpace} from '../../const';
-import {getProducts} from '../catalog-data/selectors';
-import {rootReducer} from '../root-reducer';
 
 
 const initialState: TBasketData = {
   basketList:[],
-  candidateForBasketList: null,
+  candidateForBasketList: 0,
 };
-
 
 export const basketData = createSlice({
   name: NameSpace.Basket,
@@ -21,15 +18,9 @@ export const basketData = createSlice({
         state.basketList.push(newElement);
       }
     },
-    setCandidateForBasket: (state, action: PayloadAction<{id: number}>) => {
-      const {id} = action.payload;
-      const products: TProduct[] = getProducts(/*сюда бы положить глобальный стор, да?*/);
-      const element:TProduct | undefined = products.find((product) =>
-        product.id === id
-      );
-      if(element){
-        state.candidateForBasketList = element;
-      }
+    setCandidateForBasket: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      state.candidateForBasketList = id;
     },
 
   },

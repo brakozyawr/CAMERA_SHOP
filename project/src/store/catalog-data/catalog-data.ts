@@ -6,7 +6,7 @@ import {fetchProductsAction, fetchPromoAction} from '../api-actions';
 const initialState: TCatalogData = {
   products: [],
   promo: null,
-  isDataLoaded: false,
+  isCatalogDataLoaded: false,
 };
 
 export const catalogData = createSlice({
@@ -16,21 +16,21 @@ export const catalogData = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchProductsAction.pending, (state) => {
-        state.isDataLoaded = true;
+        state.isCatalogDataLoaded = true;
       })
       .addCase(fetchProductsAction.fulfilled, (state, action) => {
         state.products = action.payload;
-        state.isDataLoaded = false;
+        state.isCatalogDataLoaded = false;
       })
       .addCase(fetchPromoAction.pending, (state) => {
-        state.isDataLoaded = true;
+        state.isCatalogDataLoaded = true;
       })
       .addCase(fetchPromoAction.rejected, (state) => {
         //взять данные из списка продуктов
       })
       .addCase(fetchPromoAction.fulfilled, (state, action) => {
         state.promo = action.payload;
-        state.isDataLoaded = false;
+        state.isCatalogDataLoaded = false;
       });
   }
 

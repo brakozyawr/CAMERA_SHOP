@@ -1,7 +1,9 @@
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {addItemToBasket} from '../../store/action';
 import {TProduct} from '../../types/types';
 import {useEffect} from 'react';
+import {getCandidateForBasketList} from '../../store/basket-data/selectors';
+import {getProducts} from '../../store/catalog-data/selectors';
+import {addItemToBasket} from '../../store/basket-data/basket-data';
 
 type CatalogAddItemprops = {
   setAddItemPopupState: (addItemPopupState: boolean) => void;
@@ -9,8 +11,12 @@ type CatalogAddItemprops = {
 
 function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element {
   const dispatch = useAppDispatch();
-  const {candidateForBasketList} = useAppSelector((state) => state);
-  const product: TProduct|null = candidateForBasketList;
+  const candidateForBasketList = useAppSelector(getCandidateForBasketList);
+  const products = useAppSelector(getProducts);
+
+  const product:TProduct | undefined = products.find((item) =>
+    item.id === candidateForBasketList
+  );
 
   useEffect(() => {
     const onKeyDownEsc = (evt: KeyboardEvent) => {
@@ -68,7 +74,7 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
                 className="btn btn--purple modal__btn modal__btn--fit-width"
                 type="button"
                 onClick={()=>{
-                  dispatch(addItemToBasket());
+                  dispatch(addItemToBasket);
                   setAddItemPopupState(false);
                 }}
               >

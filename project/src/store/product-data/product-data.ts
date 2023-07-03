@@ -8,29 +8,38 @@ const initialState: TProductData = {
   product: null,
   similarProducts: [],
   reviews: [],
-  isDataLoaded: false,
+  isProductDataLoaded: false,
 };
 
 export const productData = createSlice({
   name: NameSpace.Product,
   initialState,
-  reducers: {},
+  reducers: {
+    resetProductData: (state) => {
+      state.product = null;
+      state.similarProducts = [];
+      state.reviews = [];
+      state.isProductDataLoaded = false;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchProductAction.pending, (state) => {
-        state.isDataLoaded = true;
+        state.isProductDataLoaded = true;
       })
       .addCase(fetchProductAction.fulfilled, (state, action) => {
         state.product = action.payload;
-        state.isDataLoaded = false;
+        state.isProductDataLoaded = false;
       })
       .addCase(fetchSimilarProductsAction.fulfilled, (state, action) => {
         state.similarProducts = action.payload;
       })
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
-        state.isDataLoaded = false;
+        //state.isProductDataLoaded = false;
       });
 
   }
 });
+
+export const {resetProductData} = productData.actions;

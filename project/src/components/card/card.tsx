@@ -3,7 +3,8 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {fetchProductAction, fetchReviewsAction, fetchSimilarProductsAction} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks';
-import {setCandidateForBasket} from '../../store/action';
+import {setCandidateForBasket} from '../../store/basket-data/basket-data';
+
 
 type CardProps = {
   product:TProduct;

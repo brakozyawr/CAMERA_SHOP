@@ -57,17 +57,17 @@ export type TReviewAdd = {
 export type TCatalogData = {
   products: TProduct[];
   promo: TPromo | null;
-  isDataLoaded: boolean;
+  isCatalogDataLoaded: boolean;
 };
 
 export type TProductData = {
   product: TProduct | null;
   similarProducts: TProduct[];
   reviews: TReview[];
-  isDataLoaded: boolean;
+  isProductDataLoaded: boolean;
 };
 
 export type TBasketData = {
-  basketList: TProduct[];
-  candidateForBasketList: TProduct | null;
+  basketList: number[];
+  candidateForBasketList: number;
 };

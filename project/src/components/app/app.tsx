@@ -4,20 +4,24 @@ import Basket from '../../pages/basket/basket';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Layout from '../layout/layout';
 import {AppRoute} from '../../const';
-import {useAppSelector} from '../../hooks';
-import LoadingScreen from '../../pages/loading-screen/loading-screen';
+//import {useAppSelector} from '../../hooks';
+//import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import Main from '../../pages/main/main';
+//import {getCatalogDataLoadingStatus} from '../../store/catalog-data/selectors';
+//import {getProductDataLoadingStatus} from '../../store/product-data/selectors';
 
 
 function App(): JSX.Element {
-  const {isDataLoaded} = useAppSelector((state) => state);
-
-  if (isDataLoaded) {
+  //const isProductDataLoaded = useAppSelector(getProductDataLoadingStatus);
+  //const isCatalogDataLoaded = useAppSelector(getCatalogDataLoadingStatus);
+  //console.log(isProductDataLoaded);
+  //console.log(isCatalogDataLoaded);
+  /*if (isProductDataLoaded || isCatalogDataLoaded) {
     return (
       <LoadingScreen />
     );
-  }
+  }*/
 
   return (
     <BrowserRouter>

@@ -1,6 +1,6 @@
 import ProductSimilarSliderCard from '../product-similar-slider-card/product-similar-slider-card';
 import {TProduct} from '../../types/types';
-import { Carousel } from '@trendyol-js/react-carousel';
+import {Carousel} from '@trendyol-js/react-carousel';
 import LeftArrow from '../left-arrow/left-arrow';
 import RightArrow from '../right-arrow/right-arrow';
 
@@ -18,7 +18,7 @@ function ProductSimilar({similarProducts, setAddItemPopupState}: ProductSimilarP
       setAddItemPopupState={setAddItemPopupState}
     />
   ));
-  //console.log(items);
+
 
   return (
     <div className="page-content__section">

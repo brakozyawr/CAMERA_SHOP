@@ -3,10 +3,11 @@ import Banner from '../../components/banner/banner';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import {AppRoute} from '../../const';
 import { Navigate } from 'react-router-dom';
+import {getPromo} from '../../store/catalog-data/selectors';
 
 
 function Main(): JSX.Element {
-  const {promo} = useAppSelector((state) => state);
+  const promo = useAppSelector(getPromo);
 
   return (
     <main>
