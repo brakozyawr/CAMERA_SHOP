@@ -16,11 +16,11 @@ export const basketData = createSlice({
       const newElement = state.candidateForBasketList;
       if(newElement){
         state.basketList.push(newElement);
+        state.candidateForBasketList = 0;
       }
     },
     setCandidateForBasket: (state, action: PayloadAction<number>) => {
-      const id = action.payload;
-      state.candidateForBasketList = id;
+      state.candidateForBasketList = action.payload;
     },
 
   },

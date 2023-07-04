@@ -25,9 +25,9 @@ export const catalogData = createSlice({
       .addCase(fetchPromoAction.pending, (state) => {
         state.isCatalogDataLoaded = true;
       })
-      .addCase(fetchPromoAction.rejected, (state) => {
+      /*.addCase(fetchPromoAction.rejected, (state) => {
         //взять данные из списка продуктов
-      })
+      })*/
       .addCase(fetchPromoAction.fulfilled, (state, action) => {
         state.promo = action.payload;
         state.isCatalogDataLoaded = false;
