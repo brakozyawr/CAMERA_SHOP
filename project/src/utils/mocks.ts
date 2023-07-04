@@ -1,5 +1,5 @@
 import {commerce, datatype, system, date, random} from 'faker';
-import {TProduct, TPromo, TReview} from '../types/types';
+import {TProduct, TPromo, TReview, TReviewAdd} from '../types/types';
 
 /*export const makeFakeProducts = (): TProduct => ({
   id: datatype.number();
@@ -60,7 +60,7 @@ export const makeFakePromo: TPromo = {
   previewImgWebp2x: system.filePath(),
 };
 
-export const makeFakeReviews = Array(5).fill({
+export const makeFakeReview: TReview = {
   id: datatype.uuid(),
   createAt: String(date.recent()),
   cameraId: datatype.number(),
@@ -69,6 +69,18 @@ export const makeFakeReviews = Array(5).fill({
   disadvantage: commerce.productAdjective(),
   review: commerce.productAdjective(),
   rating: datatype.number({ min: 1, max: 5}),
-})as TReview[];
+};
+
+export const makeFakeReviews = Array(5).fill(makeFakeReview)as TReview[];
+
+
+export const makeFakeReviewAdd: TReviewAdd = {
+  cameraId: datatype.number(),
+  userName: random.word(),
+  advantage: commerce.productAdjective(),
+  disadvantage: commerce.productAdjective(),
+  review: commerce.productAdjective(),
+  rating: datatype.number({ min: 1, max: 5}),
+};
 
 

@@ -16,7 +16,6 @@ export const fetchProductsAction = createAsyncThunk<TProduct[], undefined, {
   },
 );
 
-
 export const fetchProductAction = createAsyncThunk<TProduct, number, {
   dispatch: AppDispatch;
   state: State;
