@@ -14,7 +14,7 @@ import ReviewSuccess from '../../components/review-success/review-success';
 import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
 import {getProduct, getReviews, getSimilarProducts} from '../../store/product-data/selectors';
 import {resetProductData} from '../../store/product-data/product-data';
-import {Helmet} from "react-helmet-async";
+import {Helmet} from 'react-helmet-async';
 
 
 function Product(): JSX.Element {

@@ -9,6 +9,7 @@ import {AppRoute} from '../../const';
 //import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import Main from '../../pages/main/main';
+import NotFound from '../../pages/not-found/not-found';
 //import {getCatalogDataLoadingStatus} from '../../store/catalog-data/selectors';
 //import {getProductDataLoadingStatus} from '../../store/product-data/selectors';
 
@@ -35,6 +36,7 @@ function App(): JSX.Element {
             <Route path={`${AppRoute.Catalog}:id`} element={<Catalog />} />
             <Route path={`${AppRoute.Product}:id`} element={<Product />} />
             <Route path={AppRoute.Basket} element={<Basket />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
