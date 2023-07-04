@@ -10,6 +10,7 @@ import {useEffect, useState} from 'react';
 import {TProduct} from '../../types/types';
 import {useParams} from 'react-router-dom';
 import {getProducts, getPromo} from '../../store/catalog-data/selectors';
+import {Helmet} from "react-helmet-async";
 
 
 function Catalog(): JSX.Element {
@@ -39,6 +40,9 @@ function Catalog(): JSX.Element {
 
   return (
     <main>
+      <Helmet>
+        <title>Каталог - Фотошоп</title>
+      </Helmet>
       <Banner promo={promo}/>
       <div className="page-content">
         <Breadcrumbs />
