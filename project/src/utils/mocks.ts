@@ -18,7 +18,7 @@ import {TProduct, TPromo, TReview, TReviewAdd} from '../types/types';
 } as TProduct);*/
 
 export const makeFakeProduct: TProduct = {
-  id: datatype.number(),
+  id: datatype.number({ min: 1, max: 5}),
   name: commerce.product(),
   vendorCode: datatype.uuid(),
   type: commerce.productName(),
@@ -49,7 +49,7 @@ export const makeFakeProduct: TProduct = {
   previewImgWebp2x: system.filePath(),
 }as TProduct);*/
 
-export const makeFakeProducts = Array(5).fill(makeFakeProduct) as TProduct[];
+export const makeFakeProducts = Array(10).fill(makeFakeProduct) as TProduct[];
 
 export const makeFakePromo: TPromo = {
   id: datatype.number(),

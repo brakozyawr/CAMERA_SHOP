@@ -2,7 +2,7 @@ import {HelmetProvider} from 'react-helmet-async';
 import Catalog from '../../pages/catalog/catalog';
 import Product from '../../pages/product/product';
 import Basket from '../../pages/basket/basket';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import Layout from '../layout/layout';
 import {AppRoute} from '../../const';
 //import {useAppSelector} from '../../hooks';
@@ -27,19 +27,17 @@ function App(): JSX.Element {
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path={AppRoute.Main} element={<Layout />}>
-            <Route path={AppRoute.Main} element={<Main />} />
-            <Route index path={AppRoute.Catalog} element={<Catalog />} />
-            <Route path={`${AppRoute.Catalog}:id`} element={<Catalog />} />
-            <Route path={`${AppRoute.Product}:id`} element={<Product />} />
-            <Route path={AppRoute.Basket} element={<Basket />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path={AppRoute.Main} element={<Layout />}>
+          <Route path={AppRoute.Main} element={<Main />} />
+          <Route index path={AppRoute.Catalog} element={<Catalog />} />
+          <Route path={`${AppRoute.Catalog}:id`} element={<Catalog />} />
+          <Route path={`${AppRoute.Product}:id`} element={<Product />} />
+          <Route path={AppRoute.Basket} element={<Basket />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
     </HelmetProvider>
   );
 }

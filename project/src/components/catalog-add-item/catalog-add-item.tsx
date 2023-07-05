@@ -4,6 +4,7 @@ import {useEffect} from 'react';
 import {getCandidateForBasketList} from '../../store/basket-data/selectors';
 import {getProducts} from '../../store/catalog-data/selectors';
 import {addItemToBasket} from '../../store/basket-data/basket-data';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 type CatalogAddItemprops = {
   setAddItemPopupState: (addItemPopupState: boolean) => void;
@@ -14,7 +15,7 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
   const candidateForBasketList = useAppSelector(getCandidateForBasketList);
   const products = useAppSelector(getProducts);
 
-  const product:TProduct | undefined = products.find((item) =>
+  const product: TProduct|undefined = products.find((item) =>
     item.id === candidateForBasketList
   );
 
@@ -34,9 +35,9 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
 
   }, []);
 
-  return (
-    <div className="modal is-active">
-      {product &&
+  if (product) {
+    return (
+      <div className="modal is-active">
         <div className="modal__wrapper">
           <div
             className="modal__overlay"
@@ -97,9 +98,14 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
               </svg>
             </button>
           </div>
-        </div>}
-    </div>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <LoadingScreen />
   );
+
 }
 
 export default CatalogAddItem;
