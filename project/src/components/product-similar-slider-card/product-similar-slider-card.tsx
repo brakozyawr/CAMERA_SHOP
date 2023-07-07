@@ -53,7 +53,6 @@ function ProductSimilarSliderCard({similarProduct, setAddItemPopupState}: Produc
           className="btn btn--purple product-card__btn"
           type="button"
           onClick={()=>{
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             dispatch(setCandidateForBasket(similarProduct.id));
             setAddItemPopupState(true);
           }}

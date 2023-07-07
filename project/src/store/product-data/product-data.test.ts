@@ -2,9 +2,9 @@ import {productData, resetProductData} from './product-data';
 import {makeFakeProduct, makeFakeProducts, makeFakeReviews} from '../../utils/mocks';
 import { fetchProductAction, fetchReviewsAction, fetchSimilarProductsAction} from '../api-actions';
 
-const product = makeFakeProduct;
-const similarProducts = makeFakeProducts;
-const reviews = makeFakeReviews;
+const product = makeFakeProduct();
+const similarProducts = makeFakeProducts();
+const reviews = makeFakeReviews();
 
 
 describe('Reducer: gameData', () => {

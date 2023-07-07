@@ -2,7 +2,7 @@ import {addItemToBasket, basketData, setCandidateForBasket} from './basket-data'
 import {makeFakeProduct} from '../../utils/mocks';
 
 
-const candidateForBasketList = makeFakeProduct.id;
+const candidateForBasketList = makeFakeProduct().id;
 
 describe('Reducer: gameData', () => {
   it('without additional parameters should return initial state', () => {

@@ -2,8 +2,8 @@ import {catalogData} from './catalog-data';
 import {makeFakeProducts, makeFakePromo} from '../../utils/mocks';
 import {fetchProductsAction, fetchPromoAction} from '../api-actions';
 
-const products = [makeFakeProducts];
-const promo = makeFakePromo;
+const products = makeFakeProducts();
+const promo = makeFakePromo();
 
 describe('Reducer: catalogData', () => {
   it('without additional parameters should return initial state', () => {

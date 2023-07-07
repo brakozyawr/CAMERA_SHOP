@@ -74,6 +74,7 @@ function ProductDescription({product, setAddItemPopupState}: ProductDescriptionP
               <button
                 className="btn btn--purple"
                 type="button"
+                data-testid="add-to-card-button"
                 onClick={()=>{
                   dispatch(setCandidateForBasket(product.id));
                   setAddItemPopupState(true);
@@ -93,6 +94,7 @@ function ProductDescription({product, setAddItemPopupState}: ProductDescriptionP
                     className={cn('tabs__control', {'is-active': tabState.characteristic})}
                     type="button"
                     data-tabs-type="characteristic"
+                    data-testid="characteristic"
                   >Характеристики
                   </button>
                   <button
@@ -102,6 +104,7 @@ function ProductDescription({product, setAddItemPopupState}: ProductDescriptionP
                     className={cn('tabs__control', {'is-active': tabState.description})}
                     type="button"
                     data-tabs-type="description"
+                    data-testid="description"
                   >Описание
                   </button>
                 </div>

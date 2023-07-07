@@ -19,7 +19,6 @@ function ProductSimilar({similarProducts, setAddItemPopupState}: ProductSimilarP
     />
   ));
 
-
   return (
     <div className="page-content__section">
       <section className="product-similar">

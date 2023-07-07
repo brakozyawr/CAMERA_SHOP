@@ -176,6 +176,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       {...register('userName', { required: true })}
                       type="text"
                       name="userName"
+                      data-testid="userName"
                       placeholder="Введите ваше имя"
                       onChange={fieldChangeHandle}
                     />
@@ -194,6 +195,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       {...register('advantage', { required: true })}
                       type="text"
                       name="advantage"
+                      data-testid="advantage"
                       placeholder="Основные преимущества товара"
                       onChange={fieldChangeHandle}
                     />
@@ -211,6 +213,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       {...register('disadvantage', { required: true })}
                       type="text"
                       name="disadvantage"
+                      data-testid="disadvantage"
                       placeholder="Главные недостатки товара"
                       onChange={fieldChangeHandle}
                     />
@@ -228,6 +231,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                     <textarea
                       {...register('review', { required: true })}
                       name="review"
+                      data-testid="review"
                       minLength={5}
                       placeholder="Поделитесь своим опытом покупки"
                       onChange={fieldChangeHandle}
@@ -236,10 +240,11 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                   {errors.review && <div className="custom-textarea__error">Нужно добавить комментарий</div>}
                 </div>
               </div>
-              <button className="btn btn--purple form-review__btn" type="submit" >Отправить отзыв</button>
+              <button data-testid="submit-button" className="btn btn--purple form-review__btn" type="submit" >Отправить отзыв</button>
             </form>
           </div>
           <button
+            data-testid="close-button"
             className="cross-btn"
             type="button"
             aria-label="Закрыть попап"

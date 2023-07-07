@@ -5,7 +5,7 @@ function Header(): JSX.Element {
   return (
     <header className="header" id="header">
       <div className="container">
-        <Link className="header__logo" to={AppRoute.Catalog} aria-label="Переход на главную">
+        <Link className="header__logo" to={AppRoute.Catalog} aria-label="Переход на главную" data-testid="logo-link">
           <svg width="100" height="36" aria-hidden="true">
             <use xlinkHref="#icon-logo"></use>
           </svg>

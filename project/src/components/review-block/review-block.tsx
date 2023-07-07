@@ -49,6 +49,7 @@ function ReviewBlock({reviews, setReviewPopupState}: ReviewBlockProps): JSX.Elem
             <h2 className="title title--h3">Отзывы</h2>
             <button
               className="btn"
+              data-testid="add-review"
               type="button"
               onClick={() => {
                 setReviewPopupState(true);
@@ -69,6 +70,7 @@ function ReviewBlock({reviews, setReviewPopupState}: ReviewBlockProps): JSX.Elem
             {(renderedReviewCount < reviews.length) &&
               <button
                 className="btn btn--purple"
+                data-testid="show-more"
                 type="button"
                 onClick={() => {
                   setCount(renderedReviewCount + step);

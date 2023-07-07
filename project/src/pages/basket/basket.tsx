@@ -13,15 +13,6 @@ function Basket(): JSX.Element {
           <div className="container">
             <h1 className="title title--h2">Корзина</h1>
             <ul className="basket__list">
-              {/*{offers.map((offer: TOffer) =>
-                (
-                  <Offer
-                    onMouseOverHandler={onMouseOverHandler}
-                    key={offer.id}
-                    offer={offer}
-                    main={main}
-                  />
-                ))}*/}
               <BasketItem />
             </ul>
             <div className="basket__summary">

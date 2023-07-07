@@ -10,8 +10,8 @@ import {makeFakeProduct, makeFakeProducts, makeFakePromo, makeFakeReviews} from 
 const mockStore = configureMockStore();
 
 const store = mockStore({
-  [NameSpace.Catalog]: {products: makeFakeProducts, promo: makeFakePromo, isCatalogDataLoaded: false},
-  [NameSpace.Product]: {product: makeFakeProduct, similarProducts: makeFakeProducts, reviews: makeFakeReviews, isProductDataLoaded: false},
+  [NameSpace.Catalog]: {products: makeFakeProducts(), promo: makeFakePromo(), isCatalogDataLoaded: false},
+  [NameSpace.Product]: {product: makeFakeProduct(), similarProducts: makeFakeProducts(), reviews: makeFakeReviews(), isProductDataLoaded: false},
   [NameSpace.Basket]: {basketList: [], candidateForBasketList: 2},
 });
 
@@ -41,7 +41,7 @@ describe('Application Routing', () => {
   });
 
   it('should render "Product)" when user navigate to "/catalog/product/"', () => {
-    history.push(`${AppRoute.Product}${2}`);
+    history.push(`${AppRoute.Product}:id`);
     render(fakeApp);
 
     expect(screen.getByText(/Характеристики/i)).toBeInTheDocument();

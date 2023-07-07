@@ -36,7 +36,7 @@ describe('Async actions', () => {
 
 
   it('should dispatch Load_Products when GET /cameras', async () => {
-    const mockProducts = makeFakeProducts;
+    const mockProducts = makeFakeProducts();
     mockAPI
       .onGet(APIRoute.Products)
       .reply(200, mockProducts);
@@ -54,7 +54,7 @@ describe('Async actions', () => {
   });
 
   it('should dispatch Load_Promo when GET /promo', async () => {
-    const mockPromo = makeFakePromo;
+    const mockPromo = makeFakePromo();
     mockAPI
       .onGet(APIRoute.Promo)
       .reply(200, mockPromo);
@@ -72,7 +72,7 @@ describe('Async actions', () => {
   });
 
   it('should dispatch Load_Product when GET /cameras/', async () => {
-    const mockProduct = makeFakeProduct;
+    const mockProduct = makeFakeProduct();
 
     mockAPI
       .onGet(`${APIRoute.Product}${mockProduct.id}`)
@@ -91,8 +91,8 @@ describe('Async actions', () => {
   });
 
   it('should dispatch Load_Similar_Products when GET /similar', async () => {
-    const mockProduct = makeFakeProduct;
-    const mockSimilarProducts = makeFakeProducts;
+    const mockProduct = makeFakeProduct();
+    const mockSimilarProducts = makeFakeProducts();
 
     mockAPI
       .onGet(`${APIRoute.Product}${mockProduct.id}${APIRoute.Similar}`)
@@ -111,8 +111,8 @@ describe('Async actions', () => {
   });
 
   it('should dispatch Load_Reviews when GET /reviews', async () => {
-    const mockProduct = makeFakeProduct;
-    const mockReviews = makeFakeReviews;
+    const mockProduct = makeFakeProduct();
+    const mockReviews = makeFakeReviews();
 
     mockAPI
       .onGet(`${APIRoute.Product}${mockProduct.id}${APIRoute.Reviews}`)
@@ -132,9 +132,9 @@ describe('Async actions', () => {
 
 
   it('should dispatch Add_Review  when POST /reviews', async () => {
-    const mockReviewAdd = makeFakeReviewAdd;
-    const mockReview = makeFakeReview;
-    const mockReviews = makeFakeReviews;
+    const mockReviewAdd = makeFakeReviewAdd();
+    const mockReview = makeFakeReview();
+    const mockReviews = makeFakeReviews();
 
     mockAPI
       .onPost(APIRoute.Reviews)

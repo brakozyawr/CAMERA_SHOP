@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {fetchProductAction, fetchReviewsAction, fetchSimilarProductsAction} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks';
 
+
 export type BannerProps = {
   promo: TPromo|null;
 }
