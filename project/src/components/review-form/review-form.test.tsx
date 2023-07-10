@@ -125,9 +125,7 @@ describe('Component: ReviewForm', () => {
 
     await userEvent.type(screen.getByTestId('userName'), 'keks');
     await userEvent.type(screen.getByTestId('advantage'), 'Рмяу!');
-    //await userEvent.type(screen.getByTestId('disadvantage'), 'Мяуррр!');
     await userEvent.type(screen.getByTestId('review'), 'МЯУ!!!');
-
     await userEvent.click(screen.getByTestId('submit-button'));
 
     const actions = store.getActions();

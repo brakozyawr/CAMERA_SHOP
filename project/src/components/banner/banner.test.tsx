@@ -19,7 +19,6 @@ const store = mockStore({});
 
 describe('Component: Banner', () => {
   it('should render correctly', () => {
-    //history.push(AppRoute.Catalog);
     const promo = makeFakePromo();
 
     render(
