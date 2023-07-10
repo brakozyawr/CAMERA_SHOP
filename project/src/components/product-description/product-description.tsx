@@ -58,7 +58,7 @@ function ProductDescription({product, setAddItemPopupState}: ProductDescriptionP
   };
 
   if(tabInLocation !== null && !isIncludedInTabs ){
-    //return <Navigate to="/*" replace />;
+    return <Navigate to="/*" replace />;
   }
 
   if(product){

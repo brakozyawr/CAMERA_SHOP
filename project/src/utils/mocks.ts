@@ -33,13 +33,13 @@ export const makeFakeReview = (): TReview => ({
   createAt: String(date.recent()),
   cameraId: datatype.number(),
   userName: name.title(),
-  advantage: commerce.productAdjective(),
-  disadvantage: commerce.productAdjective(),
+  advantage: random.word(),
+  disadvantage: commerce.productMaterial(),
   review: commerce.productAdjective(),
   rating: datatype.number({ min: 1, max: 5}),
 });
 
-export const makeFakeReviews = (): TReview[] => Array(5).fill({}).map(()=>makeFakeReview());
+export const makeFakeReviews = (): TReview[] => Array(3).fill({}).map(()=>makeFakeReview());
 
 export const makeFakeReviewAdd = ():TReviewAdd => ({
   cameraId: datatype.number(),

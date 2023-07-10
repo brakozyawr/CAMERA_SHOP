@@ -31,7 +31,6 @@ const getPaginationList = (pageCount: number, currentPageNumber: number, getPage
 };
 
 function Pagination({pageCount, currentPageNumber, getPage}: PaginationProps): JSX.Element {
-  //console.log(pageCount);
 
   return (
     <div className="pagination">

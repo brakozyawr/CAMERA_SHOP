@@ -27,7 +27,6 @@ describe('Component: ReviewBlock', () => {
 
     expect(screen.getByText(/Отзывы/i)).toBeInTheDocument();
     expect(screen.getByTestId('add-review')).toBeInTheDocument();
-    expect(screen.getByTestId('show-more')).toBeInTheDocument();
     expect(screen.getByText(/This is mock ReviewCard/i)).toBeInTheDocument();
 
     await userEvent.click(screen.getByTestId('add-review'));

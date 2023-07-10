@@ -4,8 +4,6 @@ import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import CatalogAside from '../../components/catalog-aside/catalog-aside';
 import CatalogContent from '../../components/catalog-content/catalog-content';
 import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
-
-
 import {useEffect, useState} from 'react';
 import {TProduct} from '../../types/types';
 import {useParams} from 'react-router-dom';

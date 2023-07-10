@@ -36,14 +36,17 @@ function Product(): JSX.Element {
   const [addItemPopupState, setAddItemPopupState] = useState(false);
   const isProductDataLoaded = useAppSelector(getProductDataLoadingStatus);
 
+
   useEffect(() => {
-    if (params.id) {
+    if (params.id && !product) {
       dispatch(fetchProductAction(Number(params.id)));
       dispatch(fetchReviewsAction(Number(params.id)));
       dispatch(fetchSimilarProductsAction(Number(params.id)));
+      console.log('zzzzzzzzzzzzzzzzzz');
     }
     return () => {
       dispatch(resetProductData());
+      console.log('zzz');
     };
   }, [params.id]);
 
