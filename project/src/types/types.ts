@@ -49,15 +49,11 @@ export type TReviewAdd = {
   rating: number;
 }
 
-/*export type TOrder = {
-  camerasIds: number[];
-  coupon: string;
-}*/
-
 export type TCatalogData = {
   products: TProduct[];
   promo: TPromo | null;
   isCatalogDataLoaded: boolean;
+  productsError: boolean;
 };
 
 export type TProductData = {
@@ -65,9 +61,11 @@ export type TProductData = {
   similarProducts: TProduct[];
   reviews: TReview[];
   isProductDataLoaded: boolean;
+  productError: boolean;
 };
 
 export type TBasketData = {
   basketList: number[];
   candidateForBasketList: number;
 };
+

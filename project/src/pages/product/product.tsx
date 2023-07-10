@@ -12,13 +12,21 @@ import {fetchSimilarProductsAction} from '../../store/api-actions';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewSuccess from '../../components/review-success/review-success';
 import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
-import {getProduct, getReviews, getSimilarProducts} from '../../store/product-data/selectors';
+import {
+  getProduct,
+  getProductDataLoadingStatus, getProductError,
+  getReviews,
+  getSimilarProducts
+} from '../../store/product-data/selectors';
 import {resetProductData} from '../../store/product-data/product-data';
 import {Helmet} from 'react-helmet-async';
+import LoadingScreen from '../loading-screen/loading-screen';
+import ErrorScreen from '../error-screen/error-screen';
 
 
 function Product(): JSX.Element {
   const product = useAppSelector(getProduct);
+  const productError = useAppSelector(getProductError);
   const similarProducts = useAppSelector(getSimilarProducts);
   const reviews = useAppSelector(getReviews);
   const dispatch = useAppDispatch();
@@ -26,9 +34,10 @@ function Product(): JSX.Element {
   const [reviewPopupState, setReviewPopupState] = useState(false);
   const [reviewSuccessPopupState, setReviewSuccessPopupState] = useState(false);
   const [addItemPopupState, setAddItemPopupState] = useState(false);
+  const isProductDataLoaded = useAppSelector(getProductDataLoadingStatus);
 
   useEffect(() => {
-    if (Number(params.id)) {
+    if (params.id) {
       dispatch(fetchProductAction(Number(params.id)));
       dispatch(fetchReviewsAction(Number(params.id)));
       dispatch(fetchSimilarProductsAction(Number(params.id)));
@@ -36,8 +45,20 @@ function Product(): JSX.Element {
     return () => {
       dispatch(resetProductData());
     };
-  }, [Number(params.id)]);
+  }, [params.id]);
 
+
+  if (isProductDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
+  if (productError) {
+    return (
+      <ErrorScreen />
+    );
+  }
 
   return (
     <>
@@ -48,8 +69,8 @@ function Product(): JSX.Element {
         <div className="page-content">
           <Breadcrumbs name={product ? product.name : null} />
           <ProductDescription product={product} setAddItemPopupState={setAddItemPopupState}/>
-          <ProductSimilar similarProducts={similarProducts} setAddItemPopupState={setAddItemPopupState} />
-          <ReviewBlock reviews={reviews} setReviewPopupState={setReviewPopupState} />
+          {similarProducts && <ProductSimilar similarProducts={similarProducts} setAddItemPopupState={setAddItemPopupState}/>}
+          {reviews && <ReviewBlock reviews={reviews} setReviewPopupState={setReviewPopupState}/>}
         </div>
       </main>
       <UpBtn />

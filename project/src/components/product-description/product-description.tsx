@@ -4,6 +4,7 @@ import cn from 'classnames';
 import {MouseEvent, useState} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {setCandidateForBasket} from '../../store/basket-data/basket-data';
+import {Link, Navigate, useLocation} from 'react-router-dom';
 
 
 type ProductDescriptionProps = {
@@ -13,14 +14,34 @@ type ProductDescriptionProps = {
 
 function ProductDescription({product, setAddItemPopupState}: ProductDescriptionProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+
   type TTabState = {
     [propertyName: string]: boolean;
   }
 
-  const initialTabState: TTabState = {
+  let initialTabState: TTabState = {
     characteristic: true,
     description: false,
   };
+
+  const tabInLocation = new URLSearchParams(location.search).get('tab');
+  const tabs = Object.keys(initialTabState);
+  const isIncludedInTabs = tabs.find((item)=>item === tabInLocation);
+
+  if(tabInLocation === null){
+    initialTabState = {
+      characteristic: true,
+      description: false,
+    };
+  }
+  if(tabInLocation !== null && isIncludedInTabs ){
+    initialTabState = Object.fromEntries(
+      Object.entries(initialTabState).map(
+        ([key, value]) => tabInLocation === key ? [key, true] : [key, false]
+      )
+    );
+  }
 
   const [tabState, setTabState] = useState(initialTabState);
 
@@ -35,6 +56,10 @@ function ProductDescription({product, setAddItemPopupState}: ProductDescriptionP
     );
     setTabState(newTabState);
   };
+
+  if(tabInLocation !== null && !isIncludedInTabs ){
+    //return <Navigate to="/*" replace />;
+  }
 
   if(product){
     return (
@@ -87,26 +112,30 @@ function ProductDescription({product, setAddItemPopupState}: ProductDescriptionP
               </button>
               <div className="tabs product__tabs">
                 <div className="tabs__controls product__tabs-controls">
-                  <button
-                    onClick={(evt) => {
-                      toggleState(evt.target);
-                    }}
-                    className={cn('tabs__control', {'is-active': tabState.characteristic})}
-                    type="button"
-                    data-tabs-type="characteristic"
-                    data-testid="characteristic"
-                  >Характеристики
-                  </button>
-                  <button
-                    onClick={(evt) => {
-                      toggleState(evt.target);
-                    }}
-                    className={cn('tabs__control', {'is-active': tabState.description})}
-                    type="button"
-                    data-tabs-type="description"
-                    data-testid="description"
-                  >Описание
-                  </button>
+                  <Link to={'?tab=characteristic'}>
+                    <button
+                      onClick={(evt) => {
+                        toggleState(evt.target);
+                      }}
+                      className={cn('tabs__control', {'is-active': tabState.characteristic})}
+                      type="button"
+                      data-tabs-type="characteristic"
+                      data-testid="characteristic"
+                    >Характеристики
+                    </button>
+                  </Link>
+                  <Link to={'?tab=description'}>
+                    <button
+                      onClick={(evt) => {
+                        toggleState(evt.target);
+                      }}
+                      className={cn('tabs__control', {'is-active': tabState.description})}
+                      type="button"
+                      data-tabs-type="description"
+                      data-testid="description"
+                    >Описание
+                    </button>
+                  </Link>
                 </div>
                 <div className="tabs__content">
                   <div className={cn('tabs__element', {'is-active': tabState.characteristic})}>

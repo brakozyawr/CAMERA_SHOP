@@ -10,3 +10,4 @@ export const rootReducer = combineReducers({
   [NameSpace.Product]: productData.reducer,
   [NameSpace.Basket]: basketData.reducer,
 });
+

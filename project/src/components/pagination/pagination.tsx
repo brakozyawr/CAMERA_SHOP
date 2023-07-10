@@ -12,6 +12,7 @@ const getPaginationList = (pageCount: number, currentPageNumber: number, getPage
   for (let i = 1; i <= pageCount; i++) {
     content.push(
       <li
+        key={i}
         className="pagination__item"
         data-pagination-item={i}
         onClick={() => {

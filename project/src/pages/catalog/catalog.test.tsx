@@ -20,33 +20,6 @@ const store = mockStore({
   [NameSpace.Catalog]: {products: fakeProducts, promo: fakePromo, isCatalogDataLoaded: false},
 });
 
-/*describe('Component: Catalog, props-test', () => {
-  it('пропсы передаются корректно', () => {
-    history.push(AppRoute.Catalog);
-
-    render (
-      <Provider store={store}>
-        <HistoryRouter history={history}>
-          <HelmetProvider>
-            <Routes>
-              <Route
-                path={AppRoute.Catalog}
-                element={<Catalog />}
-              />
-            </Routes>
-          </HelmetProvider>
-        </HistoryRouter>
-      </Provider>);
-
-    expect(screen.getByText(/Каталог фото- и видеотехники/i)).toBeInTheDocument();
-
-    expect(screen.getByText(fakePromo.name)).toBeInTheDocument();
-    expect(screen.getByText(fakeProducts[3].name)).toBeInTheDocument();
-    expect(screen.getByText(`${fakeProducts[2].price} ₽`)).toBeInTheDocument();
-  });
-});*/
-
-
 jest.mock('../../components/banner/banner', () => {
   const mockBanner = () => <>This is mock Banner</>;
 

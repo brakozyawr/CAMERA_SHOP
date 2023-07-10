@@ -5,3 +5,5 @@ export const getProduct = (state: State): TProduct|null => state[NameSpace.Produ
 export const getSimilarProducts = (state: State): TProduct[] => state[NameSpace.Product].similarProducts;
 export const getReviews = (state: State): TReview[] => state[NameSpace.Product].reviews;
 export const getProductDataLoadingStatus = (state: State): boolean => state[NameSpace.Product].isProductDataLoaded;
+export const getProductError = (state: State): boolean => state[NameSpace.Product].productError;
+

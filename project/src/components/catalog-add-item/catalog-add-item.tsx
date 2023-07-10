@@ -4,7 +4,7 @@ import {useEffect} from 'react';
 import {getCandidateForBasketList} from '../../store/basket-data/selectors';
 import {getProducts} from '../../store/catalog-data/selectors';
 import {addItemToBasket} from '../../store/basket-data/basket-data';
-import LoadingScreen from '../../pages/loading-screen/loading-screen';
+
 
 type CatalogAddItemprops = {
   setAddItemPopupState: (addItemPopupState: boolean) => void;
@@ -33,7 +33,7 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
       document.body.classList.remove('scroll-lock');
     };
 
-  }, []);
+  }, [setAddItemPopupState]);
 
   if (product) {
     return (
@@ -102,9 +102,44 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
       </div>
     );
   }
-  return (
-    <LoadingScreen />
-  );
+  else {
+    return (
+      <div className="modal is-active">
+        <div className="modal__wrapper">
+          <div
+            className="modal__overlay"
+            onClick={() => {
+              setAddItemPopupState(false);
+            }}
+          />
+          <div className="modal__content">
+            <p className="title title--h4">Упс, что-то пошло не так )</p>
+            <button
+              className="btn btn--purple modal__btn modal__btn--fit-width"
+              type="button"
+              onClick={()=>{
+                setAddItemPopupState(false);
+              }}
+            >Убрать это
+            </button>
+
+            <button
+              className="cross-btn"
+              type="button"
+              aria-label="Закрыть попап"
+              onClick={() => {
+                setAddItemPopupState(false);
+              }}
+            >
+              <svg width="10" height="10" aria-hidden="true">
+                <use xlinkHref="#icon-close"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
 }
 

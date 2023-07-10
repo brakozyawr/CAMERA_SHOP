@@ -5,6 +5,6 @@ describe('Component: LoadingScreen', () => {
   it('should render correctly', () => {
     render(<LoadingScreen />);
 
-    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
   });
 });

@@ -27,7 +27,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
       document.body.classList.remove('scroll-lock');
     };
 
-  }, []);
+  }, [setReviewPopupState]);
 
   const [formData, setFormData] = useState({
     userName: '',
@@ -95,6 +95,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <form method="post" onSubmit={handleSubmit(submitForm)} ref={form}>
               <div className="form-review__rate">
                 <fieldset className="rate form-review__item">
@@ -116,7 +117,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       />
                       <label className="rate__label" htmlFor="star-5" title="Отлично"/>
                       <input
-                        {...register('rating', { required: true })}
+
                         className="visually-hidden"
                         id="star-4"
                         name="rating"
@@ -126,7 +127,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       />
                       <label className="rate__label" htmlFor="star-4" title="Хорошо"/>
                       <input
-                        {...register('rating', { required: true })}
+
                         className="visually-hidden"
                         id="star-3"
                         name="rating"
@@ -136,7 +137,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       />
                       <label className="rate__label" htmlFor="star-3" title="Нормально"/>
                       <input
-                        {...register('rating', { required: true })}
+
                         className="visually-hidden"
                         id="star-2"
                         name="rating"
@@ -146,7 +147,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       />
                       <label className="rate__label" htmlFor="star-2" title="Плохо"/>
                       <input
-                        {...register('rating' , { required: true })}
+                        {...register('rating', { required: true })}
                         className="visually-hidden"
                         id="star-1"
                         name="rating"

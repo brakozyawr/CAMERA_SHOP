@@ -10,8 +10,8 @@ import {makeFakeProduct, makeFakeProducts, makeFakePromo, makeFakeReviews} from 
 const mockStore = configureMockStore();
 
 const store = mockStore({
-  [NameSpace.Catalog]: {products: makeFakeProducts(), promo: makeFakePromo(), isCatalogDataLoaded: false},
-  [NameSpace.Product]: {product: makeFakeProduct(), similarProducts: makeFakeProducts(), reviews: makeFakeReviews(), isProductDataLoaded: false},
+  [NameSpace.Catalog]: {products: makeFakeProducts(), promo: makeFakePromo(), isCatalogDataLoaded: false, productsError: false},
+  [NameSpace.Product]: {product: makeFakeProduct(), similarProducts: makeFakeProducts(), reviews: makeFakeReviews(), isProductDataLoaded: false, productsError: false},
   [NameSpace.Basket]: {basketList: [], candidateForBasketList: 2},
 });
 

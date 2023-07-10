@@ -4,6 +4,7 @@ import {Provider} from 'react-redux';
 import {store} from './store';
 import App from './components/app/app';
 import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {fetchProductsAction, fetchPromoAction} from './store/api-actions';
 import HistoryRouter from './components/history-route/history-route';
 import browserHistory from './browser-history';

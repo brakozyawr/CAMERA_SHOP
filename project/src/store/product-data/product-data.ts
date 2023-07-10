@@ -9,6 +9,7 @@ const initialState: TProductData = {
   similarProducts: [],
   reviews: [],
   isProductDataLoaded: false,
+  productError: false,
 };
 
 export const productData = createSlice({
@@ -20,15 +21,22 @@ export const productData = createSlice({
       state.similarProducts = [];
       state.reviews = [];
       state.isProductDataLoaded = false;
+      state.productError = false;
     },
   },
   extraReducers(builder) {
     builder
       .addCase(fetchProductAction.pending, (state) => {
         state.isProductDataLoaded = true;
+        state.productError = false;
       })
       .addCase(fetchProductAction.fulfilled, (state, action) => {
         state.product = action.payload;
+        state.isProductDataLoaded = false;
+        state.productError = false;
+      })
+      .addCase(fetchProductAction.rejected, (state) => {
+        state.productError = true;
         state.isProductDataLoaded = false;
       })
       .addCase(fetchSimilarProductsAction.fulfilled, (state, action) => {
@@ -36,7 +44,6 @@ export const productData = createSlice({
       })
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
-        //state.isProductDataLoaded = false;
       });
 
   }

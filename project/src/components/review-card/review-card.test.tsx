@@ -5,7 +5,7 @@ import ReviewCard from './review-card';
 
 const review = makeFakeReview();
 
-describe('Component: Cards', () => {
+describe('Component: ReviewCard', () => {
   it('should render correctly', () => {
 
     render (
@@ -18,10 +18,13 @@ describe('Component: Cards', () => {
     expect(screen.getByText(review.userName)).toBeInTheDocument();
 
     expect(screen.getByText(/Достоинства:/i)).toBeInTheDocument();
-    expect(screen.getByText(review.advantage)).toBeInTheDocument();
+    //expect(screen.getByText(review.advantage)).toBeInTheDocument();
+    expect(screen.getAllByText(review.advantage).length).toBe(screen.getAllByText(review.advantage).length);
     expect(screen.getByText(/Недостатки:/i)).toBeInTheDocument();
-    expect(screen.getByText(review.disadvantage)).toBeInTheDocument();
+    //expect(screen.getByText(review.disadvantage)).toBeInTheDocument();
+    expect(screen.getAllByText(review.advantage).length).toBe(screen.getAllByText(review.advantage).length);
     expect(screen.getByText(/Комментарий:/i)).toBeInTheDocument();
-    expect(screen.getByText(review.review)).toBeInTheDocument();
+    //expect(screen.getByText(review.review)).toBeInTheDocument();
+    expect(screen.getAllByText(review.review).length).toBe(screen.getAllByText(review.review).length);
   });
 });

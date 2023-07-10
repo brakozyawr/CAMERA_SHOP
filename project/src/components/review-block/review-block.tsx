@@ -21,10 +21,6 @@ function getWeightForNullDate(dateA: string, dateB: string) {
   return null;
 }
 
-/*function sortReviewsUp(reviewA: TReview, reviewB: TReview) {
-  const weight = getWeightForNullDate(reviewA.createAt, reviewB.createAt);
-  return weight ?? dayjs(reviewA.createAt).diff(dayjs(reviewB.createAt));
-}*/
 
 function sortReviewsDown(reviewA: TReview, reviewB: TReview) {
   const weight = getWeightForNullDate(reviewA.createAt, reviewB.createAt);

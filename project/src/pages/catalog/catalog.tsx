@@ -4,18 +4,21 @@ import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import CatalogAside from '../../components/catalog-aside/catalog-aside';
 import CatalogContent from '../../components/catalog-content/catalog-content';
 import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
-//import CatalogAddItemSuccess from '../../components/catalog-add-item-success/catalog-add-item-success';
+
 
 import {useEffect, useState} from 'react';
 import {TProduct} from '../../types/types';
 import {useParams} from 'react-router-dom';
-import {getProducts, getPromo} from '../../store/catalog-data/selectors';
+import {getProducts, getProductsError, getPromo} from '../../store/catalog-data/selectors';
 import {Helmet} from 'react-helmet-async';
+import NotFound from '../not-found/not-found';
+import ErrorScreen from '../error-screen/error-screen';
 
 
 function Catalog(): JSX.Element {
   const products = useAppSelector(getProducts);
   const promo = useAppSelector(getPromo);
+  const productsError = useAppSelector(getProductsError);
   const [addItemPopupState, setAddItemPopupState] = useState(false);
 
   const step = 9;
@@ -30,13 +33,25 @@ function Catalog(): JSX.Element {
   const params = useParams<{id: string}>();
 
   useEffect(() => {
-    if (Number(params.id)) {
+    if (params.id) {
       setPage(Number(params.id));
     }
-  }, [Number(params.id)]);
+  }, [params.id]);
 
   const cutProducts: TProduct[] = products.slice((currentPageNumber - 1) * step, currentPageNumber * step);
   const pageCount: number = Math.ceil(products.length / step);
+
+  if ((isNaN(Number(params.id)) && params.id !== undefined) || Number(params.id) > pageCount ) {
+    return (
+      <NotFound />
+    );
+  }
+
+  if (productsError) {
+    return (
+      <ErrorScreen />
+    );
+  }
 
   return (
     <main>
@@ -63,7 +78,6 @@ function Catalog(): JSX.Element {
         </section>
       </div>
       {addItemPopupState && <CatalogAddItem setAddItemPopupState={setAddItemPopupState} />}
-      {/*<CatalogAddItemSuccess />*/}
     </main>
   );
 }

@@ -1,4 +1,4 @@
-import {commerce, datatype, system, date, random} from 'faker';
+import {name, commerce, datatype, system, date, random} from 'faker';
 import {TProduct, TPromo, TReview, TReviewAdd} from '../types/types';
 
 export const makeFakeProduct = (): TProduct => ({
@@ -32,7 +32,7 @@ export const makeFakeReview = (): TReview => ({
   id: datatype.uuid(),
   createAt: String(date.recent()),
   cameraId: datatype.number(),
-  userName: random.word(),
+  userName: name.title(),
   advantage: commerce.productAdjective(),
   disadvantage: commerce.productAdjective(),
   review: commerce.productAdjective(),
@@ -43,9 +43,9 @@ export const makeFakeReviews = (): TReview[] => Array(5).fill({}).map(()=>makeFa
 
 export const makeFakeReviewAdd = ():TReviewAdd => ({
   cameraId: datatype.number(),
-  userName: random.word(),
-  advantage: commerce.productAdjective(),
+  userName: name.title(),
+  advantage: random.word(),
   disadvantage: commerce.productAdjective(),
-  review: commerce.productAdjective(),
+  review: commerce.productMaterial(),
   rating: datatype.number({ min: 1, max: 5}),
 });
