@@ -12,6 +12,7 @@ type ReviewFormProps = {
 
 function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}:ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const form = useRef<HTMLFormElement | null >(null);
 
   useEffect(() => {
     const onKeyDownEsc = (evt: KeyboardEvent) => {
@@ -22,9 +23,26 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
     };
     document.addEventListener('keydown', onKeyDownEsc);
     document.body.classList.add('scroll-lock');
+
+    const onFocus = ( evt: FocusEvent ) => {
+      const element = evt.target as HTMLElement;
+      if (form.current && !form.current.contains(element) ) {
+        evt.stopPropagation();
+        form.current.focus();
+      }
+    };
+
+    if(form.current !== null){
+      form.current.setAttribute('tabindex', '0');
+      form.current.focus();
+      document.addEventListener('focus', onFocus, true);
+    }
+
     return () => {
       document.removeEventListener('keydown', onKeyDownEsc);
       document.body.classList.remove('scroll-lock');
+      document.removeEventListener('focus', onFocus, true);
+      document.body.focus();
     };
 
   }, [setReviewPopupState]);
@@ -40,10 +58,9 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
   } = useForm();
 
-  const form = useRef<HTMLFormElement | null >(null);
 
   const fieldChangeHandle = (evt:ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const {name, value} = evt.target;
@@ -107,7 +124,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                   <div className="rate__bar">
                     <div className="rate__group">
                       <input
-
                         className="visually-hidden"
                         id="star-5"
                         name="rating"
@@ -117,7 +133,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       />
                       <label className="rate__label" htmlFor="star-5" title="Отлично"/>
                       <input
-
                         className="visually-hidden"
                         id="star-4"
                         name="rating"
@@ -127,7 +142,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       />
                       <label className="rate__label" htmlFor="star-4" title="Хорошо"/>
                       <input
-
                         className="visually-hidden"
                         id="star-3"
                         name="rating"
@@ -137,7 +151,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       />
                       <label className="rate__label" htmlFor="star-3" title="Нормально"/>
                       <input
-
                         className="visually-hidden"
                         id="star-2"
                         name="rating"

@@ -1,10 +1,11 @@
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 
 type ReviewSuccessProps = {
   setReviewSuccessPopupState: (reviewSuccessPopupState: boolean) => void;
 }
 
 function ReviewSuccess({setReviewSuccessPopupState}:ReviewSuccessProps): JSX.Element {
+  const modal = useRef<HTMLButtonElement | null >(null);
 
   useEffect(() => {
     const onKeyDownEsc = (evt: KeyboardEvent) => {
@@ -15,9 +16,26 @@ function ReviewSuccess({setReviewSuccessPopupState}:ReviewSuccessProps): JSX.Ele
     };
     document.addEventListener('keydown', onKeyDownEsc);
     document.body.classList.add('scroll-lock');
+
+    const onFocus = ( evt: FocusEvent ) => {
+      const element = evt.target as HTMLElement;
+      if (modal.current && !modal.current.contains(element) ) {
+        evt.stopPropagation();
+        modal.current.focus();
+      }
+    };
+
+    if(modal.current !== null){
+      modal.current.setAttribute('tabindex', '0');
+      modal.current.focus();
+      document.addEventListener('focus', onFocus, true);
+    }
+
     return () => {
       document.removeEventListener('keydown', onKeyDownEsc);
       document.body.classList.remove('scroll-lock');
+      document.removeEventListener('focus', onFocus, true);
+      document.body.focus();
     };
 
   }, []);
@@ -31,13 +49,13 @@ function ReviewSuccess({setReviewSuccessPopupState}:ReviewSuccessProps): JSX.Ele
             setReviewSuccessPopupState(false);
           }}
         />
-        <div className="modal__content">
+        <div className="modal__content" >
           <p className="title title--h4">Спасибо за отзыв</p>
           <svg className="modal__icon" width="80" height="78" aria-hidden="true">
             <use xlinkHref="#icon-review-success"/>
           </svg>
           <div className="modal__buttons">
-            <button
+            <button ref={modal}
               className="btn btn--purple modal__btn modal__btn--fit-width"
               type="button"
               onClick={()=>{
