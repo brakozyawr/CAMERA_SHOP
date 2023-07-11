@@ -95,7 +95,7 @@ function ProductDescription({product, setAddItemPopupState}: ProductDescriptionP
                 <p className="visually-hidden">Рейтинг: 4</p>
                 <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{product.reviewCount}</p>
               </div>
-              <p className="product__price"><span className="visually-hidden">Цена:</span>{`${product.price} ₽`}</p>
+              <p className="product__price"><span className="visually-hidden">Цена:</span>{`${product.price.toLocaleString('ru-RU')} ₽`}</p>
               <button
                 className="btn btn--purple"
                 type="button"

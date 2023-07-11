@@ -46,7 +46,7 @@ function Card({product, setAddItemPopupState}: CardProps): JSX.Element {
           <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{product.reviewCount}</p>
         </div>
         <p className="product-card__title">{product.name}</p>
-        <p className="product-card__price"><span className="visually-hidden">Цена:</span>{`${product.price} ₽`}
+        <p className="product-card__price"><span className="visually-hidden">Цена:</span>{`${product.price.toLocaleString('ru-RU')} ₽`}
         </p>
       </div>
       <div className="product-card__buttons">

@@ -67,7 +67,7 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
                   <li className="basket-item__list-item">{product.category}</li>
                   <li className="basket-item__list-item">{product.level}</li>
                 </ul>
-                <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{`${product.price} ₽`}</p>
+                <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{`${product.price.toLocaleString('ru-RU')} ₽`}</p>
               </div>
             </div>
             <div className="modal__buttons">

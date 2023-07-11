@@ -46,7 +46,7 @@ function ProductSimilarSliderCard({similarProduct, setAddItemPopupState}: Produc
           <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{similarProduct.reviewCount}</p>
         </div>
         <p className="product-card__title">{similarProduct.name}</p>
-        <p className="product-card__price"><span className="visually-hidden">Цена:</span>{`${similarProduct.price} ₽`}</p>
+        <p className="product-card__price"><span className="visually-hidden">Цена:</span>{`${similarProduct.price.toLocaleString('ru-RU')} ₽`}</p>
       </div>
       <div className="product-card__buttons">
         <button
