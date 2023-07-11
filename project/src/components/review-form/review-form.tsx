@@ -124,6 +124,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                   <div className="rate__bar">
                     <div className="rate__group">
                       <input
+                        {...register('rating')}
                         className="visually-hidden"
                         id="star-5"
                         name="rating"
@@ -133,6 +134,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       />
                       <label className="rate__label" htmlFor="star-5" title="Отлично"/>
                       <input
+                        {...register('rating')}
                         className="visually-hidden"
                         id="star-4"
                         name="rating"
@@ -142,6 +144,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       />
                       <label className="rate__label" htmlFor="star-4" title="Хорошо"/>
                       <input
+                        {...register('rating')}
                         className="visually-hidden"
                         id="star-3"
                         name="rating"
@@ -151,6 +154,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       />
                       <label className="rate__label" htmlFor="star-3" title="Нормально"/>
                       <input
+                        {...register('rating')}
                         className="visually-hidden"
                         id="star-2"
                         name="rating"
