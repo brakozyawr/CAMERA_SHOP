@@ -1,6 +1,6 @@
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {TProduct} from '../../types/types';
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import {getCandidateForBasketList} from '../../store/basket-data/selectors';
 import {getProducts} from '../../store/catalog-data/selectors';
 import {addItemToBasket} from '../../store/basket-data/basket-data';
@@ -19,6 +19,8 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
     item.id === candidateForBasketList
   );
 
+  const modal = useRef<HTMLDivElement | null >(null);
+
   useEffect(() => {
     const onKeyDownEsc = (evt: KeyboardEvent) => {
       if (evt.key === 'Escape') {
@@ -28,9 +30,26 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
     };
     document.addEventListener('keydown', onKeyDownEsc);
     document.body.classList.add('scroll-lock');
+
+    const onFocus = ( evt: FocusEvent ) => {
+      const element = evt.target as HTMLElement;
+      if (modal.current && !modal.current.contains(element) ) {
+        evt.stopPropagation();
+        modal.current.focus();
+      }
+    };
+
+    if(modal.current !== null){
+      modal.current.setAttribute('tabindex', '0');
+      modal.current.focus();
+      document.addEventListener('focus', onFocus, true);
+    }
+
     return () => {
       document.removeEventListener('keydown', onKeyDownEsc);
       document.body.classList.remove('scroll-lock');
+      document.removeEventListener('focus', onFocus, true);
+      document.body.focus();
     };
 
   }, [setAddItemPopupState]);
@@ -45,7 +64,7 @@ function CatalogAddItem({setAddItemPopupState}:CatalogAddItemprops): JSX.Element
               setAddItemPopupState(false);
             }}
           />
-          <div className="modal__content">
+          <div className="modal__content" ref={modal}>
             <p className="title title--h4">Добавить товар в корзину</p>
             <div className="basket-item basket-item--short">
               <div className="basket-item__img">
