@@ -42,11 +42,9 @@ function Product(): JSX.Element {
       dispatch(fetchProductAction(Number(params.id)));
       dispatch(fetchReviewsAction(Number(params.id)));
       dispatch(fetchSimilarProductsAction(Number(params.id)));
-
     }
     return () => {
       dispatch(resetProductData());
-
     };
   }, [params.id]);
 
