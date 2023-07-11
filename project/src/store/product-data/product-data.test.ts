@@ -1,6 +1,6 @@
 import {productData, resetProductData} from './product-data';
 import {makeFakeProduct, makeFakeProducts, makeFakeReviews} from '../../utils/mocks';
-import { fetchProductAction, fetchReviewsAction, fetchSimilarProductsAction} from '../api-actions';
+import {addReviewAction, fetchProductAction, fetchReviewsAction, fetchSimilarProductsAction} from '../api-actions';
 
 const product = makeFakeProduct();
 const similarProducts = makeFakeProducts();
@@ -34,6 +34,12 @@ describe('Reducer: gameData', () => {
   it('should update reviews by load reviews', () => {
     const state = {product: null, similarProducts: [], reviews: [], isProductDataLoaded: false, productError: false};
     expect(productData.reducer(state, {type: fetchReviewsAction.fulfilled.type, payload: reviews, productError: false}))
+      .toEqual({product: null, similarProducts: [], reviews, isProductDataLoaded: false, productError: false});
+  });
+
+  it('should update reviews by add review', () => {
+    const state = {product: null, similarProducts: [], reviews: [], isProductDataLoaded: false, productError: false};
+    expect(productData.reducer(state, {type: addReviewAction.fulfilled.type, payload: reviews, productError: false}))
       .toEqual({product: null, similarProducts: [], reviews, isProductDataLoaded: false, productError: false});
   });
 

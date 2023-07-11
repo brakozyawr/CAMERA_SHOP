@@ -21,7 +21,7 @@ import {
 import {resetProductData} from '../../store/product-data/product-data';
 import {Helmet} from 'react-helmet-async';
 import LoadingScreen from '../loading-screen/loading-screen';
-import ErrorScreen from '../error-screen/error-screen';
+import NotFound from '../not-found/not-found';
 
 
 function Product(): JSX.Element {
@@ -59,7 +59,7 @@ function Product(): JSX.Element {
 
   if (productError) {
     return (
-      <ErrorScreen />
+      <NotFound />
     );
   }
 

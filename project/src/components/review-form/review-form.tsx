@@ -107,7 +107,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                   <div className="rate__bar">
                     <div className="rate__group">
                       <input
-                        {...register('rating', { required: true })}
+
                         className="visually-hidden"
                         id="star-5"
                         name="rating"
