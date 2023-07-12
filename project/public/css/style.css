@@ -3090,7 +3090,7 @@ button,
   display: -ms-flexbox;
   display: flex;
   width: calc(100% + 16px);
-  max-width: 936px;
+  max-width: 1112px;
   margin: 0 auto;
 }
 
@@ -3157,7 +3157,7 @@ button,
 
 .slider-controls--prev {
   left: 0;
-  /*margin-right: 16px;*/
+  margin-right: 45px;
 }
 
 .slider-controls--prev svg {
@@ -3168,6 +3168,7 @@ button,
 
 .slider-controls--next {
   right: 0;
+  margin-left: 45px;
 }
 
 .review-block {
