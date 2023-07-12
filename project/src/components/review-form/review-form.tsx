@@ -1,5 +1,5 @@
 import {useAppDispatch} from '../../hooks';
-import {useEffect, useRef, useState} from 'react';
+import {RefObject, useEffect, useRef, useState} from 'react';
 import {TReviewAdd} from '../../types/types';
 import {addReviewAction} from '../../store/api-actions';
 import {useForm} from 'react-hook-form';
@@ -12,7 +12,7 @@ type ReviewFormProps = {
 
 function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}:ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const form = useRef<HTMLFormElement | undefined >(undefined);
+  const modal = useRef(null) as RefObject<HTMLDivElement> | null;
 
   useEffect(() => {
     const onKeyDownEsc = (evt: KeyboardEvent) => {
@@ -24,31 +24,44 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
     document.addEventListener('keydown', onKeyDownEsc);
     document.body.classList.add('scroll-lock');
 
-    const onFocus = ( evt: FocusEvent ) => {
-      const element = evt.target as HTMLElement;
-      if (form.current && !form.current.contains(element) ) {
-        evt.stopPropagation();
-        form.current.focus();
-      }
-    };
 
-    if(form.current !== undefined){
-      form.current.setAttribute('tabindex', '0');
-      form.current.focus();
-      document.addEventListener('focus', onFocus, true);
+    if(modal !== null && modal.current ){
+      const focusableEls: NodeListOf<HTMLButtonElement> = modal.current.querySelectorAll('button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled])');
+      const firstFocusableEl = focusableEls[0];
+      const lastFocusableEl = focusableEls[focusableEls.length - 1];
+      const KEYCODE_TAB = 9;
+      firstFocusableEl.focus();
+      modal.current.addEventListener('keydown', (evt) => {
+        const isTabPressed = (evt.key === 'Tab' || evt.keyCode === KEYCODE_TAB);
+
+        if (!isTabPressed) {
+          return;
+        }
+
+        if ( evt.shiftKey ){
+          if (document.activeElement === firstFocusableEl) {
+            lastFocusableEl.focus();
+            evt.preventDefault();
+          }
+        } else {
+          if (document.activeElement === lastFocusableEl) {
+            firstFocusableEl.focus();
+            evt.preventDefault();
+          }
+        }
+      });
     }
 
     return () => {
       document.removeEventListener('keydown', onKeyDownEsc);
       document.body.classList.remove('scroll-lock');
-      document.removeEventListener('focus', onFocus, true);
       document.body.focus();
     };
 
   }, [setReviewPopupState]);
 
   const [rating, setRating] = useState(0);
-  const inputRating = useRef<HTMLDivElement>(null);
+  const inputRating = useRef(null) as RefObject<HTMLDivElement> | null;
   const {register, handleSubmit, formState: {errors},} = useForm();
 
   const ratingClickHandle = (evt: MouseEvent) => {
@@ -66,6 +79,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
     setReviewSuccessPopupState(true);
   };
 
+
   return (
     <div className="modal is-active">
       <div className="modal__wrapper">
@@ -75,12 +89,12 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
             setReviewPopupState(false);
           }}
         />
-        <div className="modal__content">
+        <div className="modal__content" ref={modal}>
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
             {/* eslint-disable-next-line @typescript-eslint/no-misused-promises,@typescript-eslint/ban-ts-comment */ }
             {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}{/*@ts-ignore */}
-            <form method="post" onSubmit= {handleSubmit(submitForm)} ref={form}>
+            <form method="post" onSubmit= {handleSubmit(submitForm)} >
               <div className="form-review__rate">
                 <fieldset className="rate form-review__item">
                   <legend className="rate__caption">Рейтинг
@@ -89,7 +103,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                     </svg>
                   </legend>
                   <div className="rate__bar">
-                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                    {/* eslint-disable-next-line @typescript-eslint/no-misused-promises,@typescript-eslint/ban-ts-comment */}
                     {/*@ts-ignore */}
                     <div className="rate__group" ref={inputRating} onClick={ratingClickHandle}>
                       <input

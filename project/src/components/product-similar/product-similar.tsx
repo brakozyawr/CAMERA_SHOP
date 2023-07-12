@@ -30,7 +30,7 @@ function ProductSimilar({similarProducts, setAddItemPopupState}: ProductSimilarP
                 show={3}
                 slide={2}
                 transition={0.5}
-                infinite
+                infinite={false}
                 dynamic
                 swiping
                 className="product-similar__slider-list"
