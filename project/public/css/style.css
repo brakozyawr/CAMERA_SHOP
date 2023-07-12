@@ -3094,6 +3094,14 @@ button,
   margin: 0 auto;
 }
 
+.product-similar__slider-list div[class^="styles-module_item-provider"] {
+  max-width: 940px;
+}
+
+.product-similar__slider-list div[class^="styles-module_item-provider"]:first-child {
+  margin-left: 85px;
+}
+
 .product-similar .product-card {
   /*display: none;*/
   /*width: calc(33.3% - 16px);*/
