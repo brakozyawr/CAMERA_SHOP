@@ -76,7 +76,7 @@ function Product(): JSX.Element {
       </main>
       <UpBtn />
       {addItemPopupState && <CatalogAddItem setAddItemPopupState={setAddItemPopupState} />}
-      {reviewPopupState && <ReviewForm productId={product ? product.id : null} setReviewPopupState={setReviewPopupState} setReviewSuccessPopupState={setReviewSuccessPopupState}/>}
+      {product && reviewPopupState && <ReviewForm productId={product.id} setReviewPopupState={setReviewPopupState} setReviewSuccessPopupState={setReviewSuccessPopupState}/>}
       {reviewSuccessPopupState && <ReviewSuccess setReviewSuccessPopupState={setReviewSuccessPopupState} />}
     </>
   );

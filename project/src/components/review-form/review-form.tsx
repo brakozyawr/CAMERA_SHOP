@@ -1,18 +1,18 @@
 import {useAppDispatch} from '../../hooks';
-import {ChangeEvent, useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {TReviewAdd} from '../../types/types';
 import {addReviewAction} from '../../store/api-actions';
 import {useForm} from 'react-hook-form';
 
 type ReviewFormProps = {
-  productId: number | null;
+  productId: number;
   setReviewPopupState: (reviewPopupState: boolean) => void;
   setReviewSuccessPopupState: (reviewSuccessPopupState: boolean) => void;
 }
 
 function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}:ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const form = useRef<HTMLFormElement | null >(null);
+  const form = useRef<HTMLFormElement | undefined >(undefined);
 
   useEffect(() => {
     const onKeyDownEsc = (evt: KeyboardEvent) => {
@@ -32,7 +32,7 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
       }
     };
 
-    if(form.current !== null){
+    if(form.current !== undefined){
       form.current.setAttribute('tabindex', '0');
       form.current.focus();
       document.addEventListener('focus', onFocus, true);
@@ -47,58 +47,24 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
 
   }, [setReviewPopupState]);
 
-  const [formData, setFormData] = useState({
-    userName: '',
-    advantage: '',
-    disadvantage: '',
-    review: '',
-    rating: 0,
-  });
+  const [rating, setRating] = useState(0);
+  const inputRating = useRef<HTMLDivElement>(null);
+  const {register, handleSubmit, formState: {errors},} = useForm();
 
-  const {
-    register,
-    handleSubmit,
-    formState: {errors},
-  } = useForm();
-
-
-  const fieldChangeHandle = (evt:ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
-    const {name, value} = evt.target;
-    setFormData({...formData, [name]: value});
+  const ratingClickHandle = (evt: MouseEvent) => {
+    const target = evt.target as HTMLInputElement | HTMLDivElement;
+    const {value} = target as HTMLInputElement ;
+    if (target.tagName !== 'INPUT') {return;}
+    setRating(Number(value));
   };
 
-  const onSubmit = (ReviewData: TReviewAdd) => {
-    dispatch(addReviewAction(ReviewData));
-  };
-
-  const resetForm = () => {
-    if(form.current){
-      form.current.reset();
-    }
-    setFormData({
-      userName: '',
-      advantage: '',
-      disadvantage: '',
-      review: '',
-      rating: 0,
-    });
-  };
-
-  const submitForm = () => {
-    onSubmit({
-      cameraId: Number(productId),
-      userName: formData.userName,
-      advantage: formData.advantage,
-      disadvantage: formData.disadvantage,
-      review: formData.review,
-      rating: Number(formData.rating),
-    });
-
+  const submitForm = (data: TReviewAdd) => {
+    data.cameraId = Number(productId);
+    data.rating = Number(data.rating);
+    dispatch(addReviewAction(data));
     setReviewPopupState(false);
     setReviewSuccessPopupState(true);
-    resetForm();
   };
-
 
   return (
     <div className="modal is-active">
@@ -112,8 +78,9 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
-            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-            <form method="post" onSubmit={handleSubmit(submitForm)} ref={form}>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises,@typescript-eslint/ban-ts-comment */ }
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}{/*@ts-ignore */}
+            <form method="post" onSubmit= {handleSubmit(submitForm)} ref={form}>
               <div className="form-review__rate">
                 <fieldset className="rate form-review__item">
                   <legend className="rate__caption">Рейтинг
@@ -122,7 +89,9 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                     </svg>
                   </legend>
                   <div className="rate__bar">
-                    <div className="rate__group">
+                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                    {/*@ts-ignore */}
+                    <div className="rate__group" ref={inputRating} onClick={ratingClickHandle}>
                       <input
                         {...register('rating')}
                         className="visually-hidden"
@@ -130,7 +99,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                         name="rating"
                         type="radio"
                         value="5"
-                        onChange={fieldChangeHandle}
                       />
                       <label className="rate__label" htmlFor="star-5" title="Отлично"/>
                       <input
@@ -140,7 +108,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                         name="rating"
                         type="radio"
                         value="4"
-                        onChange={fieldChangeHandle}
                       />
                       <label className="rate__label" htmlFor="star-4" title="Хорошо"/>
                       <input
@@ -150,7 +117,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                         name="rating"
                         type="radio"
                         value="3"
-                        onChange={fieldChangeHandle}
                       />
                       <label className="rate__label" htmlFor="star-3" title="Нормально"/>
                       <input
@@ -160,7 +126,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                         name="rating"
                         type="radio"
                         value="2"
-                        onChange={fieldChangeHandle}
                       />
                       <label className="rate__label" htmlFor="star-2" title="Плохо"/>
                       <input
@@ -170,12 +135,11 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                         name="rating"
                         type="radio"
                         value="1"
-                        onChange={fieldChangeHandle}
                       />
                       <label className="rate__label" htmlFor="star-1" title="Ужасно"/>
                     </div>
                     <div className="rate__progress">
-                      <span className="rate__stars">{formData.rating}</span>
+                      <span className="rate__stars">{rating}</span>
                       <span>/</span>
                       <span className="rate__all-stars" >5</span>
                     </div>
@@ -191,12 +155,11 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       </svg>
                     </span>
                     <input
-                      {...register('userName', { required: true })}
+                      {...register('userName', { required: true, validate: (value) => value !== '', })}
                       type="text"
                       name="userName"
                       data-testid="userName"
                       placeholder="Введите ваше имя"
-                      onChange={fieldChangeHandle}
                     />
                   </label>
                   {errors.userName && <p className="custom-input__error">Нужно указать имя</p>}
@@ -215,7 +178,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       name="advantage"
                       data-testid="advantage"
                       placeholder="Основные преимущества товара"
-                      onChange={fieldChangeHandle}
                     />
                   </label>
                   {errors.advantage && <p className="custom-input__error">Нужно указать достоинства</p>}
@@ -233,7 +195,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       name="disadvantage"
                       data-testid="disadvantage"
                       placeholder="Главные недостатки товара"
-                      onChange={fieldChangeHandle}
                     />
                   </label>
                   {errors.disadvantage && <p className="custom-input__error">Нужно указать недостатки</p>}
@@ -252,7 +213,6 @@ function ReviewForm({productId, setReviewPopupState, setReviewSuccessPopupState}
                       data-testid="review"
                       minLength={5}
                       placeholder="Поделитесь своим опытом покупки"
-                      onChange={fieldChangeHandle}
                     />
                   </label>
                   {errors.review && <div className="custom-textarea__error">Нужно добавить комментарий</div>}
