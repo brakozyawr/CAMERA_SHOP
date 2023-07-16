@@ -20,7 +20,6 @@ type ReviewCardProps = {
 
 function ReviewCard({review}: ReviewCardProps): JSX.Element {
 
-
   return (
     <li className="review-card">
       <div className="review-card__head">

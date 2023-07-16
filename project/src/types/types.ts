@@ -51,6 +51,7 @@ export type TReviewAdd = {
 
 export type TCatalogData = {
   products: TProduct[];
+  /*ratingList: Map<number, number>;*/
   promo: TPromo | null;
   isCatalogDataLoaded: boolean;
   productsError: boolean;
