@@ -1,10 +1,29 @@
-import {fetchProductAction, fetchReviewsAction, fetchSimilarProductsAction} from '../../store/api-actions';
-import {useAppDispatch} from '../../hooks';
+import {
+  fetchAllProductsReviewsAction,
+  fetchProductAction,
+  fetchReviewsAction,
+  fetchSimilarProductsAction
+} from '../../store/api-actions';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {TProduct} from '../../types/types';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {setCandidateForBasket} from '../../store/basket-data/basket-data';
+import {getAllProductsRatingList} from '../../store/catalog-data/selectors';
+import {useEffect} from 'react';
 
+
+const getStars = (rating: number) => {
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    stars.push(
+      <svg width="17" height="16" aria-hidden="true" key={i}>
+        <use xlinkHref={i <= rating ? '#icon-full-star' : '#icon-star' }/>
+      </svg>
+    );
+  }
+  return stars;
+};
 
 type ProductSimilarSliderCardProps = {
   similarProduct: TProduct;
@@ -13,6 +32,15 @@ type ProductSimilarSliderCardProps = {
 
 function ProductSimilarSliderCard({similarProduct, setAddItemPopupState}: ProductSimilarSliderCardProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const allProductsratingList = useAppSelector(getAllProductsRatingList);
+
+  useEffect(() => {
+    if (!allProductsratingList.has(similarProduct.id)) {
+      dispatch(fetchAllProductsReviewsAction(similarProduct.id));
+    }
+  }, []);
+
+  const rating = allProductsratingList.get(similarProduct.id);
 
   return (
     <div className="product-card is-active">
@@ -27,22 +55,8 @@ function ProductSimilarSliderCard({similarProduct, setAddItemPopupState}: Produc
       </div>
       <div className="product-card__info">
         <div className="rate product-card__rate">
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"/>
-          </svg>
-          <p className="visually-hidden">Рейтинг: 4</p>
+          {rating && getStars(rating)}
+          <p className="visually-hidden">Рейтинг: {rating}</p>
           <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{similarProduct.reviewCount}</p>
         </div>
         <p className="product-card__title">{similarProduct.name}</p>

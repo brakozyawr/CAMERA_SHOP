@@ -8,7 +8,7 @@ enableMapSet();
 
 const initialState: TCatalogData = {
   products: [],
-  allProductsratingList: new Map<number, number>(),
+  allProductsRatingList: new Map<number, number>(),
   promo: null,
   isCatalogDataLoaded: false,
   productsError: false,
@@ -43,7 +43,7 @@ export const catalogData = createSlice({
         const [id, reviews] = action.payload;
         const summary = reviews.reduce((sum, current) => sum + current.rating, 0);
         const rating = Math.ceil(summary / reviews.length);
-        state.allProductsratingList.set(id, rating);
+        state.allProductsRatingList.set(id, rating);
       });
   }
 
