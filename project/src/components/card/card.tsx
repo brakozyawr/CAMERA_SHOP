@@ -4,13 +4,13 @@ import {AppRoute} from '../../const';
 import {
   fetchProductAction,
   fetchReviewsAction,
-  fetchReviewsAction2,
+  fetchAllProductsReviewsAction,
   fetchSimilarProductsAction
 } from '../../store/api-actions';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {setCandidateForBasket} from '../../store/basket-data/basket-data';
 import {useEffect} from 'react';
-import {getRatingList} from '../../store/catalog-data/selectors';
+import {getAllProductsRatingList} from '../../store/catalog-data/selectors';
 
 const getStars = (rating: number) => {
   const stars = [];
@@ -31,15 +31,15 @@ type CardProps = {
 
 function Card({product, setAddItemPopupState}: CardProps): JSX.Element {
   const dispatch = useAppDispatch();
-  /*const ratingList = useAppSelector(getRatingList);
+  const allProductsratingList = useAppSelector(getAllProductsRatingList);
 
   useEffect(() => {
-    if (!ratingList.has(product.id)) {
-      dispatch(fetchReviewsAction2(product.id));
+    if (!allProductsratingList.has(product.id)) {
+      dispatch(fetchAllProductsReviewsAction(product.id));
     }
   }, []);
 
-  const rating = ratingList.get(product.id);*/
+  const rating = allProductsratingList.get(product.id);
 
   return (
     <div className="product-card">
@@ -54,8 +54,8 @@ function Card({product, setAddItemPopupState}: CardProps): JSX.Element {
       </div>
       <div className="product-card__info">
         <div className="rate product-card__rate">
-          {/*{rating && getStars(rating)}*/}
-          <p className="visually-hidden">Рейтинг: {/*{rating}*/}</p>
+          {rating && getStars(rating)}
+          <p className="visually-hidden">Рейтинг: {rating}</p>
           <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{product.reviewCount}</p>
         </div>
         <p className="product-card__title">{product.name}</p>

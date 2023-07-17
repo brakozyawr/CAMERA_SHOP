@@ -17,6 +17,9 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 const product = makeFakeProducts()[0];
+const totalRating = 30;
+const reviewsCount = 10;
+
 const setAddItemPopupState = jest.fn();
 
 
@@ -32,6 +35,8 @@ describe('Component: ProductDescription', () => {
             <ProductDescription
               product={product}
               setAddItemPopupState={setAddItemPopupState}
+              totalRating={totalRating}
+              reviewsCount={reviewsCount}
             />
           </HelmetProvider>
         </HistoryRouter >
@@ -61,6 +66,8 @@ describe('Component: ProductDescription', () => {
             <ProductDescription
               product={product}
               setAddItemPopupState={setAddItemPopupState}
+              totalRating={totalRating}
+              reviewsCount={reviewsCount}
             />
           </HelmetProvider>
         </HistoryRouter >

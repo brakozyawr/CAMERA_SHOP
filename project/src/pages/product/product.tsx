@@ -12,12 +12,7 @@ import {fetchSimilarProductsAction} from '../../store/api-actions';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewSuccess from '../../components/review-success/review-success';
 import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
-import {
-  getProduct,
-  getProductDataLoadingStatus, getProductError,
-  getReviews,
-  getSimilarProducts
-} from '../../store/product-data/selectors';
+import {getProduct, getProductDataLoadingStatus, getProductError, getReviews, getSimilarProducts} from '../../store/product-data/selectors';
 import {resetProductData} from '../../store/product-data/product-data';
 import {Helmet} from 'react-helmet-async';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -29,6 +24,7 @@ function Product(): JSX.Element {
   const productError = useAppSelector(getProductError);
   const similarProducts = useAppSelector(getSimilarProducts);
   const reviews = useAppSelector(getReviews);
+  const totalRating = reviews.reduce((sum, current) => sum + current.rating, 0);
   const dispatch = useAppDispatch();
   const params = useParams<{id: string}>();
   const [reviewPopupState, setReviewPopupState] = useState(false);
@@ -69,7 +65,7 @@ function Product(): JSX.Element {
         </Helmet>
         <div className="page-content">
           <Breadcrumbs name={product ? product.name : null} />
-          <ProductDescription product={product} setAddItemPopupState={setAddItemPopupState}/>
+          {product && <ProductDescription product={product} setAddItemPopupState={setAddItemPopupState} totalRating={totalRating} reviewsCount={reviews.length}/>}
           {similarProducts && <ProductSimilar similarProducts={similarProducts} setAddItemPopupState={setAddItemPopupState}/>}
           {reviews && <ReviewBlock reviews={reviews} setReviewPopupState={setReviewPopupState}/>}
         </div>

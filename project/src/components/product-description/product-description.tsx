@@ -7,14 +7,29 @@ import {setCandidateForBasket} from '../../store/basket-data/basket-data';
 import {Link, Navigate, useLocation} from 'react-router-dom';
 
 
+const getStars = (rating: number) => {
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    stars.push(
+      <svg width="17" height="16" aria-hidden="true" key={i}>
+        <use xlinkHref={i <= rating ? '#icon-full-star' : '#icon-star' }/>
+      </svg>
+    );
+  }
+  return stars;
+};
+
 type ProductDescriptionProps = {
-  product: TProduct | null;
+  product: TProduct;
   setAddItemPopupState: (addItemPopupState: boolean) => void;
+  totalRating: number;
+  reviewsCount: number;
 }
 
-function ProductDescription({product, setAddItemPopupState}: ProductDescriptionProps): JSX.Element {
+function ProductDescription({product, setAddItemPopupState, totalRating, reviewsCount}: ProductDescriptionProps): JSX.Element {
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const rating = Math.ceil(totalRating / reviewsCount);
 
   type TTabState = {
     [propertyName: string]: boolean;
@@ -77,23 +92,9 @@ function ProductDescription({product, setAddItemPopupState}: ProductDescriptionP
             <div className="product__content">
               <h1 className="title title--h3">{product.name}</h1>
               <div className="rate product__rate">
-                <svg width="17" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"/>
-                </svg>
-                <svg width="17" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"/>
-                </svg>
-                <svg width="17" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"/>
-                </svg>
-                <svg width="17" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"/>
-                </svg>
-                <svg width="17" height="16" aria-hidden="true">
-                  <use xlinkHref="#icon-star"/>
-                </svg>
-                <p className="visually-hidden">Рейтинг: 4</p>
-                <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{product.reviewCount}</p>
+                {getStars(rating)}
+                <p className="visually-hidden">Рейтинг: {rating}</p>
+                <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{reviewsCount}</p>
               </div>
               <p className="product__price"><span className="visually-hidden">Цена:</span>{`${product.price.toLocaleString('ru-RU')} ₽`}</p>
               <button

@@ -52,17 +52,17 @@ export const fetchReviewsAction = createAsyncThunk<TReview[], number, {
   },
 );
 
-/*export const fetchReviewsAction2 = createAsyncThunk<[number, TReview[]], number, {
+export const fetchAllProductsReviewsAction = createAsyncThunk<[number, TReview[]], number, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/fetchReviews2',
+  'data/fetchAllProductsReviews',
   async (id, {extra: api}) => {
     const {data} = await api.get<TReview[]>(`${APIRoute.Product}${id}${APIRoute.Reviews}`);
     return [id, data];
   },
-);*/
+);
 
 export const addReviewAction = createAsyncThunk<TReview[], TReviewAdd, {
   dispatch: AppDispatch;

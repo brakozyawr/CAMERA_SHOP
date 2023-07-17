@@ -1,14 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const';
 import {TCatalogData} from '../../types/types';
-import {fetchProductsAction, fetchPromoAction, fetchReviewsAction2} from '../api-actions';
+import {fetchProductsAction, fetchPromoAction, fetchAllProductsReviewsAction} from '../api-actions';
 import { enableMapSet } from 'immer';
 
 enableMapSet();
 
 const initialState: TCatalogData = {
   products: [],
-  /*ratingList: new Map<number, number>(),*/
+  allProductsratingList: new Map<number, number>(),
   promo: null,
   isCatalogDataLoaded: false,
   productsError: false,
@@ -38,12 +38,12 @@ export const catalogData = createSlice({
       .addCase(fetchPromoAction.fulfilled, (state, action) => {
         state.promo = action.payload;
         state.isCatalogDataLoaded = false;
-      /*})
-      .addCase(fetchReviewsAction2.fulfilled, (state, action) => {
+      })
+      .addCase(fetchAllProductsReviewsAction.fulfilled, (state, action) => {
         const [id, reviews] = action.payload;
         const summary = reviews.reduce((sum, current) => sum + current.rating, 0);
-        const rating = Math.round(summary / reviews.length);
-        state.ratingList.set(id, rating);*/
+        const rating = Math.ceil(summary / reviews.length);
+        state.allProductsratingList.set(id, rating);
       });
   }
 
