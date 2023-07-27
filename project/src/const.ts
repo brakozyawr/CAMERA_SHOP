@@ -20,3 +20,22 @@ export enum NameSpace {
   Basket = 'BASKET',
 }
 
+export enum Sorting {
+  Up = 'up',
+  Down = 'down',
+  /*PriceUp = 'Price: low to high',
+  PriceDown = 'Price: high to low',
+  RatedUp = 'Top rated first',
+  RateDown = 'Top rated first',*/
+  Default = 'Top rated first',
+}
+
+export enum Property {
+  Rate = 'rate',
+  Price = 'price',
+  /*PriceUp = 'Price: low to high',
+  PriceDown = 'Price: high to low',
+  RatedUp = 'Top rated first',
+  RateDown = 'Top rated first',
+  Default = 'Top rated first',*/
+}

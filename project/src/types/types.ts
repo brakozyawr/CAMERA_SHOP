@@ -18,6 +18,7 @@ export type TProduct = {
   previewImg2x: string;
   previewImgWebp: string;
   previewImgWebp2x: string;
+  rate: number;
 }
 
 export type TPromo = {

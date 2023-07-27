@@ -1,8 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const';
-import {TCatalogData} from '../../types/types';
+import {TCatalogData, TProduct} from '../../types/types';
 import {fetchProductsAction, fetchPromoAction, fetchAllProductsReviewsAction} from '../api-actions';
 import { enableMapSet } from 'immer';
+import {sortProducts} from '../../util';
+import {getProducts} from './selectors';
+
 
 enableMapSet();
 
@@ -17,7 +20,16 @@ const initialState: TCatalogData = {
 export const catalogData = createSlice({
   name: NameSpace.Catalog,
   initialState,
-  reducers: {},
+  reducers: {
+    sortingProducts: (state, action) =>{
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const [currentSorting, property]:[string, keyof TProduct] = action.payload;
+      state.products = sortProducts(state.products, currentSorting , property );
+      //console.log(currentSorting);
+      //console.log(property);
+      console.log(state.products);
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchProductsAction.pending, (state) => {
@@ -48,3 +60,5 @@ export const catalogData = createSlice({
   }
 
 });
+
+export const {sortingProducts} = catalogData.actions;
