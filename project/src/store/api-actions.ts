@@ -10,8 +10,13 @@ export const fetchProductsAction = createAsyncThunk<TProduct[], undefined, {
   extra: AxiosInstance;
 }>(
   'data/fetchProducts',
-  async (_arg, {extra: api}) => {
+  async (_arg, {dispatch,extra: api}) => {
     const {data} = await api.get<TProduct[]>(APIRoute.Products);
+
+    data.forEach((product) =>{
+      dispatch(fetchAllProductsReviewsAction(product.id));
+    });
+
     return data;
   },
 );

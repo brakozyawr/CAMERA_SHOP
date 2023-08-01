@@ -23,19 +23,10 @@ export enum NameSpace {
 export enum Sorting {
   Up = 'up',
   Down = 'down',
-  /*PriceUp = 'Price: low to high',
-  PriceDown = 'Price: high to low',
-  RatedUp = 'Top rated first',
-  RateDown = 'Top rated first',*/
-  Default = 'Top rated first',
+  Default = 'default',
 }
 
 export enum Property {
-  Rate = 'rate',
+  Rate = 'rating',
   Price = 'price',
-  /*PriceUp = 'Price: low to high',
-  PriceDown = 'Price: high to low',
-  RatedUp = 'Top rated first',
-  RateDown = 'Top rated first',
-  Default = 'Top rated first',*/
 }

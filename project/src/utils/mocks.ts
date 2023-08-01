@@ -15,6 +15,7 @@ export const makeFakeProduct = (): TProduct => ({
   previewImg2x: system.filePath(),
   previewImgWebp: system.filePath(),
   previewImgWebp2x: system.filePath(),
+  rating: datatype.number({ min: 1, max: 5}),
 } );
 
 export const makeFakeProducts = (): TProduct[] => Array(5).fill({}).map(()=> makeFakeProduct());

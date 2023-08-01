@@ -1,16 +1,9 @@
-import {
-  fetchAllProductsReviewsAction,
-  fetchProductAction,
-  fetchReviewsAction,
-  fetchSimilarProductsAction
-} from '../../store/api-actions';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchProductAction, fetchReviewsAction, fetchSimilarProductsAction} from '../../store/api-actions';
+import {useAppDispatch} from '../../hooks';
 import {TProduct} from '../../types/types';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {setCandidateForBasket} from '../../store/basket-data/basket-data';
-import {getAllProductsRatingList} from '../../store/catalog-data/selectors';
-import {useEffect} from 'react';
 
 
 const getStars = (rating: number) => {
@@ -32,15 +25,7 @@ type ProductSimilarSliderCardProps = {
 
 function ProductSimilarSliderCard({similarProduct, setAddItemPopupState}: ProductSimilarSliderCardProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const allProductsratingList = useAppSelector(getAllProductsRatingList);
-
-  useEffect(() => {
-    if (!allProductsratingList.has(similarProduct.id)) {
-      dispatch(fetchAllProductsReviewsAction(similarProduct.id));
-    }
-  }, []);
-
-  const rating = allProductsratingList.get(similarProduct.id);
+  const rating = similarProduct.rating;
 
   return (
     <div className="product-card is-active">

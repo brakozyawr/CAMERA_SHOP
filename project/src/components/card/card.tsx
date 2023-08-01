@@ -1,16 +1,9 @@
 import {TProduct} from '../../types/types';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {
-  fetchProductAction,
-  fetchReviewsAction,
-  fetchAllProductsReviewsAction,
-  fetchSimilarProductsAction
-} from '../../store/api-actions';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchProductAction, fetchReviewsAction, fetchSimilarProductsAction} from '../../store/api-actions';
+import {useAppDispatch} from '../../hooks';
 import {setCandidateForBasket} from '../../store/basket-data/basket-data';
-import {useEffect} from 'react';
-import {getAllProductsRatingList} from '../../store/catalog-data/selectors';
 
 const getStars = (rating: number) => {
   const stars = [];
@@ -31,15 +24,7 @@ type CardProps = {
 
 function Card({product, setAddItemPopupState}: CardProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const allProductsratingList = useAppSelector(getAllProductsRatingList);
-
-  useEffect(() => {
-    if (!allProductsratingList.has(product.id)) {
-      dispatch(fetchAllProductsReviewsAction(product.id));
-    }
-  }, []);
-
-  const rating = allProductsratingList.get(product.id);
+  const rating = product.rating;
 
   return (
     <div className="product-card">

@@ -17,13 +17,12 @@ function Catalog(): JSX.Element {
   const products = useAppSelector(getProducts);
   const promo = useAppSelector(getPromo);
   const productsError = useAppSelector(getProductsError);
+
   const [addItemPopupState, setAddItemPopupState] = useState(false);
 
   const step = 9;
   const INITIAL_PAGE_NUMBER = 1;
-
   const [currentPageNumber, setPage] = useState(INITIAL_PAGE_NUMBER);
-
   const getPage = (pageNumber: number) => {
     setPage(pageNumber);
   };
@@ -35,6 +34,7 @@ function Catalog(): JSX.Element {
       setPage(Number(params.id));
     }
   }, [params.id]);
+
 
   const cutProducts: TProduct[] = products.slice((currentPageNumber - 1) * step, currentPageNumber * step);
   const pageCount: number = Math.ceil(products.length / step);

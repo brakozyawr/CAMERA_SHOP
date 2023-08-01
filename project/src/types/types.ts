@@ -18,7 +18,7 @@ export type TProduct = {
   previewImg2x: string;
   previewImgWebp: string;
   previewImgWebp2x: string;
-  rate: number;
+  rating: number;
 }
 
 export type TPromo = {
@@ -52,7 +52,7 @@ export type TReviewAdd = {
 
 export type TCatalogData = {
   products: TProduct[];
-  allProductsRatingList: Map<number, number>;
+  //allProductsRatingList: Map<number, number>;
   promo: TPromo | null;
   isCatalogDataLoaded: boolean;
   productsError: boolean;
