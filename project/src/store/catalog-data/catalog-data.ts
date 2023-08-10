@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {NameSpace} from '../../const';
+import {NameSpace, Property, Sorting} from '../../const';
 import {TCatalogData, TProduct} from '../../types/types';
 import {fetchProductsAction, fetchPromoAction, fetchAllProductsReviewsAction} from '../api-actions';
 import {sortProducts} from '../../util';
@@ -7,6 +7,9 @@ import {sortProducts} from '../../util';
 
 const initialState: TCatalogData = {
   products: [],
+  currentProductList: [],
+  currentSortingType: Sorting.Default,
+  currentSortingProperty: Property.Default,
   promo: null,
   isCatalogDataLoaded: false,
   productsError: false,
@@ -16,9 +19,18 @@ export const catalogData = createSlice({
   name: NameSpace.Catalog,
   initialState,
   reducers: {
-    sortingProducts: (state, action:PayloadAction<[string, keyof TProduct]>) =>{
+    sortingProducts: (state, action:PayloadAction<[string, keyof TProduct | Property.Default]>) => {
       const [currentSorting, property] = action.payload;
-      state.products = sortProducts(state.products, currentSorting , property );
+      state.currentSortingType = currentSorting;
+      state.currentSortingProperty = property;
+
+      //state.products = sortProducts(state.products, currentSorting , property );
+      const productList = state.currentProductList.length ? state.currentProductList : state.products;
+      state.currentProductList = sortProducts(productList, currentSorting, property);
+    },
+    filteredProducts: (state, action:PayloadAction<TProduct[]>) => {
+      const filteredProductsList = action.payload;
+      state.currentProductList = sortProducts(filteredProductsList, state.currentSortingType, state.currentSortingProperty);
     }
   },
   extraReducers(builder) {
@@ -55,4 +67,4 @@ export const catalogData = createSlice({
 
 });
 
-export const {sortingProducts} = catalogData.actions;
+export const {sortingProducts, filteredProducts} = catalogData.actions;

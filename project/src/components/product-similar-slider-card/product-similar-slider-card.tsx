@@ -1,9 +1,10 @@
 import {fetchProductAction, fetchReviewsAction, fetchSimilarProductsAction} from '../../store/api-actions';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {TProduct} from '../../types/types';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {setCandidateForBasket} from '../../store/basket-data/basket-data';
+import {getProducts} from '../../store/catalog-data/selectors';
 
 
 const getStars = (rating: number) => {
@@ -25,7 +26,10 @@ type ProductSimilarSliderCardProps = {
 
 function ProductSimilarSliderCard({similarProduct, setAddItemPopupState}: ProductSimilarSliderCardProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const rating = similarProduct.rating;
+  const products = useAppSelector(getProducts);
+  const product = products.find((item) => item.id === similarProduct.id);
+
+  const rating = product?.rating;
 
   return (
     <div className="product-card is-active">

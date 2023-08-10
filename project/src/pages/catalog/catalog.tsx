@@ -7,7 +7,7 @@ import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
 import {useEffect, useState} from 'react';
 import {TProduct} from '../../types/types';
 import {useParams} from 'react-router-dom';
-import {getProducts, getProductsError, getPromo} from '../../store/catalog-data/selectors';
+import {getCurrentProductList, getProducts, getProductsError, getPromo} from '../../store/catalog-data/selectors';
 import {Helmet} from 'react-helmet-async';
 import NotFound from '../not-found/not-found';
 import ErrorScreen from '../error-screen/error-screen';
@@ -15,6 +15,8 @@ import ErrorScreen from '../error-screen/error-screen';
 
 function Catalog(): JSX.Element {
   const products = useAppSelector(getProducts);
+  const currentProductList = useAppSelector(getCurrentProductList);
+  const currentProducts = currentProductList.length ? currentProductList : products;
   const promo = useAppSelector(getPromo);
   const productsError = useAppSelector(getProductsError);
 
@@ -36,8 +38,8 @@ function Catalog(): JSX.Element {
   }, [params.id]);
 
 
-  const cutProducts: TProduct[] = products.slice((currentPageNumber - 1) * step, currentPageNumber * step);
-  const pageCount: number = Math.ceil(products.length / step);
+  const cutProducts: TProduct[] = currentProducts.slice((currentPageNumber - 1) * step, currentPageNumber * step);
+  const pageCount: number = Math.ceil(currentProducts.length / step);
 
   if ((isNaN(Number(params.id)) && params.id !== undefined) || Number(params.id) > pageCount ) {
     return (

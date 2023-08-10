@@ -29,4 +29,5 @@ export enum Sorting {
 export enum Property {
   Rate = 'rating',
   Price = 'price',
+  Default = 'default',
 }

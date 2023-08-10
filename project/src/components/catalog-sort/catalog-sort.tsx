@@ -7,7 +7,7 @@ import {sortingProducts} from '../../store/catalog-data/catalog-data';
 function CatalogSort(): JSX.Element {
   const dispatch = useAppDispatch();
   const DEFAULT_SORTING_TYPE = Sorting.Up;
-  const DEFAULT_PROPERTY_TYPE = Property.Price;
+  const DEFAULT_PROPERTY_TYPE = Property.Default;
   const [currentSortingType, setSortingType] = useState(DEFAULT_SORTING_TYPE);
   const [currentPropertyType, setPropertyType] = useState(DEFAULT_PROPERTY_TYPE);
 

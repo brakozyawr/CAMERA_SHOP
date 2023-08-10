@@ -1,4 +1,5 @@
 import {store} from '../store';
+import {Property} from "../const";
 
 export type State = ReturnType<typeof store.getState>;
 
@@ -52,7 +53,9 @@ export type TReviewAdd = {
 
 export type TCatalogData = {
   products: TProduct[];
-  //allProductsRatingList: Map<number, number>;
+  currentProductList: TProduct[];
+  currentSortingType: string;
+  currentSortingProperty: keyof TProduct | Property.Default;
   promo: TPromo | null;
   isCatalogDataLoaded: boolean;
   productsError: boolean;
