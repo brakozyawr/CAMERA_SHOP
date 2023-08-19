@@ -6,17 +6,20 @@ import CatalogContent from '../../components/catalog-content/catalog-content';
 import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
 import {useEffect, useState} from 'react';
 import {TProduct} from '../../types/types';
-import {useParams} from 'react-router-dom';
+import {Navigate, useNavigate, useParams} from 'react-router-dom';
 import {getCurrentProductList, getProducts, getProductsError, getPromo} from '../../store/catalog-data/selectors';
 import {Helmet} from 'react-helmet-async';
 import NotFound from '../not-found/not-found';
 import ErrorScreen from '../error-screen/error-screen';
+import {AppRoute} from '../../const';
 
 
 function Catalog(): JSX.Element {
   const products = useAppSelector(getProducts);
   const currentProductList = useAppSelector(getCurrentProductList);
+
   const currentProducts = currentProductList.length ? currentProductList : products;
+  console.log(currentProducts);
   const promo = useAppSelector(getPromo);
   const productsError = useAppSelector(getProductsError);
 
@@ -31,20 +34,36 @@ function Catalog(): JSX.Element {
 
   const params = useParams<{id: string}>();
 
+  const cutProducts: TProduct[] = currentProducts.slice((currentPageNumber - 1) * step, currentPageNumber * step);
+  const pageCount: number = Math.ceil(currentProducts.length / step);
+
+
+  /*useEffect(() => {
+    cutProducts = currentProducts.slice((currentPageNumber - 1) * step, currentPageNumber * step);
+    pageCount = Math.ceil(currentProducts.length / step);
+    if (Number(params.id) > pageCount) {
+      setPage(1);
+      goToBeginning();
+    }
+  }, [currentProductList]);*/
+
   useEffect(() => {
+    //console.log(params.id);
+    //console.log(pageCount);
     if (params.id) {
       setPage(Number(params.id));
     }
   }, [params.id]);
 
 
-  const cutProducts: TProduct[] = currentProducts.slice((currentPageNumber - 1) * step, currentPageNumber * step);
-  const pageCount: number = Math.ceil(currentProducts.length / step);
-
-  if ((isNaN(Number(params.id)) && params.id !== undefined) || Number(params.id) > pageCount ) {
+  if ((isNaN(Number(params.id)) && params.id !== undefined)) {
     return (
       <NotFound />
     );
+  }
+
+  if (currentProductList && Number(params.id) > pageCount) {
+    return (<Navigate to={`${AppRoute.Catalog}1`} replace/>);
   }
 
   if (productsError) {
@@ -52,6 +71,7 @@ function Catalog(): JSX.Element {
       <ErrorScreen />
     );
   }
+
 
   return (
     <main>
@@ -65,7 +85,7 @@ function Catalog(): JSX.Element {
           <div className="container">
             <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
             <div className="page-content__columns">
-              <CatalogAside />
+              <CatalogAside productList={currentProducts}/>
               <CatalogContent
                 products={cutProducts}
                 pageCount={pageCount}

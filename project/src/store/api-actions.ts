@@ -33,6 +33,18 @@ export const fetchProductAction = createAsyncThunk<TProduct, number, {
   },
 );
 
+export const fetchRangeProductAction = createAsyncThunk<number[], {min: number; max: number},{
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchProduct',
+  async ({min, max}, {extra: api}) => {
+    const {data} = await api.get<TProduct[]>(`${APIRoute.Products}?price_gte=${min}&price_lte=${max}`);
+    return data.map((item) => item.id);
+  },
+);
+
 export const fetchSimilarProductsAction = createAsyncThunk<TProduct[], number, {
   dispatch: AppDispatch;
   state: State;

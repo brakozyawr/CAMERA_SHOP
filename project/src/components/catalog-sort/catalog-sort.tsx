@@ -30,7 +30,7 @@ function CatalogSort(): JSX.Element {
             <div
               className="catalog-sort__btn-text"
               onClick={()=>{
-                setPropertyType(Property.Rate);
+                setPropertyType(Property.Rating);
                 dispatch(sortingProducts([currentSortingType, currentPropertyType]));
               }}
             >

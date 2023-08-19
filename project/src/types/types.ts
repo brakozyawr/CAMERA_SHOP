@@ -1,5 +1,5 @@
 import {store} from '../store';
-import {Property} from "../const";
+import {Property} from '../const';
 
 export type State = ReturnType<typeof store.getState>;
 
@@ -51,9 +51,22 @@ export type TReviewAdd = {
   rating: number;
 }
 
+export type TSelectedFilters = {[key: string]: string[] | number[]};
+/*export type TSelectedFilters = {
+  id?: number;
+  type?: string;
+  category?: string;
+  level?: string;
+  price?: number;
+}*/
+
 export type TCatalogData = {
   products: TProduct[];
+  productsWithRating: TProduct[];
+  productsWithRatingCount: number;
+  currentPriceRangeProductsIdList: number[];
   currentProductList: TProduct[];
+  currentFilters: TSelectedFilters;
   currentSortingType: string;
   currentSortingProperty: keyof TProduct | Property.Default;
   promo: TPromo | null;
@@ -73,4 +86,8 @@ export type TBasketData = {
   basketList: number[];
   candidateForBasketList: number;
 };
+
+
+
+
 

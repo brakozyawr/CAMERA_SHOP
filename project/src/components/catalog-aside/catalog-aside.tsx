@@ -1,11 +1,12 @@
-import {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {getProducts} from '../../store/catalog-data/selectors';
-import {TProduct} from '../../types/types';
-import {filteredProducts} from '../../store/catalog-data/catalog-data';
+import {TProduct, TSelectedFilters} from '../../types/types';
+import {filterProducts} from '../../store/catalog-data/catalog-data';
+import {fetchRangeProductAction} from '../../store/api-actions';
+import {sortProducts} from '../../util';
+import {Property, Sorting} from '../../const';
+import {getCurrentPriceRangeProductsIdList} from '../../store/catalog-data/selectors';
 
-
-let checkedCheckbox: {[key: string]: string[]} = {};
 
 export enum filterProperty {
   Photocamera = 'Фотоаппарат',
@@ -20,55 +21,52 @@ export enum filterProperty {
 }
 
 
-function CatalogAside(): JSX.Element {
+type CatalogAsideProps = {
+  productList: TProduct[];
+}
+
+//let selectedFilters:TSelectedFilters = {};
+
+function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const products = useAppSelector(getProducts);
+  const [selectedFilters]:[TSelectedFilters, React.Dispatch<React.SetStateAction<TSelectedFilters>>] = useState({});
+
+
+  //const products = useAppSelector(getProducts);
+  const currentPriceRangeProductsIdList = useAppSelector(getCurrentPriceRangeProductsIdList);
+  const sortedProductList = sortProducts(productList.slice(), Sorting.Up, Property.Price);
+
+  const MIN_PRICE = sortedProductList.length ? sortedProductList[0].price : '';
+  const MAX_PRICE = sortedProductList.length ? sortedProductList[sortedProductList.length - 1].price : '';
+
+
+  const [priceFrom, setPriceFrom] = useState('');
+  const [priceUp, setPriceUp] = useState('');
+
   const [isVideoCamera, setVideoCameraState] = useState(false);
   const [isPhotoCamera, setPhotoCameraState] = useState(false);
 
+
   const removeExcessItem = (key: string, name: string) => {
     let excessItem: number;
-
-    if(key in checkedCheckbox){
-      excessItem = checkedCheckbox[key].findIndex((item) => item === name);
+    if(key in selectedFilters){
+      excessItem = selectedFilters[key].findIndex((item) => item === name);
       if(excessItem >= 0){
-        checkedCheckbox[key].splice(excessItem, 1);
+        selectedFilters[key].splice(excessItem, 1);
       }
     }
+    console.log(selectedFilters);
   };
 
-  const getFilteredProducts = (checkedCheckboxList:{[key: string]: string[]}) => {
-    let filteredProductsList: TProduct[] = [];
-    let productsList: TProduct[];
-
-    for (const key in checkedCheckboxList) {
-      filteredProductsList.length ? productsList = filteredProductsList : productsList = products;
-      const parameter = key as keyof TProduct;
-
-      const filteredArr = productsList.filter((product) =>
-        product[parameter] === checkedCheckboxList[parameter].find((property) => product[parameter] === property)
-      );
-
-      filteredProductsList = filteredProductsList.length ? filteredArr : filteredProductsList.concat(filteredArr);
-
-    }
-    console.log(filteredProductsList);
-    if(filteredProductsList.length){
-      dispatch(filteredProducts(filteredProductsList));
-    }else{
-      dispatch(filteredProducts(products));
-    }
-  };
-
-  const fieldChangeHandle = (evt:ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+  const checkboxChangeHandle = (evt:ChangeEvent<HTMLInputElement>) => {
     const {name, checked, dataset} = evt.target as HTMLInputElement;
     const {setKey} = dataset;
 
     if(checked){
-      if(setKey as string in checkedCheckbox ){
-        checkedCheckbox[setKey as string].push(name);
+      if(setKey as string in selectedFilters ){
+        selectedFilters[setKey as string].push(name);
       }else{
-        checkedCheckbox[setKey as string] = [name];
+        selectedFilters[setKey as string] = [name];
       }
     }else{
       removeExcessItem(setKey as string, name);
@@ -94,15 +92,42 @@ function CatalogAside(): JSX.Element {
         setPhotoCameraState(false);
       }
     }
+    console.log(selectedFilters);
+    dispatch(filterProducts(selectedFilters));
+  };
 
-    getFilteredProducts(checkedCheckbox);
+  /*useEffect(() => {
+    dispatch(fetchRangeProductAction({min: Number(priceFrom), max: Number(priceUp)}));
+  }, [priceFrom, priceUp]);*/
+
+  useEffect(() => {
+    if(currentPriceRangeProductsIdList.length){
+      selectedFilters.id = currentPriceRangeProductsIdList;
+    }
+    console.log(selectedFilters);
+    dispatch(filterProducts(selectedFilters));
+  }, [currentPriceRangeProductsIdList]);
+
+  const priceChangeHandle = (evt:ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = evt.target as HTMLInputElement;
+    if(name === 'price' && Number(value) >= 0){
+      setPriceFrom(value);
+      dispatch(fetchRangeProductAction({min: Number(value), max: Number(priceUp)}));
+    }
+    if(name === 'priceUp' && Number(value) >= 0){
+      setPriceUp(value);
+      dispatch(fetchRangeProductAction({min: Number(priceFrom), max: Number(value)}));
+    }
+    console.log(selectedFilters);
   };
 
   const resetFilter = () => {
-    checkedCheckbox = {};
+    selectedFilters = {};
     setVideoCameraState(false);
     setPhotoCameraState(false);
-    dispatch(filteredProducts([]));
+    setPriceFrom('');
+    setPriceUp('');
+    dispatch(filterProducts(selectedFilters));
   };
 
 
@@ -116,12 +141,26 @@ function CatalogAside(): JSX.Element {
             <div className="catalog-filter__price-range">
               <div className="custom-input">
                 <label>
-                  <input type="number" name="price" placeholder="от" />
+                  <input
+                    type="number"
+                    name="price"
+                    value={priceFrom}
+                    placeholder={String(MIN_PRICE)}
+                    min="0"
+                    onChange={priceChangeHandle}
+                  />
                 </label>
               </div>
               <div className="custom-input">
                 <label>
-                  <input type="number" name="priceUp" placeholder="до" />
+                  <input
+                    type="number"
+                    name="priceUp"
+                    value={priceUp}
+                    placeholder={String(MAX_PRICE)}
+                    min="0"
+                    onChange={priceChangeHandle}
+                  />
                 </label>
               </div>
             </div>
@@ -134,7 +173,7 @@ function CatalogAside(): JSX.Element {
                   type="checkbox"
                   data-set-key="category"
                   name={filterProperty.Photocamera}
-                  onChange={fieldChangeHandle}
+                  onChange={checkboxChangeHandle}
                   checked={isPhotoCamera}
                 />
                 <span className="custom-checkbox__icon"/>
@@ -147,7 +186,7 @@ function CatalogAside(): JSX.Element {
                   type="checkbox"
                   data-set-key="category"
                   name={filterProperty.Videocamera}
-                  onChange={fieldChangeHandle}
+                  onChange={checkboxChangeHandle}
                   checked={isVideoCamera}
                 />
                 <span className="custom-checkbox__icon" />
@@ -163,7 +202,7 @@ function CatalogAside(): JSX.Element {
                   type="checkbox"
                   data-set-key="type"
                   name={filterProperty.Digital}
-                  onChange={fieldChangeHandle}
+                  onChange={checkboxChangeHandle}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Цифровая</span>
@@ -176,7 +215,7 @@ function CatalogAside(): JSX.Element {
                   data-set-key="type"
                   name={filterProperty.Film}
                   disabled={isVideoCamera}
-                  onChange={fieldChangeHandle}
+                  onChange={checkboxChangeHandle}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Плёночная</span>
@@ -189,7 +228,7 @@ function CatalogAside(): JSX.Element {
                   data-set-key="type"
                   name={filterProperty.Snapshot}
                   disabled={isVideoCamera}
-                  onChange={fieldChangeHandle}
+                  onChange={checkboxChangeHandle}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Моментальная</span>
@@ -201,7 +240,7 @@ function CatalogAside(): JSX.Element {
                   type="checkbox"
                   data-set-key="type"
                   name={filterProperty.Collection}
-                  onChange={fieldChangeHandle}
+                  onChange={checkboxChangeHandle}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Коллекционная</span>
@@ -216,7 +255,7 @@ function CatalogAside(): JSX.Element {
                   type="checkbox"
                   data-set-key="level"
                   name={filterProperty.Zero}
-                  onChange={fieldChangeHandle}
+                  onChange={checkboxChangeHandle}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Нулевой</span>
@@ -228,7 +267,7 @@ function CatalogAside(): JSX.Element {
                   type="checkbox"
                   data-set-key="level"
                   name={filterProperty.NonProfessional}
-                  onChange={fieldChangeHandle}
+                  onChange={checkboxChangeHandle}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Любительский</span>
@@ -240,7 +279,7 @@ function CatalogAside(): JSX.Element {
                   type="checkbox"
                   data-set-key="level"
                   name={filterProperty.Professional}
-                  onChange={fieldChangeHandle}
+                  onChange={checkboxChangeHandle}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Профессиональный</span>

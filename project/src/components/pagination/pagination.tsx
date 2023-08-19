@@ -22,6 +22,7 @@ const getPaginationList = (pageCount: number, currentPageNumber: number, getPage
         <Link
           className={`${currentPageNumber === i ? 'pagination__link--active' : '' } pagination__link`}
           to={`${AppRoute.Catalog}${String(i)}`}
+          preventScrollReset
         >{i}
         </Link>
       </li>
@@ -42,7 +43,13 @@ function Pagination({pageCount, currentPageNumber, getPage}: PaginationProps): J
               getPage(currentPageNumber - 1);
             }}
           >
-            <Link className="pagination__link pagination__link--text" to={`${AppRoute.Catalog}${String(currentPageNumber - 1)}`}>Назад</Link>
+            <Link
+              className="pagination__link pagination__link--text"
+              to={`${AppRoute.Catalog}${String(currentPageNumber - 1)}`}
+              preventScrollReset
+            >
+              Назад
+            </Link>
           </li>
         )}
         {getPaginationList(pageCount, currentPageNumber, getPage )}
@@ -53,7 +60,13 @@ function Pagination({pageCount, currentPageNumber, getPage}: PaginationProps): J
               getPage(currentPageNumber + 1);
             }}
           >
-            <Link className="pagination__link pagination__link--text" to={`${AppRoute.Catalog}${String(currentPageNumber + 1)}`}>Далее</Link>
+            <Link
+              className="pagination__link pagination__link--text"
+              to={`${AppRoute.Catalog}${String(currentPageNumber + 1)}`}
+              preventScrollReset
+            >
+              Далее
+            </Link>
           </li>)}
       </ul>
     </div>
