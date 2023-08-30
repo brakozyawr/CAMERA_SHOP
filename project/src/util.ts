@@ -28,11 +28,9 @@ export const sortProducts = function(products: TProduct[], currentSorting: strin
 export const getFilteredProducts = (propertyList:TSelectedFilters, products: TProduct[]) => {
   let filteredProductsList: TProduct[] = [];
   let productsList: TProduct[] = [];
-  console.log(propertyList);
+
   for (const key in propertyList) {
     productsList = filteredProductsList.length ? filteredProductsList : products;
-    console.log(productsList);
-    console.log(key);
     const parameter = key as keyof TProduct;
     let filteredArr:TProduct[];
     if(propertyList[parameter].length){
@@ -42,8 +40,7 @@ export const getFilteredProducts = (propertyList:TSelectedFilters, products: TPr
       filteredProductsList = filteredProductsList.length ? filteredArr : filteredProductsList.concat(filteredArr);
     }
 
-    console.log(filteredProductsList);
   }
-  console.log(filteredProductsList);
+
   return filteredProductsList;
 };

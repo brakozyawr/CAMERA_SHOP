@@ -20,8 +20,10 @@ const initialState: TCatalogData = {
   currentSortingType: Sorting.Default,
   currentSortingProperty: Property.Default,
   promo: null,
-  isCatalogDataLoaded: false,
+  isCatalogDataLoaded: true,
   productsError: false,
+  absolyteMinPrice: 0,
+  absolyteMaxPrice: 0,
 };
 
 export const catalogData = createSlice({
@@ -41,18 +43,12 @@ export const catalogData = createSlice({
       let filteredProductsList: TProduct[];
       state.currentFilters = structuredClone(action.payload) as TSelectedFilters ;
       if(JSON.stringify(propertyList) === '{}'){
-        console.log('объект пустой');
         filteredProductsList = state.productsWithRating.slice();
         state.currentFilters = {};
       }else {
-        console.log('объект не пустой');
+        state.currentFilters = structuredClone(propertyList) as TSelectedFilters;
         filteredProductsList = getFilteredProducts(state.currentFilters, state.productsWithRating.slice());
-        //console.log(filteredProductsList);
-        //console.log(propertyList);
-        //console.log(state.productsWithRating.slice());
       }
-      console.log('filteredProductsList');
-      console.log(filteredProductsList);
       state.currentProductList = sortProducts(filteredProductsList, state.currentSortingType, state.currentSortingProperty);
     },
   },
@@ -65,18 +61,18 @@ export const catalogData = createSlice({
       .addCase(fetchProductsAction.fulfilled, (state, action) => {
         state.products = action.payload;
         state.productsWithRating = action.payload;
-        state.isCatalogDataLoaded = false;
+        //state.isCatalogDataLoaded = false;
       })
       .addCase(fetchProductsAction.rejected, (state) => {
         state.productsError = true;
         state.isCatalogDataLoaded = false;
       })
       .addCase(fetchPromoAction.pending, (state) => {
-        state.isCatalogDataLoaded = true;
+        //state.isCatalogDataLoaded = true;
       })
       .addCase(fetchPromoAction.fulfilled, (state, action) => {
         state.promo = action.payload;
-        state.isCatalogDataLoaded = false;
+        //state.isCatalogDataLoaded = false;
       })
       .addCase(fetchRangeProductAction.fulfilled, (state, action) => {
         state.currentPriceRangeProductsIdList = action.payload;
@@ -93,6 +89,11 @@ export const catalogData = createSlice({
         if(state.productsWithRatingCount === state.products.length){
           state.products = state.productsWithRating;
           state.currentProductList = state.productsWithRating;
+          state.isCatalogDataLoaded = false;
+
+          const sortedAllProductList = sortProducts(state.productsWithRating.slice(), Sorting.Up, Property.Price);
+          state.absolyteMinPrice = sortedAllProductList[0].price;
+          state.absolyteMaxPrice = sortedAllProductList[sortedAllProductList.length - 1].price;
         }
       });
   }

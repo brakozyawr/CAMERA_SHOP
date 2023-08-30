@@ -72,6 +72,8 @@ export type TCatalogData = {
   promo: TPromo | null;
   isCatalogDataLoaded: boolean;
   productsError: boolean;
+  absolyteMinPrice: number;
+  absolyteMaxPrice: number;
 };
 
 export type TProductData = {

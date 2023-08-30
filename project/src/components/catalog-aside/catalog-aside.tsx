@@ -1,11 +1,16 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {TProduct, TSelectedFilters} from '../../types/types';
 import {filterProducts} from '../../store/catalog-data/catalog-data';
 import {fetchRangeProductAction} from '../../store/api-actions';
 import {sortProducts} from '../../util';
 import {Property, Sorting} from '../../const';
-import {getCurrentPriceRangeProductsIdList} from '../../store/catalog-data/selectors';
+import {
+  getAbsolyteMaxPrice,
+  getAbsolyteMinPrice, getCurrentFilters,
+  getCurrentPriceRangeProductsIdList,
+  getProducts
+} from '../../store/catalog-data/selectors';
 
 
 export enum filterProperty {
@@ -25,26 +30,97 @@ type CatalogAsideProps = {
   productList: TProduct[];
 }
 
-//let selectedFilters:TSelectedFilters = {};
 
 function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const [selectedFilters]:[TSelectedFilters, React.Dispatch<React.SetStateAction<TSelectedFilters>>] = useState({});
-
+  const currentfilters = structuredClone(useAppSelector(getCurrentFilters)) as TSelectedFilters;
+  let [selectedFilters]:[TSelectedFilters, React.Dispatch<React.SetStateAction<TSelectedFilters>>] = useState(currentfilters);
+  console.log(currentfilters);
 
   //const products = useAppSelector(getProducts);
+  //const sortedAllProductList = sortProducts(products.slice(), Sorting.Up, Property.Price);
+  //const ABSOLYTE_MIN_PRICE = sortedAllProductList.length ? sortedAllProductList[0].price : undefined;
+  //const ABSOLYTE_MAX_PRICE = sortedAllProductList.length ? sortedAllProductList[sortedAllProductList.length - 1].price : undefined;
+  //const ABSOLYTE_MIN_PRICE = sortedAllProductList[0].price;
+  //const ABSOLYTE_MAX_PRICE = sortedAllProductList[sortedAllProductList.length - 1].price;
+  const ABSOLYTE_MIN_PRICE = useAppSelector(getAbsolyteMinPrice);
+  const ABSOLYTE_MAX_PRICE = useAppSelector(getAbsolyteMaxPrice);
+  //console.log(ABSOLYTE_MIN_PRICE);
+  //console.log(ABSOLYTE_MAX_PRICE);
+
+
+  /*// Промис
+  const willIGetNewPhone: Promise<TProduct[]> = new Promise(
+    (resolve, reject) => {
+      if (products) {
+        const sortedAllProductList:TProduct[] = sortProducts(products.slice(), Sorting.Up, Property.Price);
+        resolve(sortedAllProductList);
+      } else {
+        const reason = new Error('Хрен тебе, а не sortedAllProductList');
+        reject(reason);
+      }
+
+    }
+  );
+  let ABSOLYTE_MIN_PRICE: number;
+  let ABSOLYTE_MAX_PRICE: number;
+  // 2й промис
+  async function showOff(sortedAllProductList: TProduct[]): Promise<{[key: string]: number}> {
+    return new Promise(
+      (resolve, reject) => {
+        const absolyte_min_price = sortedAllProductList[0].price;
+        const absolyte_max_price = sortedAllProductList[sortedAllProductList.length - 1].price;
+
+        resolve({absolyte_min_price, absolyte_max_price});
+      }
+    );
+  }
+  // Вызываем промис
+  async function askMom() {
+    try {
+      //console.log('before asking Mom');
+      const sortedAllProductList:TProduct[] = await willIGetNewPhone;
+      const {absolyte_min_price, absolyte_max_price}:{[key: string]: number} = await showOff(sortedAllProductList);
+      console.log(absolyte_min_price);
+      console.log(absolyte_max_price);
+      ABSOLYTE_MIN_PRICE = absolyte_min_price;
+      ABSOLYTE_MAX_PRICE = absolyte_max_price;
+      //console.log('after asking mom');
+
+    }
+    catch (error) {
+      console.log('Хрен тебе, а не промисы');
+    }
+  }
+  (async () => {
+    await askMom();
+  })();*/
+
+
   const currentPriceRangeProductsIdList = useAppSelector(getCurrentPriceRangeProductsIdList);
-  const sortedProductList = sortProducts(productList.slice(), Sorting.Up, Property.Price);
+  const sortedCurrentProductList = sortProducts(productList.slice(), Sorting.Up, Property.Price);
+  //const CURRENT_MIN_PRICE = sortedCurrentProductList.length ? sortedCurrentProductList[0].price : undefined;
+  //const CURRENT_MAX_PRICE = sortedCurrentProductList.length ? sortedCurrentProductList[sortedCurrentProductList.length - 1].price : undefined;
+  const CURRENT_MIN_PRICE = sortedCurrentProductList[0].price;
+  const CURRENT_MAX_PRICE = sortedCurrentProductList[sortedCurrentProductList.length - 1].price;
+  //console.log(CURRENT_MIN_PRICE);
+  //console.log(CURRENT_MAX_PRICE);
 
-  const MIN_PRICE = sortedProductList.length ? sortedProductList[0].price : '';
-  const MAX_PRICE = sortedProductList.length ? sortedProductList[sortedProductList.length - 1].price : '';
+  const [priceFrom, setPriceFrom] = useState(CURRENT_MIN_PRICE);
+  const [priceUp, setPriceUp] = useState(CURRENT_MAX_PRICE);
 
+  useEffect(() => {
+    setPriceFrom(CURRENT_MIN_PRICE);
+    setPriceUp(CURRENT_MAX_PRICE);
+    //console.log(CURRENT_MIN_PRICE);
+    //console.log(CURRENT_MAX_PRICE);
+  }, [CURRENT_MIN_PRICE, CURRENT_MAX_PRICE]);
 
-  const [priceFrom, setPriceFrom] = useState('');
-  const [priceUp, setPriceUp] = useState('');
+  const isVideoCameraState = Boolean(('category' in selectedFilters) ? selectedFilters['category'].find((item:string) => item === filterProperty.Videocamera) : false);
+  const isPhotoCameraState = Boolean(('category' in selectedFilters) ? selectedFilters['category'].find((item:string) => item === filterProperty.Photocamera) : false);
 
-  const [isVideoCamera, setVideoCameraState] = useState(false);
-  const [isPhotoCamera, setPhotoCameraState] = useState(false);
+  const [isVideoCamera, setVideoCameraState] = useState(isVideoCameraState);
+  const [isPhotoCamera, setPhotoCameraState] = useState(isPhotoCameraState);
 
 
   const removeExcessItem = (key: string, name: string) => {
@@ -55,7 +131,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
         selectedFilters[key].splice(excessItem, 1);
       }
     }
-    console.log(selectedFilters);
+    //console.log(selectedFilters);
   };
 
   const checkboxChangeHandle = (evt:ChangeEvent<HTMLInputElement>) => {
@@ -92,32 +168,81 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
         setPhotoCameraState(false);
       }
     }
-    console.log(selectedFilters);
+    //console.log(selectedFilters);
     dispatch(filterProducts(selectedFilters));
   };
 
-  /*useEffect(() => {
-    dispatch(fetchRangeProductAction({min: Number(priceFrom), max: Number(priceUp)}));
-  }, [priceFrom, priceUp]);*/
 
   useEffect(() => {
     if(currentPriceRangeProductsIdList.length){
       selectedFilters.id = currentPriceRangeProductsIdList;
     }
-    console.log(selectedFilters);
+    // console.log(selectedFilters);
     dispatch(filterProducts(selectedFilters));
   }, [currentPriceRangeProductsIdList]);
 
+  const zzzzzzzzz = (name: string, value: string) => {
+    console.log(value);
+    if(name === 'price'){
+      if (Number(value) > Number(priceUp)) {
+        setPriceFrom(Number(priceUp));
+        dispatch(fetchRangeProductAction({min: Number(priceUp), max: Number(priceUp)}));
+        console.log('price value > priceUp');
+      }
+      if (Number(value) < Number(ABSOLYTE_MIN_PRICE)) {
+        setPriceFrom(ABSOLYTE_MIN_PRICE);
+        dispatch(fetchRangeProductAction({min: Number(ABSOLYTE_MIN_PRICE), max: Number(priceUp)}));
+        console.log('price value < ABSOLYTE_MIN_PRICE');
+      }
+      if (Number(value) >= Number(ABSOLYTE_MIN_PRICE) && Number(value) <= Number(priceUp)) {
+        dispatch(fetchRangeProductAction({min: Number(value), max: Number(priceUp)}));
+        console.log('norm');
+        console.log(priceUp);
+        console.log(priceFrom);
+      }
+    }
+
+    if(name === 'priceUp'){
+      if (Number(value) < Number(priceFrom)) {
+        setPriceUp(priceFrom);
+        dispatch(fetchRangeProductAction({min: Number(priceFrom), max: Number(priceFrom)}));
+        console.log('priceUp value < priceFrom');
+      }
+      if (Number(value) > Number(ABSOLYTE_MAX_PRICE)) {
+        setPriceUp(ABSOLYTE_MAX_PRICE);
+        dispatch(fetchRangeProductAction({min: Number(priceFrom), max: Number(ABSOLYTE_MAX_PRICE)}));
+        console.log('priceUp value > ABSOLYTE_MAX_PRICE');
+      }
+      if (Number(value) <= Number(ABSOLYTE_MAX_PRICE) && Number(value) >= Number(priceFrom)) {
+        dispatch(fetchRangeProductAction({min: Number(priceFrom), max: Number(value)}));
+        console.log('norm');
+      }
+    }
+    console.log('zzzzzzzzzzz');
+  };
+
+  //const debouncedZzzzzzzzzz = debounce(zzzzzzzzz, 5000);
+
+  const timerDebounceRef = useRef();
+  function debouncedpriceChangeHandle(name:string, value:string){
+    if(timerDebounceRef.current){
+      clearTimeout(timerDebounceRef.current);
+    }
+    timerDebounceRef.current = setTimeout(() => {
+      zzzzzzzzz(name, value);
+    }, 1500);
+  }
+
   const priceChangeHandle = (evt:ChangeEvent<HTMLInputElement>) => {
     const {name, value} = evt.target as HTMLInputElement;
+
     if(name === 'price' && Number(value) >= 0){
-      setPriceFrom(value);
-      dispatch(fetchRangeProductAction({min: Number(value), max: Number(priceUp)}));
+      setPriceFrom(Number(value));
     }
     if(name === 'priceUp' && Number(value) >= 0){
-      setPriceUp(value);
-      dispatch(fetchRangeProductAction({min: Number(priceFrom), max: Number(value)}));
+      setPriceUp(Number(value));
     }
+    debouncedpriceChangeHandle(name, value);
     console.log(selectedFilters);
   };
 
@@ -125,8 +250,8 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
     selectedFilters = {};
     setVideoCameraState(false);
     setPhotoCameraState(false);
-    setPriceFrom('');
-    setPriceUp('');
+    setPriceFrom(undefined);
+    setPriceUp(undefined);
     dispatch(filterProducts(selectedFilters));
   };
 
@@ -145,7 +270,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
                     type="number"
                     name="price"
                     value={priceFrom}
-                    placeholder={String(MIN_PRICE)}
+                    placeholder={String(CURRENT_MIN_PRICE)}
                     min="0"
                     onChange={priceChangeHandle}
                   />
@@ -157,7 +282,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
                     type="number"
                     name="priceUp"
                     value={priceUp}
-                    placeholder={String(MAX_PRICE)}
+                    placeholder={String(CURRENT_MAX_PRICE)}
                     min="0"
                     onChange={priceChangeHandle}
                   />
@@ -203,6 +328,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
                   data-set-key="type"
                   name={filterProperty.Digital}
                   onChange={checkboxChangeHandle}
+                  checked={Boolean(('type' in selectedFilters) ? selectedFilters['type'].find((item:string) => item === filterProperty.Digital) : false)}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Цифровая</span>
@@ -216,6 +342,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
                   name={filterProperty.Film}
                   disabled={isVideoCamera}
                   onChange={checkboxChangeHandle}
+                  checked={Boolean(('type' in selectedFilters) ? selectedFilters['type'].find((item:string) => item === filterProperty.Film) : false)}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Плёночная</span>
@@ -229,6 +356,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
                   name={filterProperty.Snapshot}
                   disabled={isVideoCamera}
                   onChange={checkboxChangeHandle}
+                  checked={Boolean(('type' in selectedFilters) ? selectedFilters['type'].find((item:string) => item === filterProperty.Snapshot) : false)}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Моментальная</span>
@@ -241,6 +369,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
                   data-set-key="type"
                   name={filterProperty.Collection}
                   onChange={checkboxChangeHandle}
+                  checked={Boolean(('type' in selectedFilters) ? selectedFilters['type'].find((item:string) => item === filterProperty.Collection) : false)}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Коллекционная</span>
@@ -256,6 +385,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
                   data-set-key="level"
                   name={filterProperty.Zero}
                   onChange={checkboxChangeHandle}
+                  checked={Boolean(('level' in selectedFilters) ? selectedFilters['level'].find((item:string) => item === filterProperty.Zero) : false)}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Нулевой</span>
@@ -268,6 +398,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
                   data-set-key="level"
                   name={filterProperty.NonProfessional}
                   onChange={checkboxChangeHandle}
+                  checked={Boolean(('level' in selectedFilters) ? selectedFilters['level'].find((item:string) => item === filterProperty.NonProfessional) : false)}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Любительский</span>
@@ -280,6 +411,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
                   data-set-key="level"
                   name={filterProperty.Professional}
                   onChange={checkboxChangeHandle}
+                  checked={Boolean(('level' in selectedFilters) ? selectedFilters['level'].find((item:string) => item === filterProperty.Professional) : false)}
                 />
                 <span className="custom-checkbox__icon"/>
                 <span className="custom-checkbox__label">Профессиональный</span>

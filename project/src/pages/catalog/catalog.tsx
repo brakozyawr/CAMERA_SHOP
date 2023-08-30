@@ -19,7 +19,7 @@ function Catalog(): JSX.Element {
   const currentProductList = useAppSelector(getCurrentProductList);
 
   const currentProducts = currentProductList.length ? currentProductList : products;
-  console.log(currentProducts);
+  //console.log(currentProducts);
   const promo = useAppSelector(getPromo);
   const productsError = useAppSelector(getProductsError);
 
