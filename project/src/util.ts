@@ -44,3 +44,17 @@ export const getFilteredProducts = (propertyList:TSelectedFilters, products: TPr
 
   return filteredProductsList;
 };
+
+export const getSearchRrequestString = (propertyList:TSelectedFilters) => {
+  let string = '?';
+  for (const key in propertyList) {
+    const parameter = key as keyof TProduct;
+    const parameters = String(...propertyList[parameter]);
+    console.log(propertyList[parameter]);
+    console.log(parameters);
+    //console.log(...['Цифровая', 'Плёночная', 'Коллекционная']);
+    string = `${string + key }=${parameters}`;
+  }
+  console.log(string);
+  return string
+};

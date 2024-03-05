@@ -3,33 +3,14 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {TProduct, TSelectedFilters} from '../../types/types';
 import {filterProducts} from '../../store/catalog-data/catalog-data';
 import {fetchRangeProductAction} from '../../store/api-actions';
-import {sortProducts} from '../../util';
-import {Property, Sorting} from '../../const';
-import {
-  getAbsolyteMaxPrice,
-  getAbsolyteMinPrice, getCurrentFilters,
-  getCurrentPriceRangeProductsIdList,
-  getProducts
-} from '../../store/catalog-data/selectors';
-
-
-export enum filterProperty {
-  Photocamera = 'Фотоаппарат',
-  Videocamera = 'Видеокамера',
-  Digital = 'Цифровая',
-  Film = 'Плёночная',
-  Snapshot = 'Моментальная',
-  Collection = 'Коллекционная',
-  Zero = 'Нулевой',
-  NonProfessional = 'Любительский',
-  Professional = 'Профессиональный',
-}
+import {getSearchRrequestString, sortProducts} from '../../util';
+import {filterProperty, Property, Sorting} from '../../const';
+import {getAbsolyteMaxPrice, getAbsolyteMinPrice, getCurrentFilters, getCurrentPriceRangeProductsIdList,} from '../../store/catalog-data/selectors';
 
 
 type CatalogAsideProps = {
   productList: TProduct[];
 }
-
 
 function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
   const dispatch = useAppDispatch();
@@ -37,74 +18,13 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
   let [selectedFilters]:[TSelectedFilters, React.Dispatch<React.SetStateAction<TSelectedFilters>>] = useState(currentfilters);
   console.log(currentfilters);
 
-  //const products = useAppSelector(getProducts);
-  //const sortedAllProductList = sortProducts(products.slice(), Sorting.Up, Property.Price);
-  //const ABSOLYTE_MIN_PRICE = sortedAllProductList.length ? sortedAllProductList[0].price : undefined;
-  //const ABSOLYTE_MAX_PRICE = sortedAllProductList.length ? sortedAllProductList[sortedAllProductList.length - 1].price : undefined;
-  //const ABSOLYTE_MIN_PRICE = sortedAllProductList[0].price;
-  //const ABSOLYTE_MAX_PRICE = sortedAllProductList[sortedAllProductList.length - 1].price;
   const ABSOLYTE_MIN_PRICE = useAppSelector(getAbsolyteMinPrice);
   const ABSOLYTE_MAX_PRICE = useAppSelector(getAbsolyteMaxPrice);
-  //console.log(ABSOLYTE_MIN_PRICE);
-  //console.log(ABSOLYTE_MAX_PRICE);
-
-
-  /*// Промис
-  const willIGetNewPhone: Promise<TProduct[]> = new Promise(
-    (resolve, reject) => {
-      if (products) {
-        const sortedAllProductList:TProduct[] = sortProducts(products.slice(), Sorting.Up, Property.Price);
-        resolve(sortedAllProductList);
-      } else {
-        const reason = new Error('Хрен тебе, а не sortedAllProductList');
-        reject(reason);
-      }
-
-    }
-  );
-  let ABSOLYTE_MIN_PRICE: number;
-  let ABSOLYTE_MAX_PRICE: number;
-  // 2й промис
-  async function showOff(sortedAllProductList: TProduct[]): Promise<{[key: string]: number}> {
-    return new Promise(
-      (resolve, reject) => {
-        const absolyte_min_price = sortedAllProductList[0].price;
-        const absolyte_max_price = sortedAllProductList[sortedAllProductList.length - 1].price;
-
-        resolve({absolyte_min_price, absolyte_max_price});
-      }
-    );
-  }
-  // Вызываем промис
-  async function askMom() {
-    try {
-      //console.log('before asking Mom');
-      const sortedAllProductList:TProduct[] = await willIGetNewPhone;
-      const {absolyte_min_price, absolyte_max_price}:{[key: string]: number} = await showOff(sortedAllProductList);
-      console.log(absolyte_min_price);
-      console.log(absolyte_max_price);
-      ABSOLYTE_MIN_PRICE = absolyte_min_price;
-      ABSOLYTE_MAX_PRICE = absolyte_max_price;
-      //console.log('after asking mom');
-
-    }
-    catch (error) {
-      console.log('Хрен тебе, а не промисы');
-    }
-  }
-  (async () => {
-    await askMom();
-  })();*/
-
 
   const currentPriceRangeProductsIdList = useAppSelector(getCurrentPriceRangeProductsIdList);
   const sortedCurrentProductList = sortProducts(productList.slice(), Sorting.Up, Property.Price);
-  //const CURRENT_MIN_PRICE = sortedCurrentProductList.length ? sortedCurrentProductList[0].price : undefined;
-  //const CURRENT_MAX_PRICE = sortedCurrentProductList.length ? sortedCurrentProductList[sortedCurrentProductList.length - 1].price : undefined;
   const CURRENT_MIN_PRICE = sortedCurrentProductList[0].price;
   const CURRENT_MAX_PRICE = sortedCurrentProductList[sortedCurrentProductList.length - 1].price;
-  //console.log(CURRENT_MIN_PRICE);
-  //console.log(CURRENT_MAX_PRICE);
 
   const [priceFrom, setPriceFrom] = useState(CURRENT_MIN_PRICE);
   const [priceUp, setPriceUp] = useState(CURRENT_MAX_PRICE);
@@ -131,7 +51,6 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
         selectedFilters[key].splice(excessItem, 1);
       }
     }
-    //console.log(selectedFilters);
   };
 
   const checkboxChangeHandle = (evt:ChangeEvent<HTMLInputElement>) => {
@@ -170,8 +89,8 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
     }
     //console.log(selectedFilters);
     dispatch(filterProducts(selectedFilters));
+    getSearchRrequestString(selectedFilters);
   };
-
 
   useEffect(() => {
     if(currentPriceRangeProductsIdList.length){
@@ -181,24 +100,24 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
     dispatch(filterProducts(selectedFilters));
   }, [currentPriceRangeProductsIdList]);
 
-  const zzzzzzzzz = (name: string, value: string) => {
-    console.log(value);
+  const debouncedPriceChangeHandle = (name: string, value: string) => {
+    //console.log(value);
     if(name === 'price'){
       if (Number(value) > Number(priceUp)) {
         setPriceFrom(Number(priceUp));
         dispatch(fetchRangeProductAction({min: Number(priceUp), max: Number(priceUp)}));
-        console.log('price value > priceUp');
+        //console.log('price value > priceUp');
       }
       if (Number(value) < Number(ABSOLYTE_MIN_PRICE)) {
         setPriceFrom(ABSOLYTE_MIN_PRICE);
         dispatch(fetchRangeProductAction({min: Number(ABSOLYTE_MIN_PRICE), max: Number(priceUp)}));
-        console.log('price value < ABSOLYTE_MIN_PRICE');
+        //console.log('price value < ABSOLYTE_MIN_PRICE');
       }
       if (Number(value) >= Number(ABSOLYTE_MIN_PRICE) && Number(value) <= Number(priceUp)) {
         dispatch(fetchRangeProductAction({min: Number(value), max: Number(priceUp)}));
-        console.log('norm');
-        console.log(priceUp);
-        console.log(priceFrom);
+        //console.log('norm');
+        //console.log(priceUp);
+        //console.log(priceFrom);
       }
     }
 
@@ -206,30 +125,27 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
       if (Number(value) < Number(priceFrom)) {
         setPriceUp(priceFrom);
         dispatch(fetchRangeProductAction({min: Number(priceFrom), max: Number(priceFrom)}));
-        console.log('priceUp value < priceFrom');
+        //console.log('priceUp value < priceFrom');
       }
       if (Number(value) > Number(ABSOLYTE_MAX_PRICE)) {
         setPriceUp(ABSOLYTE_MAX_PRICE);
         dispatch(fetchRangeProductAction({min: Number(priceFrom), max: Number(ABSOLYTE_MAX_PRICE)}));
-        console.log('priceUp value > ABSOLYTE_MAX_PRICE');
+        //console.log('priceUp value > ABSOLYTE_MAX_PRICE');
       }
       if (Number(value) <= Number(ABSOLYTE_MAX_PRICE) && Number(value) >= Number(priceFrom)) {
         dispatch(fetchRangeProductAction({min: Number(priceFrom), max: Number(value)}));
-        console.log('norm');
+        //console.log('norm');
       }
     }
-    console.log('zzzzzzzzzzz');
   };
 
-  //const debouncedZzzzzzzzzz = debounce(zzzzzzzzz, 5000);
-
-  const timerDebounceRef = useRef();
-  function debouncedpriceChangeHandle(name:string, value:string){
+  const timerDebounceRef: React.MutableRefObject<number> = useRef(0);
+  function debounce(name:string, value:string){
     if(timerDebounceRef.current){
       clearTimeout(timerDebounceRef.current);
     }
-    timerDebounceRef.current = setTimeout(() => {
-      zzzzzzzzz(name, value);
+    timerDebounceRef.current = window.setTimeout(() => {
+      debouncedPriceChangeHandle(name, value);
     }, 1500);
   }
 
@@ -242,7 +158,7 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
     if(name === 'priceUp' && Number(value) >= 0){
       setPriceUp(Number(value));
     }
-    debouncedpriceChangeHandle(name, value);
+    debounce(name, value);
     console.log(selectedFilters);
   };
 
@@ -250,8 +166,8 @@ function CatalogAside({productList}:CatalogAsideProps): JSX.Element {
     selectedFilters = {};
     setVideoCameraState(false);
     setPhotoCameraState(false);
-    setPriceFrom(undefined);
-    setPriceUp(undefined);
+    setPriceFrom(ABSOLYTE_MIN_PRICE);
+    setPriceUp(ABSOLYTE_MAX_PRICE);
     dispatch(filterProducts(selectedFilters));
   };
 

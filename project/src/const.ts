@@ -31,3 +31,15 @@ export enum Property {
   Price = 'price',
   Default = 'default',
 }
+
+export enum filterProperty {
+  Photocamera = 'Фотоаппарат',
+  Videocamera = 'Видеокамера',
+  Digital = 'Цифровая',
+  Film = 'Плёночная',
+  Snapshot = 'Моментальная',
+  Collection = 'Коллекционная',
+  Zero = 'Нулевой',
+  NonProfessional = 'Любительский',
+  Professional = 'Профессиональный',
+}
